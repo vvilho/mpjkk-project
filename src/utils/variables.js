@@ -1,5 +1,5 @@
 const baseUrl = 'https://media-new.mw.metropolia.fi/wbma/';
 const uploadsUrl = 'https://media-new.mw.metropolia.fi/wbma/uploads/';
-const appIdentifier = 'ilen-äppi';
+const appIdentifier = 'SDF60V';
 
 export {baseUrl, uploadsUrl, appIdentifier};

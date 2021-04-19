@@ -18,6 +18,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import {CloudUpload} from '@material-ui/icons';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -69,7 +70,9 @@ const Nav = ({history}) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <Link component={RouterLink} to="/" color="inherit">MyApp</Link>
+            <Link
+              component={RouterLink}
+              to="/" color="inherit">Environmental Idealists</Link>
           </Typography>
           {user ?
             <Button
