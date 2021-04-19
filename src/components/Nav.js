@@ -165,7 +165,7 @@ const Nav = ({history}) => {
             variant="h8"
             className={classes.userName}
 
-          >{'Hi, ' + user.username}</Typography>
+          >{'Hi, ' + user.full_name}</Typography>
           }
 
           <IconButton
