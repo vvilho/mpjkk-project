@@ -8,10 +8,13 @@ import {createMuiTheme, ThemeProvider} from '@material-ui/core';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#47D378', // This is an orange looking color
+      main: '#47D378', // This is a green color
     },
     secondary: {
-      main: '#621BEE', // Another orange-ish color
+      main: '#621BEE', // This is a purple color
+    },
+    success: {
+      main: '#03DAC5', // This is a greenish-blue color
     },
   },
   // eslint-disable-next-line max-len

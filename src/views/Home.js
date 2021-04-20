@@ -1,11 +1,9 @@
 import BlogMediaTable from '../components/BlogMediaTable';
 import {Typography} from '@material-ui/core';
-import {MuiThemeProvider} from '@material-ui/core/styles';
-import theme from '../utils/basicTheme';
 
 const Home = () => {
   return (
-    <MuiThemeProvider theme={theme}>
+    <>
       <Typography
         component="body1"
         variant="h5"
@@ -18,7 +16,7 @@ const Home = () => {
         color="primary"
         gutterBottom>Blog</Typography>
       <BlogMediaTable ownFiles={false}/>
-    </MuiThemeProvider>
+    </>
   );
 };
 

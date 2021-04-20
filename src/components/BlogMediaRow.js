@@ -22,6 +22,8 @@ import {uploadsUrl} from '../utils/variables';
 import {Link as RouterLink} from 'react-router-dom';
 // import {Grid, GridListTileBar, IconButton, makeStyles} from '@material-ui/core';
 import {withRouter} from 'react-router-dom';
+import {useTag, useUsers} from '../hooks/ApiHooks';
+import {useEffect, useState} from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,10 +58,38 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  lines: {
+    lineHeight: '1em',
+  },
+  paddingBox: {
+    padding: '1em',
+    marginLeft: '-1.9em',
+  },
 }));
 
 const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   const classes = useStyles();
+  const [owner, setOwner] = useState(null);
+  const [avatar, setAvatar] = useState('logo512.png');
+  const {getUserById} = useUsers();
+  const {getTag} = useTag();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setOwner(
+            await getUserById(localStorage.getItem('token'), file.user_id),
+        );
+        const result = await getTag('avatar_' + file.user_id);
+        if (result.length > 0) {
+          const image = result.pop().filename;
+          setAvatar(uploadsUrl + image);
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    })();
+  }, []);
 
   let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
   try {
@@ -69,23 +99,37 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
     desc = {description: file.description};
   }
 
+  if (file.media_type === 'image') file.media_type = 'img';
+
   return (
-    <Card
-      className={classes.root}
-      variant="outlined">
-      <CardHeader
-        avatar={
-          <Avatar aria-label="avatar" className={classes.avatar}>
+    <Card className={classes.root} variant="outlined">
+      <Box display="flex">
+        <Box>
+          <CardHeader
+            avatar={
+              <Avatar
+                variant={'circle'}
+                src={avatar}
+                aria-label="avatar"
+                className={classes.avatar}
+              >
               R
-          </Avatar>
-        }
-        className={classes.title}
-        title={file.title}
-        subheader="Minna Puujuuri"
-      />
+              </Avatar>
+            }
+          />
+        </Box>
+        <Box className={classes.paddingBox}>
+          <Typography gutterBottom variant="h6" component="h2" className={classes.lines}>
+            {file.title}
+          </Typography>
+          <Typography className={classes.lines}>
+            {owner?.username}
+          </Typography>
+        </Box>
+      </Box>
       <Box display="flex" justifyContent="flex-end">
         <Button color="secondary" size="small">
-            #Handcrafts
+          #Handcrafts
         </Button>
       </Box>
       <CardMedia
@@ -93,17 +137,13 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         image={uploadsUrl + file.thumbnails?.w320}
         alt={file.title}
       />
-      <CardContent
-        title={file.title}
-        subheader={ownFiles || desc.description}
-      >
+      <CardContent title={file.title} subheader={ownFiles || desc.description}>
         <Typography variant="body2" color="textSecondary" component="p">
           {ownFiles || desc.description}
         </Typography>
       </CardContent>
       <CardActions>
-        <div className={classes.cardBottomNav}
-        >
+        <div className={classes.cardBottomNav}>
           <Box display="flex" justifyContent="center">
             <IconButton aria-label="add to favorites">
               <ThumbUpIcon />
@@ -121,7 +161,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               className={classes.icon}
               color="secondary"
             >
-                Read more
+              Read more
             </Button>
           </Box>
           <Box display="flex" justifyContent="center">
