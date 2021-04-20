@@ -20,7 +20,8 @@ import {
   CloudUpload, EmojiNature, EmojiPeople, Euro,
 
 } from '@material-ui/icons';
-
+import {MuiThemeProvider} from '@material-ui/core/styles';
+import theme from '../utils/basicTheme';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -86,127 +87,130 @@ const Nav = ({history}) => {
   }, []);
 
   return (
-    <>
-      <AppBar
-        color={'white'}
-        className={classes.appBar}
-      >
-        <Toolbar>
+    <MuiThemeProvider theme={theme}>
+      <>
+        <AppBar theme={theme}
+          color={'white'}
+          className={classes.appBar}
+        >
+          <Toolbar>
 
-          <Typography variant="h6" className={classes.title}>
-            <Link
-              component={RouterLink}
-              to="/" color="inherit">Environmental Idealists</Link>
-          </Typography>
-          <Grid
-            sm={7}
-            container
-            direction={'row'}
-          >
+            <Typography variant="h6" className={classes.title}>
+              <Link
+                component={RouterLink}
+                to="/" color="inherit">Environmental Idealists</Link>
+            </Typography>
             <Grid
-              item
+              sm={7}
               container
-              sm={3}
               direction={'row'}
-              justify={'center'}
-              alignContent={'center'}
-              className={classes.hover}
-
             >
-              <EmojiNature
-                style={{
-                  marginRight: '0.5vw',
-                }}
-              />
-              <Typography
-                className={classes.typography}
-              >Blog</Typography>
+              <Grid
+                item
+                container
+                sm={3}
+                direction={'row'}
+                justify={'center'}
+                alignContent={'center'}
+                className={classes.hover}
+
+              >
+                <EmojiNature
+                  color="primary"
+                  style={{
+                    marginRight: '0.5vw',
+                  }}
+                />
+                <Typography
+                  className={classes.typography}
+                  color="primary"
+                >Blog</Typography>
+              </Grid>
+              <Grid
+                item
+                container
+                sm={3}
+                direction={'row'}
+                justify={'center'}
+                alignContent={'center'}
+                className={classes.hover}
+
+              >
+                <EmojiPeople
+                  style={{
+                    marginRight: '0.5vw',
+                  }}
+                />
+                <Typography
+                  className={classes.typography}
+                >Meetings</Typography>
+              </Grid>
+              <Grid
+                item
+                container
+                sm={3}
+                direction={'row'}
+                justify={'center'}
+                alignContent={'center'}
+
+                className={classes.hover}
+
+              >
+                <Euro
+                  style={{
+                    marginRight: '0.5vw',
+                  }}
+                />
+                <Typography
+                  className={classes.typography}
+                >Fundings</Typography>
+              </Grid>
             </Grid>
-            <Grid
-              item
-              container
-              sm={3}
-              direction={'row'}
-              justify={'center'}
-              alignContent={'center'}
-              className={classes.hover}
 
-            >
-              <EmojiPeople
-                style={{
-                  marginRight: '0.5vw',
-                }}
-              />
-              <Typography
-                className={classes.typography}
-              >Meetings</Typography>
-            </Grid>
-            <Grid
-              item
-              container
-              sm={3}
-              direction={'row'}
-              justify={'center'}
-              alignContent={'center'}
-
-              className={classes.hover}
-
-            >
-              <Euro
-                style={{
-                  marginRight: '0.5vw',
-                }}
-              />
-              <Typography
-                className={classes.typography}
-              >Fundings</Typography>
-            </Grid>
-          </Grid>
-
-          {user &&
+            {user &&
           <Typography
             component="h4"
             variant="h8"
             className={classes.userName}
 
           >{'Hi, ' + user.full_name}</Typography>
-          }
+            }
 
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            aria-label="menu"
-            onClick={toggleDrawer(true)}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        open={open}
-        onClose={toggleDrawer(false)}
-        anchor={'right'}
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              aria-label="menu"
+              onClick={toggleDrawer(true)}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          open={open}
+          onClose={toggleDrawer(false)}
+          anchor={'right'}
 
-      >
-        <List
-          className={classes.typography}
         >
-          <ListItem
-            button
-            component={RouterLink}
-            onClick={toggleDrawer(false)}
-            to="/"
+          <List
+            className={classes.typography}
           >
-            <ListItemIcon>
-              <HomeIcon/>
-            </ListItemIcon>
-            <ListItemText
-              primary="Home"
-              disableTypography
-              className={classes.typography}
-            />
-          </ListItem>
-          {user &&
+            <ListItem
+              button
+              component={RouterLink}
+              onClick={toggleDrawer(false)}
+              to="/"
+            >
+              <ListItemIcon>
+                <HomeIcon/>
+              </ListItemIcon>
+              <ListItemText
+                primary="Home"
+                disableTypography
+                className={classes.typography}
+              />
+            </ListItem>
+            {user &&
           <>
             <ListItem
               button
@@ -239,10 +243,10 @@ const Nav = ({history}) => {
               />
             </ListItem>
           </>
-          }
+            }
 
 
-          {user ?
+            {user ?
             <ListItem
               button
               component={RouterLink}
@@ -273,11 +277,12 @@ const Nav = ({history}) => {
                 className={classes.typography}
               />
             </ListItem>
-          }
+            }
 
-        </List>
-      </Drawer>
-    </>
+          </List>
+        </Drawer>
+      </>
+    </MuiThemeProvider>
   );
 };
 
