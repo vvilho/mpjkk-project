@@ -15,7 +15,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import {AccountBalance, CloudUpload, Group, Polymer} from '@material-ui/icons';
+import {
+
+  CloudUpload, EmojiNature, EmojiPeople, Euro,
+
+} from '@material-ui/icons';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -109,7 +113,7 @@ const Nav = ({history}) => {
               className={classes.hover}
 
             >
-              <Polymer
+              <EmojiNature
                 style={{
                   marginRight: '0.5vw',
                 }}
@@ -128,7 +132,7 @@ const Nav = ({history}) => {
               className={classes.hover}
 
             >
-              <Group
+              <EmojiPeople
                 style={{
                   marginRight: '0.5vw',
                 }}
@@ -148,7 +152,7 @@ const Nav = ({history}) => {
               className={classes.hover}
 
             >
-              <AccountBalance
+              <Euro
                 style={{
                   marginRight: '0.5vw',
                 }}
