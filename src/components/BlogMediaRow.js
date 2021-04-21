@@ -137,9 +137,15 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         image={uploadsUrl + file.thumbnails?.w320}
         alt={file.title}
       />
-      <CardContent title={file.title} subheader={ownFiles || desc.description}>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {ownFiles || desc.description}
+      <CardContent>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          component="p"
+        >
+          <div style={{overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', width: '11rem'}}>
+            {ownFiles || desc.description}
+          </div>
         </Typography>
       </CardContent>
       <CardActions>
