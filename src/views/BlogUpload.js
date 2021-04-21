@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Upload = ({history}) => {
+const BlogUpload = ({history}) => {
   const {postMedia, loading} = useMedia();
   const {postTag} = useTag();
   const classes = useStyles();
@@ -409,10 +409,10 @@ const Upload = ({history}) => {
   );
 };
 
-Upload.propTypes =
+BlogUpload.propTypes =
 {
   history: PropTypes.object,
 };
 
 
-export default Upload;
+export default BlogUpload;

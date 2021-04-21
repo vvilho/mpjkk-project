@@ -129,7 +129,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <Button color="secondary" size="small">
-          #Handcrafts
+          {desc.hashtag}
         </Button>
       </Box>
       <CardMedia

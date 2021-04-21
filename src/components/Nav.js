@@ -235,7 +235,7 @@ const Nav = ({history}) => {
                 <CloudUpload/>
               </ListItemIcon>
               <ListItemText
-                primary="Upload"
+                primary="BlogUpload"
                 disableTypography
                 className={classes.typography}
               />
