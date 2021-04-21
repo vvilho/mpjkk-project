@@ -49,7 +49,7 @@ const Upload = ({history}) => {
   const {postMedia, loading} = useMedia();
   const {postTag} = useTag();
   const classes = useStyles();
-  const [dropdownHashtag, setDropdownHashtag] = useState('tag');
+  const [dropdownHashtag, setDropdownHashtag] = useState('#Materialreuse');
   const validators = {
     title: ['required', 'minStringLength: 3'],
     description: ['minStringLength: 5'],
@@ -69,8 +69,7 @@ const Upload = ({history}) => {
       // kuvaus + filtterit tallennetaan description kenttään
       const desc = {
         description: inputs.description,
-        filters: sliderInputs,
-        tag: dropdownHashtag,
+        hashtag: dropdownHashtag,
       };
       fd.append('description', JSON.stringify(desc));
       fd.append('file', inputs.file);
@@ -240,7 +239,7 @@ const Upload = ({history}) => {
                   setDropdownHashtag(e.target.value);
                 }}
               >
-                <option value={'#Materialreuse'}>#Materialreuse</option>
+                <option value={'#Materialreuse'} selected>#Materialreuse</option>
                 <option value={'#Handcrafts'}>#Handcrafts</option>
                 <option value={'#FreeWord'}>#FreeWord</option>
                 <option value={'#Cooking'}>#Cooking</option>
