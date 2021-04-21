@@ -54,6 +54,7 @@ const BlogMediaTable = ({ownFiles}) => {
   const {picArray, loading, deleteMedia} =
     useMedia(true, ownFiles, hashtagCategory);
 
+
   console.log(picArray);
   return (
     <div className={classes.root}>
