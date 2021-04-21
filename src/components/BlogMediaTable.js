@@ -148,7 +148,12 @@ const BlogMediaTable = ({ownFiles}) => {
 
       >
         <GridListTile key="Subheader" cols={3} style={{height: 'auto'}}>
-          <ListSubheader component="div">{hashtagCategory}</ListSubheader>
+          <ListSubheader
+            component="div">
+            {hashtagCategory.length === 25 ?
+              'All posts' :
+              '#'+hashtagCategory.slice(25, (hashtagCategory.length))}
+          </ListSubheader>
         </GridListTile>
         {!loading ?
           picArray.map((item) =>

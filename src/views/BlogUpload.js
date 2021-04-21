@@ -7,16 +7,14 @@ import {
   Button,
   Grid,
   Typography,
-  Slider,
-  makeStyles,
-  Select,
+  makeStyles, ListSubheader,
+  // Select,
 
 
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {useEffect, useState} from 'react';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import useSlider from '../hooks/SliderHooks';
 import BackButton from '../components/BackButton';
 import {EmojiNature} from '@material-ui/icons';
 
@@ -105,13 +103,6 @@ const BlogUpload = ({history}) => {
       dataUrl: '',
     });
 
-  const [sliderInputs, handleSliderChange] = useSlider({
-    brightness: 100,
-    contrast: 100,
-    saturate: 100,
-    sepia: 0,
-  });
-
 
   useEffect(() => {
     const reader = new FileReader();
@@ -135,7 +126,7 @@ const BlogUpload = ({history}) => {
     }
   }, [inputs.file]);
 
-  console.log(inputs, sliderInputs);
+  console.log(inputs);
 
   return (
     <>
@@ -143,7 +134,8 @@ const BlogUpload = ({history}) => {
       <Grid
         container
         justify={'center'}
-      ><Grid
+      >
+        <Grid
           item
           container
           xs={12}
@@ -233,185 +225,157 @@ const BlogUpload = ({history}) => {
                 onChange={handleFileChange}
               />
             </Grid>
-
-            <Grid
-              item
-              xs={12}
-              className={classes.dropdown}
-
+            {inputs.dataUrl.length > 0 &&
+            <Grid container
+              direction="column"
+              alignItems="center"
+              justify="center"
             >
-              <Typography>Select Tag From Dropdown</Typography>
-
-              <Select
-                native
-                required
-                value={dropdownHashtag}
-                fullWidth
-                onChange={(e) => {
-                  setDropdownHashtag(e.target.value);
-                }}
-              >
-                <option value={'Materialreuse'} selected>#Materialreuse</option>
-                <option value={'Handcrafts'}>#Handcrafts</option>
-                <option value={'FreeWord'}>#FreeWord</option>
-                <option value={'Cooking'}>#Cooking</option>
-                <option value={'Health'}>#Health</option>
-                <option value={'Energy'}>#Energy</option>
-              </Select>
-
+              <Grid item xs={6}>
+                <img
+                  src={inputs.dataUrl}
+                  style={{
+                    width: '100%',
+                  }}
+                />
+              </Grid>
             </Grid>
+            }
 
+            {/* <Grid*/}
+            {/*  item*/}
+            {/*  xs={12}*/}
+            {/*  className={classes.dropdown}*/}
 
+            {/* >*/}
+            {/*  <Typography>Select Tag From Dropdown</Typography>*/}
+
+            {/*  <Select*/}
+            {/*    native*/}
+            {/*    required*/}
+            {/*    value={dropdownHashtag}*/}
+            {/*    fullWidth*/}
+            {/*    onChange={(e) => {*/}
+            {/*      setDropdownHashtag(e.target.value);*/}
+            {/*    }}*/}
+            {/*  >*/}
+            {/*    <option value={'Materialreuse'} selected>#Materialreuse</option>*/}
+            {/*    <option value={'Handcrafts'}>#Handcrafts</option>*/}
+            {/*    <option value={'FreeWord'}>#FreeWord</option>*/}
+            {/*    <option value={'Cooking'}>#Cooking</option>*/}
+            {/*    <option value={'Health'}>#Health</option>*/}
+            {/*    <option value={'Energy'}>#Energy</option>*/}
+            {/*  </Select>*/}
+
+            {/* </Grid>*/}
+
+            <ListSubheader component="div">Choose hashtag for post</ListSubheader>
             <Grid
               container
               direction={'row'}
               justify={'space-around'} >
               <Grid
                 item>
-                <Typography
+                <Button
                   color={'secondary'}
-                  className={classes.hashtag}
+                  value={'Materialreuse'}
+                  onClick={(e) => {
+                    setDropdownHashtag(e.currentTarget.value);
+                  }}
+
                 >
                   #Materialreuse
-                </Typography>
+                </Button>
               </Grid>
               <Grid
                 item>
-                <Typography
+                <Button
                   color={'secondary'}
-                  className={classes.hashtag}
+                  value={'Hanfcrafts'}
+                  onClick={(e) => {
+                    setDropdownHashtag(e.currentTarget.value);
+                  }}
                 >
                   #Hanfcrafts
-                </Typography>
+                </Button>
               </Grid>
               <Grid
                 item>
-                <Typography
+                <Button
                   color={'secondary'}
-                  className={classes.hashtag}
+                  value={'FreeWord'}
+                  onClick={(e) => {
+                    setDropdownHashtag(e.currentTarget.value);
+                  }}
                 >
                   #FreeWord
-                </Typography>
+                </Button>
               </Grid>
               <Grid
                 item>
-                <Typography
+                <Button
                   color={'secondary'}
-                  className={classes.hashtag}
+                  value={'Cooking'}
+                  onClick={(e) => {
+                    setDropdownHashtag(e.currentTarget.value);
+                  }}
                 >
                   #Cooking
-                </Typography>
+                </Button>
               </Grid>
               <Grid
                 item>
-                <Typography
+                <Button
                   color={'secondary'}
-                  className={classes.hashtag}
+                  value={'Health'}
+                  onClick={(e) => {
+                    setDropdownHashtag(e.currentTarget.value);
+                  }}
                 >
                   #Health
-                </Typography>
+                </Button>
               </Grid>
               <Grid
                 item>
-                <Typography
+                <Button
                   color={'secondary'}
-                  className={classes.hashtag}
+                  value={'Energy'}
+                  onClick={(e) => {
+                    setDropdownHashtag(e.currentTarget.value);
+                  }}
                 >
                   #Energy
-                </Typography>
+                </Button>
               </Grid>
             </Grid>
+            <Typography
+              color={'primary'}
+              style={{
+                padding: '10px',
+                width: '130px',
+                textAlign: 'center',
+                border: 'solid 1px',
+              }}
+            >
+              {'#'+dropdownHashtag}
+            </Typography>
             <Grid
-              item
-              xs={2}
+              container
+              justify={'center'}
+              xs={12}
               className={classes.sendButton}
             >
               <Button
                 type="submit"
                 color="secondary"
                 variant="contained"
-                fullWidth
+
               >
               Lähetä
               </Button>
             </Grid>
           </Grid>
-          {inputs.dataUrl.length > 0 &&
-              <Grid container
-                direction="column"
-                alignItems="center"
-                justify="center"
-              >
-                <Grid item xs={6}>
-                  <img
-                    src={inputs.dataUrl}
-                    style={{
-                      filter: `
-                      brightness(${sliderInputs.brightness}%)
-                      contrast(${sliderInputs.contrast}%)
-                      saturate(${sliderInputs.saturate}%)
-                      sepia(${sliderInputs.sepia}%)
-                      `,
-                      width: '100%',
-                    }}
-                  />
-                </Grid>
-                <Grid container>
-                  <Grid item xs={12}>
-                    <Typography>Brightness</Typography>
-                    <Slider
-                      min={0}
-                      max={200}
-                      step={1}
-                      name="brightness"
-                      value={sliderInputs?.brightness}
-                      valueLabelDisplay="on"
-                      valueLabelFormat={(value) => value + '%'}
-                      onChange={handleSliderChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>Contrast</Typography>
-                    <Slider
-                      min={0}
-                      max={200}
-                      step={1}
-                      name="contrast"
-                      value={sliderInputs?.contrast}
-                      valueLabelDisplay="on"
-                      valueLabelFormat={(value) => value + '%'}
-                      onChange={handleSliderChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>Saturation</Typography>
-                    <Slider
-                      min={0}
-                      max={200}
-                      step={1}
-                      name="saturate"
-                      value={sliderInputs?.saturate}
-                      valueLabelDisplay="on"
-                      valueLabelFormat={(value) => value + '%'}
-                      onChange={handleSliderChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>Sepia</Typography>
-                    <Slider
-                      min={0}
-                      max={100}
-                      step={1}
-                      name="sepia"
-                      value={sliderInputs?.sepia}
-                      valueLabelDisplay="on"
-                      valueLabelFormat={(value) => value + '%'}
-                      onChange={handleSliderChange}
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-          }
+
         </ValidatorForm> :
         <CircularProgress/>
           }
