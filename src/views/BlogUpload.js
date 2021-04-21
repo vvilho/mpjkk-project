@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import useForm from '../hooks/FormHooks';
+import {appIdentifier} from '../utils/variables';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import {
   CircularProgress,
@@ -49,7 +50,7 @@ const BlogUpload = ({history}) => {
   const {postMedia, loading} = useMedia();
   const {postTag} = useTag();
   const classes = useStyles();
-  const [dropdownHashtag, setDropdownHashtag] = useState('#Materialreuse');
+  const [dropdownHashtag, setDropdownHashtag] = useState('Materialreuse');
   const validators = {
     title: ['required', 'minStringLength: 3'],
     description: ['minStringLength: 5'],
@@ -74,11 +75,22 @@ const BlogUpload = ({history}) => {
       fd.append('description', JSON.stringify(desc));
       fd.append('file', inputs.file);
       const result = await postMedia(fd, localStorage.getItem('token'));
-      const tagResult = await postTag(
+      const hashtagResult = await postTag(
           localStorage.getItem('token'),
           result.file_id,
+          ('EnvironmetalIdealist_blog' + dropdownHashtag),
       );
-      console.log('doUpload', result, tagResult);
+      const blogTagResult = await postTag(
+          localStorage.getItem('token'),
+          result.file_id,
+          'EnvironmetalIdealist_blog',
+      );
+      const appTagResult = await postTag(
+          localStorage.getItem('token'),
+          result.file_id,
+          appIdentifier,
+      );
+      console.log('doUpload', result, hashtagResult, blogTagResult, appTagResult);
       history.push('/');
     } catch (e) {
       alert(e.message);
@@ -239,12 +251,12 @@ const BlogUpload = ({history}) => {
                   setDropdownHashtag(e.target.value);
                 }}
               >
-                <option value={'#Materialreuse'} selected>#Materialreuse</option>
-                <option value={'#Handcrafts'}>#Handcrafts</option>
-                <option value={'#FreeWord'}>#FreeWord</option>
-                <option value={'#Cooking'}>#Cooking</option>
-                <option value={'#Health'}>#Health</option>
-                <option value={'#Energy'}>#Energy</option>
+                <option value={'Materialreuse'} selected>#Materialreuse</option>
+                <option value={'Handcrafts'}>#Handcrafts</option>
+                <option value={'FreeWord'}>#FreeWord</option>
+                <option value={'Cooking'}>#Cooking</option>
+                <option value={'Health'}>#Health</option>
+                <option value={'Energy'}>#Energy</option>
               </Select>
 
             </Grid>

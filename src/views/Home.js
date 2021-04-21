@@ -1,6 +1,7 @@
 import BlogMediaTable from '../components/BlogMediaTable';
 import {Typography} from '@material-ui/core';
 
+
 const Home = () => {
   return (
     <>
@@ -15,6 +16,7 @@ const Home = () => {
         variant="h2"
         color="primary"
         gutterBottom>Blog</Typography>
+
       <BlogMediaTable ownFiles={false}/>
     </>
   );

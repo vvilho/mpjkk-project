@@ -24,7 +24,7 @@ const App = () => {
               <Route path="/profile" component={Profile}/>
               <Route path="/single" component={Single}/>
               <Route path="/logout" component={Logout}/>
-              <Route path="/upload" component={BlogUpload}/>
+              <Route path="/blogupload" component={BlogUpload}/>
               <Route path="/myfiles" component={MyFiles}/>
               <Route path="/modify" component={Modify}/>
             </Switch>
