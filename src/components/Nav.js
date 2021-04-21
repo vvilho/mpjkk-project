@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
     '&:hover': {
       background: '#efefef',
+      cursor: 'pointer',
     },
   },
 

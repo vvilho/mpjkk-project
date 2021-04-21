@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import useForm from '../hooks/FormHooks';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import {
@@ -6,26 +7,59 @@ import {
   Grid,
   Typography,
   Slider,
+  makeStyles,
+  Select,
+
+
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import useSlider from '../hooks/SliderHooks';
 import BackButton from '../components/BackButton';
+import {EmojiNature} from '@material-ui/icons';
+
+
+const useStyles = makeStyles((theme) => ({
+  hashtag: {
+    'padding': '5px',
+    'border': 'solid 1px',
+    'borderRadius': 7,
+    '&:hover': {
+      background: '#efefef',
+      cursor: 'pointer',
+    },
+  },
+  sendButton: {
+    margin: '3vh',
+  },
+
+  margin: {
+    margin: '3vh',
+  },
+  dropdown: {
+    marginBottom: '3vh',
+  },
+
+
+}));
+
 
 const Upload = ({history}) => {
   const {postMedia, loading} = useMedia();
   const {postTag} = useTag();
-
+  const classes = useStyles();
+  const [dropdownHashtag, setDropdownHashtag] = useState('tag');
   const validators = {
     title: ['required', 'minStringLength: 3'],
-    // eslint-disable-next-line max-len
     description: ['minStringLength: 5'],
+    hashtag: ['required'],
   };
 
   const errorMessages = {
     title: ['vaadittu kenttä', 'vähintään 3 merkkiä'],
     description: ['vähintään 5 merkkiä'],
+    hashtag: ['vaadittu kenttä'],
   };
 
   const doUpload = async () => {
@@ -36,6 +70,7 @@ const Upload = ({history}) => {
       const desc = {
         description: inputs.description,
         filters: sliderInputs,
+        tag: dropdownHashtag,
       };
       fd.append('description', JSON.stringify(desc));
       fd.append('file', inputs.file);
@@ -94,22 +129,55 @@ const Upload = ({history}) => {
   return (
     <>
       <BackButton />
-      <Grid container>
+      <Grid
+        container
+        justify={'center'}
+      ><Grid
+          item
+          container
+          xs={12}
+          justify={'center'}
+        >
+          <EmojiNature
+            color={'primary'}
+            style={{
+              fontSize: '150px',
+
+            }} />
+        </Grid>
         <Grid item xs={12}>
           <Typography
             component="h1"
             variant="h2"
+            color={'primary'}
+            align={'center'}
             gutterBottom
           >
-          Upload
+          New Blog Post
           </Typography>
         </Grid>
-        <Grid item>
+
+
+        <Grid
+          item
+          xs={10}
+        >
           {!loading ?
-        <ValidatorForm onSubmit={handleSubmit}>
-          <Grid container>
-            <Grid item xs={12}>
+        <ValidatorForm
+          onSubmit={handleSubmit}
+        >
+          <Grid
+            container
+            justify={'center'}
+          >
+            <Grid
+              item xs={12}
+              style={{
+                marginBottom: '3vh',
+              }}
+            >
               <TextValidator
+                variant={'filled'}
                 fullWidth
                 name="title"
                 label="Title"
@@ -119,8 +187,16 @@ const Upload = ({history}) => {
                 errorMessages={errorMessages.title}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid
+              item
+              xs={12}
+              style={{
+                marginBottom: '3vh',
+              }}
+            >
               <TextValidator
+                variant={'filled'}
+                multiline
                 fullWidth
                 name="description"
                 label="Description"
@@ -130,19 +206,118 @@ const Upload = ({history}) => {
                 errorMessages={errorMessages.description}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid
+              item
+              xs={12}
+              style={{
+                marginBottom: '3vh',
+              }}
+            >
               <TextValidator
                 fullWidth
                 type="file"
                 name="file"
                 accept="image/*, audio/*, video/*"
+                required
                 onChange={handleFileChange}
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid
+              item
+              xs={12}
+              className={classes.dropdown}
+
+            >
+              <Typography>Select Tag From Dropdown</Typography>
+
+              <Select
+                native
+                required
+                value={dropdownHashtag}
+                fullWidth
+                onChange={(e) => {
+                  setDropdownHashtag(e.target.value);
+                }}
+              >
+                <option value={'#Materialreuse'}>#Materialreuse</option>
+                <option value={'#Handcrafts'}>#Handcrafts</option>
+                <option value={'#FreeWord'}>#FreeWord</option>
+                <option value={'#Cooking'}>#Cooking</option>
+                <option value={'#Health'}>#Health</option>
+                <option value={'#Energy'}>#Energy</option>
+              </Select>
+
+            </Grid>
+
+
+            <Grid
+              container
+              direction={'row'}
+              justify={'space-around'} >
+              <Grid
+                item>
+                <Typography
+                  color={'secondary'}
+                  className={classes.hashtag}
+                >
+                  #Materialreuse
+                </Typography>
+              </Grid>
+              <Grid
+                item>
+                <Typography
+                  color={'secondary'}
+                  className={classes.hashtag}
+                >
+                  #Hanfcrafts
+                </Typography>
+              </Grid>
+              <Grid
+                item>
+                <Typography
+                  color={'secondary'}
+                  className={classes.hashtag}
+                >
+                  #FreeWord
+                </Typography>
+              </Grid>
+              <Grid
+                item>
+                <Typography
+                  color={'secondary'}
+                  className={classes.hashtag}
+                >
+                  #Cooking
+                </Typography>
+              </Grid>
+              <Grid
+                item>
+                <Typography
+                  color={'secondary'}
+                  className={classes.hashtag}
+                >
+                  #Health
+                </Typography>
+              </Grid>
+              <Grid
+                item>
+                <Typography
+                  color={'secondary'}
+                  className={classes.hashtag}
+                >
+                  #Energy
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              item
+              xs={2}
+              className={classes.sendButton}
+            >
               <Button
                 type="submit"
-                color="primary"
+                color="secondary"
                 variant="contained"
                 fullWidth
               >

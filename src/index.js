@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {createMuiTheme, ThemeProvider} from '@material-ui/core';
 
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -17,8 +18,7 @@ const theme = createMuiTheme({
       main: '#03DAC5', // This is a greenish-blue color
     },
   },
-  // eslint-disable-next-line max-len
-  fontFamily: 'Roboto Mono', // as an aside, highly recommend importing roboto font for Material UI projects! Looks really nice
+  fontFamily: 'Roboto Mono',
 });
 
 ReactDOM.render(
@@ -26,7 +26,9 @@ ReactDOM.render(
       <React.StrictMode>
         <App />
       </React.StrictMode>
-    </ThemeProvider>,
+    </ThemeProvider>
+    ,
+
     document.getElementById('root'),
 );
 
