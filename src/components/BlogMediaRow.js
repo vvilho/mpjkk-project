@@ -22,7 +22,7 @@ import {uploadsUrl} from '../utils/variables';
 import {Link as RouterLink} from 'react-router-dom';
 // import {Grid, GridListTileBar, IconButton, makeStyles} from '@material-ui/core';
 import {withRouter} from 'react-router-dom';
-import {useTag, useUsers, useFavorite} from '../hooks/ApiHooks';
+import {useTag, useUsers, useFavorite, useComments} from '../hooks/ApiHooks';
 import {useEffect, useState, useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
 
@@ -80,6 +80,9 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   const {getFavoriteById} = useFavorite();
   // const {getFavorite} = useFavorite();
   const [user] = useContext(MediaContext);
+  const [likes, setLikes] = useState();
+  const {getCommentById} = useComments();
+  const [comments, setComments] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -98,12 +101,34 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
           if (element.user_id === user.user_id) {
             setFav(!fav);
           }
+          if (result2.length > 0) {
+            setLikes(result2.length);
+          } else {
+            setLikes();
+          }
         });
+        const result3 = await getCommentById(file.file_id);
+        console.log('amount of comments', result3.length);
+        setComments(result3.length);
       } catch (e) {
         console.log(e.message);
       }
     })();
   }, []);
+
+  const likingsAmount = async () => {
+    try {
+      const result2 = await getFavoriteById(localStorage.getItem('token'), file.file_id);
+      console.log(result2.length);
+      if (result2.length > 0) {
+        setLikes(result2.length);
+      } else {
+        setLikes();
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
   const handleFav = async () => {
     if (user) {
@@ -112,10 +137,12 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         if (fav == false) {
           console.log('add fav');
           await postFavorite(localStorage.getItem('token'), file.file_id);
+          likingsAmount();
         } else {
           // or delete it from firestore
           console.log('delete fav');
           await deleteFavorite(localStorage.getItem('token'), file.file_id);
+          likingsAmount();
         }
       } catch (e) {
         console.log(e.message);
@@ -189,7 +216,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               >
                 <ThumbUpIcon color="primary" />
                 <Typography className={classes.paddingNumber}>
-                  3
+                  {likes}
                 </Typography>
               </IconButton>
             }
@@ -200,7 +227,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               >
                 <ThumbUpIcon />
                 <Typography className={classes.paddingNumber}>
-                  3
+                  {likes}
                 </Typography>
               </IconButton>
             }
@@ -210,7 +237,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               aria-label={`info about ${file.title}`}
               component={RouterLink}
               to={{
-                pathname: '/single',
+                pathname: '/blogsingle',
                 state: file,
               }}
               className={classes.icon}
@@ -224,13 +251,16 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               aria-label={`comments of ${file.title}`}
               component={RouterLink}
               to={{
-                pathname: '/single',
+                pathname: '/blogsingle',
                 state: file,
               }}
               className={classes.icon}
             >
               <ChatBubbleOutlineIcon />
-              <Typography className={classes.paddingNumber}>3</Typography>
+              <Typography
+                className={classes.paddingNumber}>
+                {comments}
+              </Typography>
             </IconButton>
           </Box>
         </div>
