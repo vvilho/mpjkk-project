@@ -10,7 +10,6 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import {red} from '@material-ui/core/colors';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -22,7 +21,7 @@ import {uploadsUrl} from '../utils/variables';
 import {Link as RouterLink} from 'react-router-dom';
 // import {Grid, GridListTileBar, IconButton, makeStyles} from '@material-ui/core';
 import {withRouter} from 'react-router-dom';
-import {useTag, useUsers, useFavorite} from '../hooks/ApiHooks';
+import {useTag, useFavorite} from '../hooks/ApiHooks';
 import {useEffect, useState, useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
 
@@ -43,9 +42,6 @@ const useStyles = makeStyles((theme) => ({
   },
   expandOpen: {
     transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
   },
   title: {
     fontSize: 20,
@@ -70,9 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   const classes = useStyles();
-  const [owner, setOwner] = useState(null);
-  const [avatar, setAvatar] = useState('logo512.png');
-  const {getUserById} = useUsers();
+  const [avatar, setAvatar] = useState();
   const {getTag} = useTag();
   const {postFavorite} = useFavorite();
   const {deleteFavorite} = useFavorite();
@@ -84,12 +78,10 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   useEffect(() => {
     (async () => {
       try {
-        setOwner(
-            await getUserById(localStorage.getItem('token'), file.user_id),
-        );
         const result = await getTag('avatar_' + file.user_id);
         if (result.length > 0) {
           const image = result.pop().filename;
+          console.log(image);
           setAvatar(uploadsUrl + image);
         }
         const result2 = await getFavoriteById(localStorage.getItem('token'), file.file_id);
@@ -154,7 +146,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             {file.title}
           </Typography>
           <Typography className={classes.lines}>
-            {owner?.full_name}
+            {file.user_id}
           </Typography>
         </Box>
       </Box>
