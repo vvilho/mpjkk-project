@@ -9,7 +9,13 @@ import {
   IconButton,
   makeStyles,
   Typography,
-  Drawer, List, ListItem, ListItemIcon, ListItemText, Link, Grid, Toolbar,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Link, Grid, Toolbar,
+  Button,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -44,18 +50,13 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Roboto Mono',
 
   },
-  typography: {
-    fontFamily: 'Roboto Mono',
-  },
-
-  hover: {
+  siteButton: {
+    'fontFamily': 'Roboto Mono',
     'height': '64px',
+    'width': '100%',
 
-    '&:hover': {
-      background: '#efefef',
-      cursor: 'pointer',
-    },
   },
+
 
 }));
 
@@ -92,12 +93,18 @@ const Nav = ({history}) => {
         className={classes.appBar}
       >
         <Toolbar>
+          <Grid
+            sm={3}
+            container
+            direction={'row'}
+          >
+            <Typography variant="h6" className={classes.title}>
+              <Link
+                component={RouterLink}
+                to="/" color="inherit">Environmental Idealists</Link>
+            </Typography>
+          </Grid>
 
-          <Typography variant="h6" className={classes.title}>
-            <Link
-              component={RouterLink}
-              to="/" color="inherit">Environmental Idealists</Link>
-          </Typography>
           <Grid
             sm={7}
             container
@@ -109,20 +116,20 @@ const Nav = ({history}) => {
               sm={3}
               direction={'row'}
               justify={'center'}
-              alignContent={'center'}
-              className={classes.hover}
-
             >
-              <EmojiNature
-                color="primary"
-                style={{
-                  marginRight: '0.5vw',
-                }}
-              />
-              <Typography
-                className={classes.typography}
-                color="primary"
-              >Blog</Typography>
+              <Button
+                className={classes.siteButton}
+                component={RouterLink}
+                to={'/'}
+
+              >
+                <EmojiNature
+                  color="primary"
+                  style={{
+                    marginRight: '0.5vw',
+                  }}
+                />Blog
+              </Button>
             </Grid>
             <Grid
               item
@@ -130,18 +137,16 @@ const Nav = ({history}) => {
               sm={3}
               direction={'row'}
               justify={'center'}
-              alignContent={'center'}
-              className={classes.hover}
-
             >
-              <EmojiPeople
-                style={{
-                  marginRight: '0.5vw',
-                }}
-              />
-              <Typography
-                className={classes.typography}
-              >Meetings</Typography>
+              <Button
+                className={classes.siteButton}
+              >
+                <EmojiPeople
+                  style={{
+                    marginRight: '0.5vw',
+                  }}
+                />Meetings
+              </Button>
             </Grid>
             <Grid
               item
@@ -149,39 +154,54 @@ const Nav = ({history}) => {
               sm={3}
               direction={'row'}
               justify={'center'}
-              alignContent={'center'}
-
-              className={classes.hover}
-
             >
-              <Euro
-                style={{
-                  marginRight: '0.5vw',
-                }}
-              />
-              <Typography
-                className={classes.typography}
-              >Fundings</Typography>
+              <Button
+                className={classes.siteButton}
+              >
+                <Euro
+                  style={{
+                    marginRight: '0.5vw',
+                  }}
+                />Fundings
+              </Button>
             </Grid>
           </Grid>
-
-          {user &&
-          <Typography
-            component="h4"
-            variant="h8"
-            className={classes.userName}
-
-          >{'Hi, ' + user.full_name}</Typography>
-          }
-
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            aria-label="menu"
-            onClick={toggleDrawer(true)}
+          <Grid
+            sm={2}
+            container
+            direction={'row'}
           >
-            <MenuIcon />
-          </IconButton>
+
+
+            {user &&
+            <Grid
+              item
+              sm={10}
+            >
+              <Typography
+                component="h4"
+                variant="h8"
+                className={classes.userName}
+
+              >{'Hi, ' + user.full_name}</Typography>
+            </Grid>
+
+            }
+            <Grid
+              item
+              sm={2}
+            >
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                aria-label="menu"
+                onClick={toggleDrawer(true)}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Grid>
+
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -235,7 +255,7 @@ const Nav = ({history}) => {
                 <CloudUpload/>
               </ListItemIcon>
               <ListItemText
-                primary="Upload"
+                primary="BlogUpload"
                 disableTypography
                 className={classes.typography}
               />

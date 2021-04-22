@@ -126,7 +126,6 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
   try {
     desc = JSON.parse(file.description);
-    console.log(desc);
   } catch (e) {
     desc = {description: file.description};
   }
@@ -145,7 +144,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
                 aria-label="avatar"
                 className={classes.avatar}
               >
-                R
+
               </Avatar>
             }
           />
@@ -161,7 +160,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <Button color="secondary" size="small">
-          #Handcrafts
+          #{desc.hashtag}
         </Button>
       </Box>
       <CardMedia

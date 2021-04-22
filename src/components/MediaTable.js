@@ -27,11 +27,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MediaTable = ({ownFiles}) => {
+const MediaTable = ({ownFiles, tag}) => {
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:697px)');
 
-  const {picArray, loading, deleteMedia} = useMedia(true, ownFiles);
+  const {picArray, loading, deleteMedia} = useMedia(true, ownFiles, tag);
 
   console.log('MediaTable', picArray);
 
@@ -64,6 +64,7 @@ const MediaTable = ({ownFiles}) => {
 
 MediaTable.propTypes = {
   ownFiles: PropTypes.bool,
+  tag: PropTypes.string,
 };
 
 export default MediaTable;

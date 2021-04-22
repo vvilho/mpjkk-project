@@ -1,21 +1,20 @@
 /* eslint-disable max-len */
 import useForm from '../hooks/FormHooks';
+import {appIdentifier} from '../utils/variables';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import {
   CircularProgress,
   Button,
   Grid,
   Typography,
-  Slider,
-  makeStyles,
-  Select,
+  makeStyles, ListSubheader,
+  // Select,
 
 
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {useEffect, useState} from 'react';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import useSlider from '../hooks/SliderHooks';
 import BackButton from '../components/BackButton';
 import {EmojiNature} from '@material-ui/icons';
 
@@ -45,11 +44,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Upload = ({history}) => {
+const BlogUpload = ({history}) => {
   const {postMedia, loading} = useMedia();
   const {postTag} = useTag();
   const classes = useStyles();
-  const [dropdownHashtag, setDropdownHashtag] = useState('tag');
+  const [dropdownHashtag, setDropdownHashtag] = useState('Materialreuse');
   const validators = {
     title: ['required', 'minStringLength: 3'],
     description: ['minStringLength: 5'],
@@ -69,17 +68,27 @@ const Upload = ({history}) => {
       // kuvaus + filtterit tallennetaan description kenttään
       const desc = {
         description: inputs.description,
-        filters: sliderInputs,
-        tag: dropdownHashtag,
+        hashtag: dropdownHashtag,
       };
       fd.append('description', JSON.stringify(desc));
       fd.append('file', inputs.file);
       const result = await postMedia(fd, localStorage.getItem('token'));
-      const tagResult = await postTag(
+      const hashtagResult = await postTag(
           localStorage.getItem('token'),
           result.file_id,
+          ('EnvironmetalIdealist_blog' + dropdownHashtag),
       );
-      console.log('doUpload', result, tagResult);
+      const blogTagResult = await postTag(
+          localStorage.getItem('token'),
+          result.file_id,
+          'EnvironmetalIdealist_blog',
+      );
+      const appTagResult = await postTag(
+          localStorage.getItem('token'),
+          result.file_id,
+          appIdentifier,
+      );
+      console.log('doUpload', result, hashtagResult, blogTagResult, appTagResult);
       history.push('/');
     } catch (e) {
       alert(e.message);
@@ -93,13 +102,6 @@ const Upload = ({history}) => {
       file: null,
       dataUrl: '',
     });
-
-  const [sliderInputs, handleSliderChange] = useSlider({
-    brightness: 100,
-    contrast: 100,
-    saturate: 100,
-    sepia: 0,
-  });
 
 
   useEffect(() => {
@@ -124,7 +126,7 @@ const Upload = ({history}) => {
     }
   }, [inputs.file]);
 
-  console.log(inputs, sliderInputs);
+  console.log(inputs);
 
   return (
     <>
@@ -132,7 +134,8 @@ const Upload = ({history}) => {
       <Grid
         container
         justify={'center'}
-      ><Grid
+      >
+        <Grid
           item
           container
           xs={12}
@@ -222,185 +225,157 @@ const Upload = ({history}) => {
                 onChange={handleFileChange}
               />
             </Grid>
-
-            <Grid
-              item
-              xs={12}
-              className={classes.dropdown}
-
+            {inputs.dataUrl.length > 0 &&
+            <Grid container
+              direction="column"
+              alignItems="center"
+              justify="center"
             >
-              <Typography>Select Tag From Dropdown</Typography>
-
-              <Select
-                native
-                required
-                value={dropdownHashtag}
-                fullWidth
-                onChange={(e) => {
-                  setDropdownHashtag(e.target.value);
-                }}
-              >
-                <option value={'#Materialreuse'}>#Materialreuse</option>
-                <option value={'#Handcrafts'}>#Handcrafts</option>
-                <option value={'#FreeWord'}>#FreeWord</option>
-                <option value={'#Cooking'}>#Cooking</option>
-                <option value={'#Health'}>#Health</option>
-                <option value={'#Energy'}>#Energy</option>
-              </Select>
-
+              <Grid item xs={6}>
+                <img
+                  src={inputs.dataUrl}
+                  style={{
+                    width: '100%',
+                  }}
+                />
+              </Grid>
             </Grid>
+            }
 
+            {/* <Grid*/}
+            {/*  item*/}
+            {/*  xs={12}*/}
+            {/*  className={classes.dropdown}*/}
 
+            {/* >*/}
+            {/*  <Typography>Select Tag From Dropdown</Typography>*/}
+
+            {/*  <Select*/}
+            {/*    native*/}
+            {/*    required*/}
+            {/*    value={dropdownHashtag}*/}
+            {/*    fullWidth*/}
+            {/*    onChange={(e) => {*/}
+            {/*      setDropdownHashtag(e.target.value);*/}
+            {/*    }}*/}
+            {/*  >*/}
+            {/*    <option value={'Materialreuse'} selected>#Materialreuse</option>*/}
+            {/*    <option value={'Handcrafts'}>#Handcrafts</option>*/}
+            {/*    <option value={'FreeWord'}>#FreeWord</option>*/}
+            {/*    <option value={'Cooking'}>#Cooking</option>*/}
+            {/*    <option value={'Health'}>#Health</option>*/}
+            {/*    <option value={'Energy'}>#Energy</option>*/}
+            {/*  </Select>*/}
+
+            {/* </Grid>*/}
+
+            <ListSubheader component="div">Choose hashtag for post</ListSubheader>
             <Grid
               container
               direction={'row'}
               justify={'space-around'} >
               <Grid
                 item>
-                <Typography
+                <Button
                   color={'secondary'}
-                  className={classes.hashtag}
+                  value={'Materialreuse'}
+                  onClick={(e) => {
+                    setDropdownHashtag(e.currentTarget.value);
+                  }}
+
                 >
                   #Materialreuse
-                </Typography>
+                </Button>
               </Grid>
               <Grid
                 item>
-                <Typography
+                <Button
                   color={'secondary'}
-                  className={classes.hashtag}
+                  value={'Hanfcrafts'}
+                  onClick={(e) => {
+                    setDropdownHashtag(e.currentTarget.value);
+                  }}
                 >
                   #Hanfcrafts
-                </Typography>
+                </Button>
               </Grid>
               <Grid
                 item>
-                <Typography
+                <Button
                   color={'secondary'}
-                  className={classes.hashtag}
+                  value={'FreeWord'}
+                  onClick={(e) => {
+                    setDropdownHashtag(e.currentTarget.value);
+                  }}
                 >
                   #FreeWord
-                </Typography>
+                </Button>
               </Grid>
               <Grid
                 item>
-                <Typography
+                <Button
                   color={'secondary'}
-                  className={classes.hashtag}
+                  value={'Cooking'}
+                  onClick={(e) => {
+                    setDropdownHashtag(e.currentTarget.value);
+                  }}
                 >
                   #Cooking
-                </Typography>
+                </Button>
               </Grid>
               <Grid
                 item>
-                <Typography
+                <Button
                   color={'secondary'}
-                  className={classes.hashtag}
+                  value={'Health'}
+                  onClick={(e) => {
+                    setDropdownHashtag(e.currentTarget.value);
+                  }}
                 >
                   #Health
-                </Typography>
+                </Button>
               </Grid>
               <Grid
                 item>
-                <Typography
+                <Button
                   color={'secondary'}
-                  className={classes.hashtag}
+                  value={'Energy'}
+                  onClick={(e) => {
+                    setDropdownHashtag(e.currentTarget.value);
+                  }}
                 >
                   #Energy
-                </Typography>
+                </Button>
               </Grid>
             </Grid>
+            <Typography
+              color={'primary'}
+              style={{
+                padding: '10px',
+                width: '130px',
+                textAlign: 'center',
+                border: 'solid 1px',
+              }}
+            >
+              {'#'+dropdownHashtag}
+            </Typography>
             <Grid
-              item
-              xs={2}
+              container
+              justify={'center'}
+              xs={12}
               className={classes.sendButton}
             >
               <Button
                 type="submit"
                 color="secondary"
                 variant="contained"
-                fullWidth
+
               >
               Lähetä
               </Button>
             </Grid>
           </Grid>
-          {inputs.dataUrl.length > 0 &&
-              <Grid container
-                direction="column"
-                alignItems="center"
-                justify="center"
-              >
-                <Grid item xs={6}>
-                  <img
-                    src={inputs.dataUrl}
-                    style={{
-                      filter: `
-                      brightness(${sliderInputs.brightness}%)
-                      contrast(${sliderInputs.contrast}%)
-                      saturate(${sliderInputs.saturate}%)
-                      sepia(${sliderInputs.sepia}%)
-                      `,
-                      width: '100%',
-                    }}
-                  />
-                </Grid>
-                <Grid container>
-                  <Grid item xs={12}>
-                    <Typography>Brightness</Typography>
-                    <Slider
-                      min={0}
-                      max={200}
-                      step={1}
-                      name="brightness"
-                      value={sliderInputs?.brightness}
-                      valueLabelDisplay="on"
-                      valueLabelFormat={(value) => value + '%'}
-                      onChange={handleSliderChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>Contrast</Typography>
-                    <Slider
-                      min={0}
-                      max={200}
-                      step={1}
-                      name="contrast"
-                      value={sliderInputs?.contrast}
-                      valueLabelDisplay="on"
-                      valueLabelFormat={(value) => value + '%'}
-                      onChange={handleSliderChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>Saturation</Typography>
-                    <Slider
-                      min={0}
-                      max={200}
-                      step={1}
-                      name="saturate"
-                      value={sliderInputs?.saturate}
-                      valueLabelDisplay="on"
-                      valueLabelFormat={(value) => value + '%'}
-                      onChange={handleSliderChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>Sepia</Typography>
-                    <Slider
-                      min={0}
-                      max={100}
-                      step={1}
-                      name="sepia"
-                      value={sliderInputs?.sepia}
-                      valueLabelDisplay="on"
-                      valueLabelFormat={(value) => value + '%'}
-                      onChange={handleSliderChange}
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-          }
+
         </ValidatorForm> :
         <CircularProgress/>
           }
@@ -410,10 +385,10 @@ const Upload = ({history}) => {
   );
 };
 
-Upload.propTypes =
+BlogUpload.propTypes =
 {
   history: PropTypes.object,
 };
 
 
-export default Upload;
+export default BlogUpload;

@@ -5,7 +5,7 @@ import Profile from './views/Profile';
 import Single from './views/Single';
 import Login from './views/Login';
 import Logout from './views/Logout';
-import Upload from './views/Upload';
+import BlogUpload from './views/BlogUpload';
 import {MediaProvider} from './contexts/MediaContext';
 import {Container} from '@material-ui/core';
 import MyFiles from './views/MyFiles';
@@ -24,7 +24,7 @@ const App = () => {
               <Route path="/profile" component={Profile}/>
               <Route path="/single" component={Single}/>
               <Route path="/logout" component={Logout}/>
-              <Route path="/upload" component={Upload}/>
+              <Route path="/blogupload" component={BlogUpload}/>
               <Route path="/myfiles" component={MyFiles}/>
               <Route path="/modify" component={Modify}/>
             </Switch>

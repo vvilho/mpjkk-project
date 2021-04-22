@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import {useEffect, useState, useContext} from 'react';
-import {appIdentifier, baseUrl} from '../utils/variables';
+import {baseUrl} from '../utils/variables';
 import {MediaContext} from '../contexts/MediaContext';
 
 // general function for fetching (options default value is empty object)
@@ -19,8 +19,9 @@ const doFetch = async (url, options = {}) => {
   }
 };
 
+
 // set update to true, if you want to use getMedia automagically
-const useMedia = (update = false, ownFiles) => {
+const useMedia = (update = false, ownFiles, tag) => {
   const [picArray, setPicArray] = useState([]);
   const [loading, setLoading] = useState(false);
   const [user] = useContext(MediaContext);
@@ -29,7 +30,7 @@ const useMedia = (update = false, ownFiles) => {
     useEffect(() => {
       try {
         (async () => {
-          const media = await getMedia();
+          const media = await getMedia(tag);
           setPicArray(media);
         })();
       } catch (e) {
@@ -38,10 +39,11 @@ const useMedia = (update = false, ownFiles) => {
     }, []);
   }
 
-  const getMedia = async () => {
+  const getMedia = async (tag) => {
     try {
       setLoading(true);
-      const files = await doFetch(baseUrl + 'tags/' + appIdentifier);
+      const files = await doFetch(baseUrl + 'tags/' + tag);
+      console.log(baseUrl + 'tags/' + tag);
       // console.log(files);
       let allFiles = await Promise.all(files.map(async (item) => {
         return await doFetch(baseUrl + 'media/' + item.file_id);
@@ -107,7 +109,7 @@ const useMedia = (update = false, ownFiles) => {
     try {
       const resp = await doFetch(baseUrl + 'media/'+id, fetchOptions);
       if (resp) {
-        const media = await getMedia();
+        const media = await getMedia(tag);
         setPicArray(media);
       }
     } catch (e) {
@@ -212,7 +214,7 @@ const useLogin = () => {
 };
 
 const useTag = () => {
-  const postTag = async (token, id, tag = appIdentifier) => {
+  const postTag = async (token, id, tag) => {
     const data = {
       file_id: id,
       tag,
