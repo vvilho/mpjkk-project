@@ -244,5 +244,74 @@ const useTag = () => {
   return {postTag, getTag};
 };
 
+const useFavorite = () => {
+  const getFavorite = async (token) => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      return await doFetch(baseUrl + 'favourites', fetchOptions);
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  };
 
-export {useMedia, useUsers, useLogin, useTag};
+  const getFavoriteById = async (token, id) => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      return await doFetch(baseUrl + 'favourites/file/' + id, fetchOptions);
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  };
+
+  const postFavorite = async (token, id) => {
+    const data = {
+      file_id: id,
+    };
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      const resp = await doFetch(baseUrl + 'favourites', fetchOptions);
+      console.log('you liked a post', resp);
+      return resp;
+    } catch (e) {
+      throw new Error('liking failed');
+    }
+  };
+
+  const deleteFavorite = async (token, id) => {
+    const fetchOptions = {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      const resp = await doFetch(baseUrl + 'favourites/file/'+id, fetchOptions);
+      console.log('you didnt like a post', resp);
+      return resp;
+    } catch (e) {
+      throw new Error('delete failed');
+    }
+  };
+
+  return {postFavorite, deleteFavorite, getFavoriteById, getFavorite};
+};
+
+
+export {useMedia, useUsers, useLogin, useTag, useFavorite};

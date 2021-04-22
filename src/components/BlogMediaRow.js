@@ -22,8 +22,9 @@ import {uploadsUrl} from '../utils/variables';
 import {Link as RouterLink} from 'react-router-dom';
 // import {Grid, GridListTileBar, IconButton, makeStyles} from '@material-ui/core';
 import {withRouter} from 'react-router-dom';
-import {useTag, useUsers} from '../hooks/ApiHooks';
-import {useEffect, useState} from 'react';
+import {useTag, useUsers, useFavorite} from '../hooks/ApiHooks';
+import {useEffect, useState, useContext} from 'react';
+import {MediaContext} from '../contexts/MediaContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,6 +74,12 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   const [avatar, setAvatar] = useState('logo512.png');
   const {getUserById} = useUsers();
   const {getTag} = useTag();
+  const {postFavorite} = useFavorite();
+  const {deleteFavorite} = useFavorite();
+  const [fav, setFav] = React.useState(false);
+  const {getFavoriteById} = useFavorite();
+  // const {getFavorite} = useFavorite();
+  const [user] = useContext(MediaContext);
 
   useEffect(() => {
     (async () => {
@@ -85,11 +92,36 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
           const image = result.pop().filename;
           setAvatar(uploadsUrl + image);
         }
+        const result2 = await getFavoriteById(localStorage.getItem('token'), file.file_id);
+        console.log('setFav to', result2);
+        result2.forEach((element) => {
+          if (element.user_id === user.user_id) {
+            setFav(!fav);
+          }
+        });
       } catch (e) {
         console.log(e.message);
       }
     })();
   }, []);
+
+  const handleFav = async () => {
+    if (user) {
+      setFav(!fav);
+      try {
+        if (fav == false) {
+          console.log('add fav');
+          await postFavorite(localStorage.getItem('token'), file.file_id);
+        } else {
+          // or delete it from firestore
+          console.log('delete fav');
+          await deleteFavorite(localStorage.getItem('token'), file.file_id);
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
+  };
 
   let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
   try {
@@ -113,7 +145,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
                 aria-label="avatar"
                 className={classes.avatar}
               >
-              R
+                R
               </Avatar>
             }
           />
@@ -151,10 +183,28 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
       <CardActions>
         <div className={classes.cardBottomNav}>
           <Box display="flex" justifyContent="center">
-            <IconButton aria-label="add to favorites">
-              <ThumbUpIcon />
-              <Typography className={classes.paddingNumber}>3</Typography>
-            </IconButton>
+            {fav &&
+              <IconButton
+                aria-label="remove from favorites"
+                onClick={() => handleFav()}
+              >
+                <ThumbUpIcon color="primary" />
+                <Typography className={classes.paddingNumber}>
+                  3
+                </Typography>
+              </IconButton>
+            }
+            {!fav &&
+              <IconButton
+                aria-label="add to favorites"
+                onClick={() => handleFav()}
+              >
+                <ThumbUpIcon />
+                <Typography className={classes.paddingNumber}>
+                  3
+                </Typography>
+              </IconButton>
+            }
           </Box>
           <Box display="flex" justifyContent="center">
             <Button
