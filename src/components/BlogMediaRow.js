@@ -121,7 +121,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             {file.title}
           </Typography>
           <Typography className={classes.lines}>
-            {owner?.username}
+            {owner?.full_name}
           </Typography>
         </Box>
       </Box>

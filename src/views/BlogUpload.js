@@ -277,7 +277,11 @@ const BlogUpload = ({history}) => {
               <Grid
                 item>
                 <Button
-                  color={'secondary'}
+                  style={dropdownHashtag === 'Materialreuse' ?
+                    {backgroundColor: '#47D37859',
+                      color: '#621BEE'} :
+                    {backgroundColor: '',
+                      color: '#621BEE'}}
                   value={'Materialreuse'}
                   onClick={(e) => {
                     setDropdownHashtag(e.currentTarget.value);
@@ -290,7 +294,11 @@ const BlogUpload = ({history}) => {
               <Grid
                 item>
                 <Button
-                  color={'secondary'}
+                  style={dropdownHashtag === 'Hanfcrafts' ?
+                    {backgroundColor: '#47D37859',
+                      color: '#621BEE'} :
+                    {backgroundColor: '',
+                      color: '#621BEE'}}
                   value={'Hanfcrafts'}
                   onClick={(e) => {
                     setDropdownHashtag(e.currentTarget.value);
@@ -302,7 +310,11 @@ const BlogUpload = ({history}) => {
               <Grid
                 item>
                 <Button
-                  color={'secondary'}
+                  style={dropdownHashtag === 'FreeWord' ?
+                    {backgroundColor: '#47D37859',
+                      color: '#621BEE'} :
+                    {backgroundColor: '',
+                      color: '#621BEE'}}
                   value={'FreeWord'}
                   onClick={(e) => {
                     setDropdownHashtag(e.currentTarget.value);
@@ -314,7 +326,11 @@ const BlogUpload = ({history}) => {
               <Grid
                 item>
                 <Button
-                  color={'secondary'}
+                  style={dropdownHashtag === 'Cooking' ?
+                    {backgroundColor: '#47D37859',
+                      color: '#621BEE'} :
+                    {backgroundColor: '',
+                      color: '#621BEE'}}
                   value={'Cooking'}
                   onClick={(e) => {
                     setDropdownHashtag(e.currentTarget.value);
@@ -326,7 +342,11 @@ const BlogUpload = ({history}) => {
               <Grid
                 item>
                 <Button
-                  color={'secondary'}
+                  style={dropdownHashtag === 'Health' ?
+                    {backgroundColor: '#47D37859',
+                      color: '#621BEE'} :
+                    {backgroundColor: '',
+                      color: '#621BEE'}}
                   value={'Health'}
                   onClick={(e) => {
                     setDropdownHashtag(e.currentTarget.value);
@@ -338,8 +358,12 @@ const BlogUpload = ({history}) => {
               <Grid
                 item>
                 <Button
-                  color={'secondary'}
                   value={'Energy'}
+                  style={dropdownHashtag === 'Energy' ?
+                    {backgroundColor: '#47D37859',
+                      color: '#621BEE'} :
+                    {backgroundColor: '',
+                      color: '#621BEE'}}
                   onClick={(e) => {
                     setDropdownHashtag(e.currentTarget.value);
                   }}
@@ -348,17 +372,6 @@ const BlogUpload = ({history}) => {
                 </Button>
               </Grid>
             </Grid>
-            <Typography
-              color={'primary'}
-              style={{
-                padding: '10px',
-                width: '130px',
-                textAlign: 'center',
-                border: 'solid 1px',
-              }}
-            >
-              {'#'+dropdownHashtag}
-            </Typography>
             <Grid
               container
               justify={'center'}

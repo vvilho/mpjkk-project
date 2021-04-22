@@ -119,7 +119,7 @@ const useMedia = (update = false, ownFiles, tag) => {
     }
   };
 
-  return {getMedia, postMedia, putMedia, deleteMedia, loading, picArray};
+  return {getMedia, postMedia, putMedia, deleteMedia, loading, picArray, setPicArray};
 };
 
 const useUsers = () => {

@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import AddIcon from '@material-ui/icons/Add';
-import {useContext, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -51,9 +51,19 @@ const BlogMediaTable = ({ownFiles}) => {
   const [hashtagCategory, setHashtagCategory] =
     useState('EnvironmetalIdealist_blog');
 
-  const {picArray, loading, deleteMedia} =
+  const {picArray, loading, deleteMedia, setPicArray, getMedia} =
     useMedia(true, ownFiles, hashtagCategory);
 
+  useEffect(() => {
+    try {
+      (async () => {
+        const media = await getMedia(hashtagCategory);
+        setPicArray(media);
+      })();
+    } catch (e) {
+      alert(e.message);
+    }
+  }, [hashtagCategory]);
 
   console.log(picArray);
   return (
@@ -65,7 +75,30 @@ const BlogMediaTable = ({ownFiles}) => {
         <Grid
           item>
           <Button
-            color={'secondary'}
+            style={hashtagCategory ===
+            'EnvironmetalIdealist_blog' ?
+              {backgroundColor: '#47D37859',
+                color: '#621BEE'} :
+              {backgroundColor: '',
+                color: '#621BEE'}}
+            value={'EnvironmetalIdealist_blog'}
+            onClick={(e)=>{
+              setHashtagCategory(e.currentTarget.value);
+              console.log(e.target);
+            }}
+          >
+            All posts
+          </Button>
+        </Grid>
+        <Grid
+          item>
+          <Button
+            style={hashtagCategory ===
+            'EnvironmetalIdealist_blogMaterialreuse' ?
+              {backgroundColor: '#47D37859',
+                color: '#621BEE'} :
+              {backgroundColor: '',
+                color: '#621BEE'}}
             value={'EnvironmetalIdealist_blogMaterialreuse'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
@@ -78,7 +111,12 @@ const BlogMediaTable = ({ownFiles}) => {
         <Grid
           item>
           <Button
-            color={'secondary'}
+            style={hashtagCategory ===
+            'EnvironmetalIdealist_blogHanfcrafts' ?
+              {backgroundColor: '#47D37859',
+                color: '#621BEE'} :
+              {backgroundColor: '',
+                color: '#621BEE'}}
             value={'EnvironmetalIdealist_blogHanfcrafts'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
@@ -91,7 +129,12 @@ const BlogMediaTable = ({ownFiles}) => {
         <Grid
           item>
           <Button
-            color={'secondary'}
+            style={hashtagCategory ===
+            'EnvironmetalIdealist_blogFreeWord' ?
+              {backgroundColor: '#47D37859',
+                color: '#621BEE'} :
+              {backgroundColor: '',
+                color: '#621BEE'}}
             value={'EnvironmetalIdealist_blogFreeWord'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
@@ -104,7 +147,12 @@ const BlogMediaTable = ({ownFiles}) => {
         <Grid
           item>
           <Button
-            color={'secondary'}
+            style={hashtagCategory ===
+            'EnvironmetalIdealist_blogCooking' ?
+              {backgroundColor: '#47D37859',
+                color: '#621BEE'} :
+              {backgroundColor: '',
+                color: '#621BEE'}}
             value={'EnvironmetalIdealist_blogCooking'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
@@ -117,7 +165,12 @@ const BlogMediaTable = ({ownFiles}) => {
         <Grid
           item>
           <Button
-            color={'secondary'}
+            style={hashtagCategory ===
+            'EnvironmetalIdealist_blogHealth' ?
+              {backgroundColor: '#47D37859',
+                color: '#621BEE'} :
+              {backgroundColor: '',
+                color: '#621BEE'}}
             value={'EnvironmetalIdealist_blogHealth'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
@@ -130,7 +183,12 @@ const BlogMediaTable = ({ownFiles}) => {
         <Grid
           item>
           <Button
-            color={'secondary'}
+            style={hashtagCategory ===
+            'EnvironmetalIdealist_blogEnergy' ?
+              {backgroundColor: '#47D37859',
+                color: '#621BEE'} :
+              {backgroundColor: '',
+                color: '#621BEE'}}
             value={'EnvironmetalIdealist_blogEnergy'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
@@ -156,7 +214,7 @@ const BlogMediaTable = ({ownFiles}) => {
           </ListSubheader>
         </GridListTile>
         {!loading ?
-          picArray.map((item) =>
+          picArray.slice(0).reverse().map((item) =>
             <GridListTile key={item.file_id}>
               <BlogMediaRow
                 file={item}
