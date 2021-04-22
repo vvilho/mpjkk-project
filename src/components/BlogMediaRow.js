@@ -81,7 +81,6 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         const result = await getTag('avatar_' + file.user_id);
         if (result.length > 0) {
           const image = result.pop().filename;
-          console.log(image);
           setAvatar(uploadsUrl + image);
         }
         const result2 = await getFavoriteById(localStorage.getItem('token'), file.file_id);
@@ -146,7 +145,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             {file.title}
           </Typography>
           <Typography className={classes.lines}>
-            {file.user_id}
+            {desc.owner}
           </Typography>
         </Box>
       </Box>
@@ -175,26 +174,26 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         <div className={classes.cardBottomNav}>
           <Box display="flex" justifyContent="center">
             {fav &&
-              <IconButton
-                aria-label="remove from favorites"
-                onClick={() => handleFav()}
-              >
-                <ThumbUpIcon color="primary" />
-                <Typography className={classes.paddingNumber}>
-                  3
-                </Typography>
-              </IconButton>
+            <IconButton
+              aria-label="remove from favorites"
+              onClick={() => handleFav()}
+            >
+              <ThumbUpIcon color="primary" />
+              <Typography className={classes.paddingNumber}>
+                3
+              </Typography>
+            </IconButton>
             }
             {!fav &&
-              <IconButton
-                aria-label="add to favorites"
-                onClick={() => handleFav()}
-              >
-                <ThumbUpIcon />
-                <Typography className={classes.paddingNumber}>
-                  3
-                </Typography>
-              </IconButton>
+            <IconButton
+              aria-label="add to favorites"
+              onClick={() => handleFav()}
+            >
+              <ThumbUpIcon />
+              <Typography className={classes.paddingNumber}>
+                3
+              </Typography>
+            </IconButton>
             }
           </Box>
           <Box display="flex" justifyContent="center">

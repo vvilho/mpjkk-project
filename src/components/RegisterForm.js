@@ -11,29 +11,41 @@ const RegisterForm = ({setToggle}) => {
   const validators = {
     first_name: ['required', 'minStringLength: 3'],
     last_name: ['required', 'minStringLength: 3'],
+    email: ['required', 'isAvailable', 'isEmail'],
     password: ['required', 'minStringLength:5'],
     confirm: ['required', 'isPasswordMatch'],
-    email: ['required', 'isAvailable', 'isEmail'],
-    // eslint-disable-next-line max-len
+
   };
 
   const errorMessages = {
     first_name: ['vaadittu kenttä', 'vähintään 3 merkkiä'],
     last_name: ['vaadittu kenttä', 'vähintään 3 merkkiä'],
-    password: ['vaadittu kenttä', 'vähintään 5 merkkiä'],
-    confirm: ['vaadittu kenttä', 'salasanat eivät täsmää'],
     email: ['vaadittu kenttä', 'tunnus ei ole vapaa',
       'sähköposti väärää muotoa'],
+    password: ['vaadittu kenttä', 'vähintään 5 merkkiä'],
+    confirm: ['vaadittu kenttä', 'salasanat eivät täsmää'],
+
   };
 
   const doRegister = async () => {
     try {
       console.log('rekisteröinti lomake lähtee');
-      const available = await getUserAvailable(inputs.username);
+      const available = await getUserAvailable(inputs.email);
       console.log('availabale', available);
       if (available) {
         delete inputs.confirm;
-        const result = await register(inputs);
+        const data = {
+          username: inputs.email,
+          password: inputs.password,
+          confirm: inputs.confirm,
+          email: inputs.email,
+          full_name: {
+            first_name: inputs.first_name,
+            last_name: inputs.last_name,
+          },
+        };
+        console.log(data, JSON.stringify(data));
+        const result = await register(data);
         if (result.message.length > 0) {
           alert(result.message);
           setToggle(true);
@@ -45,11 +57,11 @@ const RegisterForm = ({setToggle}) => {
   };
 
   const {inputs, handleInputChange, handleSubmit} = useForm(doRegister, {
-    username: '',
+    first_name: '',
+    last_name: '',
     password: '',
     confirm: '',
     email: '',
-    full_name: '',
   });
 
   useEffect(()=>{

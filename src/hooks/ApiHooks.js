@@ -123,18 +123,20 @@ const useMedia = (update = false, ownFiles, tag) => {
 };
 
 const useUsers = () => {
-  const register = async (inputs) => {
+  const register = async (data) => {
+    console.log(data);
     const fetchOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(inputs),
+      body: JSON.stringify(data),
     };
     try {
+      console.log(fetchOptions);
       return await doFetch(baseUrl + 'users', fetchOptions);
     } catch (e) {
-      alert(e.message);
+      alert('ApiHooks register: '+ e.message);
     }
   };
 

@@ -2,6 +2,7 @@
 import useForm from '../hooks/FormHooks';
 import {appIdentifier} from '../utils/variables';
 import {useMedia, useTag} from '../hooks/ApiHooks';
+import {MediaContext} from '../contexts/MediaContext';
 import {
   CircularProgress,
   Button,
@@ -13,7 +14,7 @@ import {
 
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import BackButton from '../components/BackButton';
 import {EmojiNature} from '@material-ui/icons';
@@ -47,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 const BlogUpload = ({history}) => {
   const {postMedia, loading} = useMedia();
   const {postTag} = useTag();
+  const [user] = useContext(MediaContext);
   const classes = useStyles();
   const [dropdownHashtag, setDropdownHashtag] = useState('Materialreuse');
   const validators = {
@@ -69,6 +71,7 @@ const BlogUpload = ({history}) => {
       const desc = {
         description: inputs.description,
         hashtag: dropdownHashtag,
+        owner: user.full_name,
       };
       fd.append('description', JSON.stringify(desc));
       fd.append('file', inputs.file);
