@@ -110,8 +110,12 @@ const Profile = () => {
               className={classes.paperMargin}>
               <Box className={classes.avatarStyle}>
                 <List>
-                  <ListItem>
-                    <ListItemAvatar className={classes.avatarStyle}>
+                  <ListItem
+                    alignItems={'center'}
+                  >
+                    <ListItemAvatar
+                      className={classes.avatarStyle}
+                    >
                       <Avatar variant={'circle'} src={avatar} />
                     </ListItemAvatar>
                   </ListItem>
@@ -120,7 +124,7 @@ const Profile = () => {
                       component="h4"
                       variant="h8"
                     >
-                      {user.full_name}
+                      {user.first_name + ' ' + user.last_name}
                     </Typography>
                   </ListItem>
                 </List>
