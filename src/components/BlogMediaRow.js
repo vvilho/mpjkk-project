@@ -10,7 +10,6 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import {red} from '@material-ui/core/colors';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -44,9 +43,6 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
   title: {
     fontSize: 20,
     fontWeight: 700,
@@ -71,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   const classes = useStyles();
   const [owner, setOwner] = useState(null);
-  const [avatar, setAvatar] = useState('logo512.png');
+  const [avatar, setAvatar] = useState();
   const {getUserById} = useUsers();
   const {getTag} = useTag();
   const {postFavorite} = useFavorite();
@@ -90,11 +86,21 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         setOwner(
             await getUserById(localStorage.getItem('token'), file.user_id),
         );
+      } catch (e) {
+        console.log(e.message);
+      }
+
+      try {
         const result = await getTag('avatar_' + file.user_id);
         if (result.length > 0) {
           const image = result.pop().filename;
           setAvatar(uploadsUrl + image);
         }
+      } catch (e) {
+        console.log(e.message);
+      }
+
+      try {
         const result2 = await getFavoriteById(localStorage.getItem('token'), file.file_id);
         console.log('setFav to', result2);
         result2.forEach((element) => {
@@ -107,6 +113,11 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             setLikes();
           }
         });
+      } catch (e) {
+        console.log(e.message);
+      }
+
+      try {
         const result3 = await getCommentById(file.file_id);
         console.log('amount of comments', result3.length);
         setComments(result3.length);

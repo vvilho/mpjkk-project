@@ -40,7 +40,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Single = ({location}) => {
+const BlogSingle = ({location}) => {
   const [owner, setOwner] = useState(null);
   const [avatar, setAvatar] = useState('logo512.png');
   const classes = useStyles();
@@ -215,8 +215,8 @@ const Single = ({location}) => {
   );
 };
 
-Single.propTypes = {
+BlogSingle.propTypes = {
   location: PropTypes.object,
 };
 
-export default Single;
+export default BlogSingle;
