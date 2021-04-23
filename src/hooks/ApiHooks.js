@@ -317,5 +317,55 @@ const useFavorite = () => {
   return {postFavorite, deleteFavorite, getFavoriteById, getFavorite};
 };
 
+const useComments = () => {
+  const getCommentById = async (id) => {
+    try {
+      return await doFetch(baseUrl + 'comments/file/' + id);
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  };
 
-export {useMedia, useUsers, useLogin, useTag, useFavorite};
+  const postComment = async (token, id) => {
+    const data = {
+      file_id: id,
+      comment,
+    };
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      const resp = await doFetch(baseUrl + 'comments', fetchOptions);
+      console.log('you liked a post', resp);
+      return resp;
+    } catch (e) {
+      throw new Error('liking failed');
+    }
+  };
+
+  const deleteComment = async (token, id) => {
+    const fetchOptions = {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      const resp = await doFetch(baseUrl + 'comments/'+id, fetchOptions);
+      console.log('you didnt like a post', resp);
+      return resp;
+    } catch (e) {
+      throw new Error('delete failed');
+    }
+  };
+
+  return {getCommentById, postComment, deleteComment};
+};
+
+
+export {useMedia, useUsers, useLogin, useTag, useFavorite, useComments};

@@ -8,6 +8,7 @@ import {withRouter} from 'react-router-dom';
 const BackButton = ({history}) => {
   return (
     <Button
+      color="secondary"
       startIcon={<ArrowBackIcon/>}
       onClick={() => {
         history.goBack();
