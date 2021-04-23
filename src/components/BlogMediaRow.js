@@ -288,3 +288,4 @@ BlogMediaRow.propTypes = {
 };
 
 export default withRouter(BlogMediaRow);
+

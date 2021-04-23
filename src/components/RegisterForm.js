@@ -1,6 +1,6 @@
 import useForm from '../hooks/FormHooks';
 import {useUsers} from '../hooks/ApiHooks';
-import {Grid, Typography, Button} from '@material-ui/core';
+import {Grid, Typography, Button, FormControl} from '@material-ui/core';
 // import {useState} from 'react';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import {useEffect} from 'react';
@@ -9,30 +9,43 @@ import PropTypes from 'prop-types';
 const RegisterForm = ({setToggle}) => {
   const {register, getUserAvailable} = useUsers();
   const validators = {
-    username: ['required', 'minStringLength: 3', 'isAvailable'],
+    first_name: ['required', 'minStringLength: 3'],
+    last_name: ['required', 'minStringLength: 3'],
+    email: ['required', 'isAvailable', 'isEmail'],
     password: ['required', 'minStringLength:5'],
     confirm: ['required', 'isPasswordMatch'],
-    email: ['required', 'isEmail'],
-    // eslint-disable-next-line max-len
-    full_name: ['matchRegexp:^[a-zA-ZåäöÅÄÖ]+(([\',. -][a-zA-ZåäöÅÄÖ ])?[a-zA-ZåäöÅÄÖ]*)*$'],
+
   };
 
   const errorMessages = {
-    username: ['vaadittu kenttä', 'vähintään 3 merkkiä', 'tunnus ei oo vapaa'],
+    first_name: ['vaadittu kenttä', 'vähintään 3 merkkiä'],
+    last_name: ['vaadittu kenttä', 'vähintään 3 merkkiä'],
+    email: ['vaadittu kenttä', 'tunnus ei ole vapaa',
+      'sähköposti väärää muotoa'],
     password: ['vaadittu kenttä', 'vähintään 5 merkkiä'],
     confirm: ['vaadittu kenttä', 'salasanat eivät täsmää'],
-    email: ['vaadittu kenttä', 'sähköposti väärää muotoa'],
-    full_name: ['vain kirjamia siis hei pliis jooko'],
+
   };
 
   const doRegister = async () => {
     try {
       console.log('rekisteröinti lomake lähtee');
-      const available = await getUserAvailable(inputs.username);
+      const available = await getUserAvailable(inputs.email);
       console.log('availabale', available);
       if (available) {
         delete inputs.confirm;
-        const result = await register(inputs);
+        const data = {
+          username: inputs.email,
+          password: inputs.password,
+          confirm: inputs.confirm,
+          email: inputs.email,
+          full_name: {
+            first_name: inputs.first_name,
+            last_name: inputs.last_name,
+          },
+        };
+        console.log(data, JSON.stringify(data));
+        const result = await register(data);
         if (result.message.length > 0) {
           alert(result.message);
           setToggle(true);
@@ -44,11 +57,11 @@ const RegisterForm = ({setToggle}) => {
   };
 
   const {inputs, handleInputChange, handleSubmit} = useForm(doRegister, {
-    username: '',
+    first_name: '',
+    last_name: '',
     password: '',
     confirm: '',
     email: '',
-    full_name: '',
   });
 
   useEffect(()=>{
@@ -82,72 +95,96 @@ const RegisterForm = ({setToggle}) => {
           gutterBottom>Register</Typography>
       </Grid>
       <Grid item xs={12}>
-        <ValidatorForm onSubmit={handleSubmit}>
+        <ValidatorForm
+          onSubmit={handleSubmit}
+        >
           <Grid container>
+
             <Grid container item>
-              <TextValidator
+              <FormControl
                 fullWidth
-                type="text"
-                name="username"
-                label="Username"
-                onChange={handleInputChange}
-                value={inputs.username}
-                validators={validators.username}
-                errorMessages={errorMessages.username}
-              />
+              >
+                <TextValidator
+                  fullWidth
+                  type="text"
+                  name="first_name"
+                  label="First name"
+                  onChange={handleInputChange}
+                  value={inputs.first_name}
+                  validators={validators.first_name}
+                  errorMessages={errorMessages.first_name}
+                />
+              </FormControl>
             </Grid>
 
             <Grid container item>
-              <TextValidator
+              <FormControl
                 fullWidth
-                type="password"
-                name="password"
-                label="Password"
-                onChange={handleInputChange}
-                value={inputs.password}
-                validators={validators.password}
-                errorMessages={errorMessages.password}
-              />
+              >
+                <TextValidator
+                  fullWidth
+                  type="text"
+                  name="last_name"
+                  label="Last name"
+                  onChange={handleInputChange}
+                  value={inputs.last_name}
+                  validators={validators.last_name}
+                  errorMessages={errorMessages.last_name}
+                />
+              </FormControl>
             </Grid>
 
             <Grid container item>
-              <TextValidator
+              <FormControl
                 fullWidth
-                type="password"
-                name="confirm"
-                label="Confirm password"
-                onChange={handleInputChange}
-                value={inputs.confirm}
-                validators={validators.confirm}
-                errorMessages={errorMessages.confirm}
-              />
+              >
+                <TextValidator
+                  fullWidth
+                  type="email"
+                  name="email"
+                  label="Email / Username"
+                  onChange={handleInputChange}
+                  value={inputs.email}
+                  validators={validators.email}
+                  errorMessages={errorMessages.email}
+                />
+              </FormControl>
             </Grid>
 
             <Grid container item>
-              <TextValidator
+              <FormControl
                 fullWidth
-                type="email"
-                name="email"
-                label="Email"
-                onChange={handleInputChange}
-                value={inputs.email}
-                validators={validators.email}
-                errorMessages={errorMessages.email}
-              />
+              >
+                <TextValidator
+                  fullWidth
+                  type="password"
+                  name="password"
+                  label="Password"
+                  onChange={handleInputChange}
+                  value={inputs.password}
+                  validators={validators.password}
+                  errorMessages={errorMessages.password}
+                />
+              </FormControl>
             </Grid>
 
             <Grid container item>
-              <TextValidator
+              <FormControl
                 fullWidth
-                type="text"
-                name="full_name"
-                label="Full name"
-                onChange={handleInputChange}
-                value={inputs.full_name}
-                validators={validators.full_name}
-                errorMessages={errorMessages.full_name}
-              />
+              >
+                <TextValidator
+                  fullWidth
+                  type="password"
+                  name="confirm"
+                  label="Confirm password"
+                  onChange={handleInputChange}
+                  value={inputs.confirm}
+                  validators={validators.confirm}
+                  errorMessages={errorMessages.confirm}
+                />
+              </FormControl>
             </Grid>
+
 
             <Grid container item>
               <Button fullWidth
