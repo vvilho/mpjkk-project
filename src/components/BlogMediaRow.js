@@ -101,17 +101,16 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
       }
 
       try {
-        const result2 = await getFavoriteById(localStorage.getItem('token'), file.file_id);
+        const result2 = await getFavoriteById(file.file_id);
         console.log('setFav to', result2);
         result2.forEach((element) => {
-          if (element.user_id === user.user_id) {
-            setFav(!fav);
+          if (user) {
+            if (element.user_id === user.user_id) {
+              setFav(!fav);
+            }
           }
-          if (result2.length > 0) {
-            setLikes(result2.length);
-          } else {
-            setLikes();
-          }
+          setLikes(result2.length);
+          console.log('amount of likes result2', result2.length);
         });
       } catch (e) {
         console.log(e.message);
@@ -119,7 +118,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
 
       try {
         const result3 = await getCommentById(file.file_id);
-        console.log('amount of comments', result3.length);
+        console.log('amount of comments result3', result3.length);
         setComments(result3.length);
       } catch (e) {
         console.log(e.message);
@@ -129,13 +128,9 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
 
   const likingsAmount = async () => {
     try {
-      const result2 = await getFavoriteById(localStorage.getItem('token'), file.file_id);
-      console.log(result2.length);
-      if (result2.length > 0) {
-        setLikes(result2.length);
-      } else {
-        setLikes();
-      }
+      const result2 = await getFavoriteById(file.file_id);
+      console.log('result2 length', result2.length);
+      setLikes(result2.length);
     } catch (e) {
       console.log(e.message);
     }

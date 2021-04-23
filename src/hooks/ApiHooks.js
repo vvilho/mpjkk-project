@@ -123,20 +123,18 @@ const useMedia = (update = false, ownFiles, tag) => {
 };
 
 const useUsers = () => {
-  const register = async (data) => {
-    console.log(data);
+  const register = async (inputs) => {
     const fetchOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(inputs),
     };
     try {
-      console.log(fetchOptions);
       return await doFetch(baseUrl + 'users', fetchOptions);
     } catch (e) {
-      alert('ApiHooks register: '+ e.message);
+      alert(e.message);
     }
   };
 
@@ -263,15 +261,9 @@ const useFavorite = () => {
     }
   };
 
-  const getFavoriteById = async (token, id) => {
-    const fetchOptions = {
-      method: 'GET',
-      headers: {
-        'x-access-token': token,
-      },
-    };
+  const getFavoriteById = async (id) => {
     try {
-      return await doFetch(baseUrl + 'favourites/file/' + id, fetchOptions);
+      return await doFetch(baseUrl + 'favourites/file/' + id);
     } catch (e) {
       throw new Error(e.message);
     }

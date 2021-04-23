@@ -42,7 +42,7 @@ const useStyles = makeStyles({
 
 const BlogSingle = ({location}) => {
   const [owner, setOwner] = useState(null);
-  const [avatar, setAvatar] = useState('logo512.png');
+  const [avatar, setAvatar] = useState();
   const classes = useStyles();
   const {getUserById} = useUsers();
   const {getTag} = useTag();
@@ -71,28 +71,39 @@ const BlogSingle = ({location}) => {
         setOwner(
             await getUserById(localStorage.getItem('token'), file.user_id),
         );
+      } catch (e) {
+        console.log(e.message);
+      }
+
+      try {
         const result = await getTag('avatar_' + file.user_id);
         if (result.length > 0) {
           const image = result.pop().filename;
           setAvatar(uploadsUrl + image);
         }
-        const result2 = await getFavoriteById(localStorage.getItem('token'), file.file_id);
+      } catch (e) {
+        console.log(e.message);
+      }
+
+      try {
+        const result2 = await getFavoriteById(file.file_id);
         console.log('setFav to', result2);
         result2.forEach((element) => {
-          if (element.user_id === user.user_id) {
-            setFav(!fav);
-            console.log('set fav icon to green', user.user_id);
+          if (user) {
+            if (element.user_id === user.user_id) {
+              setFav(!fav);
+            }
           }
-          if (result2.length > 0) {
-            setLikes(result2.length);
-          } else {
-            setLikes();
-          }
+          setLikes(result2.length);
         });
+      } catch (e) {
+        console.log(e.message);
+      }
+
+      try {
         const result3 = await getCommentById(file.file_id);
         console.log('amount of comments', result3.length);
         setComments(result3.length);
-        console.log('liked array lenght', result2.length);
       } catch (e) {
         console.log(e.message);
       }
@@ -101,13 +112,9 @@ const BlogSingle = ({location}) => {
 
   const likingsAmount = async () => {
     try {
-      const result2 = await getFavoriteById(localStorage.getItem('token'), file.file_id);
+      const result2 = await getFavoriteById(file.file_id);
       console.log(result2.length);
-      if (result2.length > 0) {
-        setLikes(result2.length);
-      } else {
-        setLikes();
-      }
+      setLikes(result2.length);
     } catch (e) {
       console.log(e.message);
     }
