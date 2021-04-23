@@ -11,7 +11,6 @@ import {
   Typography,
 } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
-import EmailIcon from '@material-ui/icons/Email';
 import BackButton from '../components/BackButton';
 import {Link as RouterLink} from 'react-router-dom';
 import ProfileForm from '../components/ProfileForm';
@@ -61,15 +60,10 @@ const Profile = () => {
               </ListItem>
               <ListItem>
                 <ListItemIcon>
-                  <EmailIcon />
-                </ListItemIcon>
-                <ListItemText primary={user.email} />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
                   <PersonIcon />
                 </ListItemIcon>
-                <ListItemText primary={user.full_name} />
+                <ListItemText primary=
+                  {user.first_name + ' ' + user.last_name} />
               </ListItem>
               <ListItem component={RouterLink} to="/myfiles">
                 <ListItemIcon>

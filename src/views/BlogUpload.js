@@ -71,7 +71,7 @@ const BlogUpload = ({history}) => {
       const desc = {
         description: inputs.description,
         hashtag: dropdownHashtag,
-        owner: user.full_name,
+        owner: JSON.parse(user.full_name).first_name,
       };
       fd.append('description', JSON.stringify(desc));
       fd.append('file', inputs.file);

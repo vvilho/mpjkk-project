@@ -6,8 +6,8 @@ import {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import useForm from '../hooks/FormHooks';
 
-const ProfileForm = ({user, setUser, setUpdate}) => {
-  const {putUser, getUser} = useUsers();
+const ProfileForm = ({user, setUpdate}) => {
+  const {putUser} = useUsers();
   const {postMedia} = useMedia();
   const {postTag} = useTag();
 
@@ -15,13 +15,15 @@ const ProfileForm = ({user, setUser, setUpdate}) => {
     confirm: ['isPasswordMatch'],
     email: ['required', 'isEmail'],
     // eslint-disable-next-line max-len
-    full_name: ['matchRegexp:^[a-zA-ZåäöÅÄÖ]+(([\',. -][a-zA-ZåäöÅÄÖ ])?[a-zA-ZåäöÅÄÖ]*)*$'],
+    first_name: ['minStringLength: 3'],
+    last_name: ['minStringLength: 3'],
   };
 
   const errorMessages = {
     confirm: ['salasanat eivät täsmää'],
     email: ['vaadittu kenttä', 'sähköposti väärää muotoa'],
-    full_name: ['vain kirjamia siis hei pliis jooko'],
+    first_name: ['vähintään 3 merkkiä'],
+    last_name: ['vähintään 3 merkkiä'],
   };
 
   const doRegister = async () => {
@@ -29,7 +31,7 @@ const ProfileForm = ({user, setUser, setUpdate}) => {
       console.log('user muokkaus lomake lähtee');
       if (inputs.file) {
         const fd = new FormData();
-        fd.append('title', inputs.username);
+        fd.append('title', inputs.email);
         fd.append('file', inputs.file);
         const fileResult = await postMedia(fd, localStorage.getItem('token'));
         const tagResult = await postTag(
@@ -45,12 +47,24 @@ const ProfileForm = ({user, setUser, setUpdate}) => {
       }
       delete inputs.confirm;
       delete inputs.file;
-      const result = await putUser(inputs, localStorage.getItem('token'));
+      console.log(inputs);
+      const data = {
+        password: inputs.password,
+      };
+      console.log(data, inputs);
+      const result = await putUser(data, localStorage.getItem('token'));
       console.log('doUpload', result);
       if (result) {
         alert(result.message);
-        const userData = await getUser(localStorage.getItem('token'));
-        setUser(userData);
+        // const userdata = await getUser(localStorage.getItem('token'));
+        // setUser({
+        //   email: userdata.user.email,
+        //   full_name: userdata.user.full_name,
+        //   first_name: JSON.parse(userdata.user.full_name).first_name,
+        //   last_name: JSON.parse(userdata.user.full_name).last_name,
+        //   user_id: userdata.user.user_id,
+        //   username: userdata.user.username,
+        // });
         // reset form (password and confirm)
         setInputs((inputs) => ({
           ...inputs,
@@ -65,6 +79,7 @@ const ProfileForm = ({user, setUser, setUpdate}) => {
 
   const {inputs, setInputs, handleInputChange, handleSubmit, handleFileChange} =
     useForm(doRegister, user);
+  console.log(user);
 
   useEffect(() => {
     ValidatorForm.addValidationRule('isPasswordMatch',
@@ -113,31 +128,6 @@ const ProfileForm = ({user, setUser, setUpdate}) => {
               />
             </Grid>
 
-            <Grid item xs={12}>
-              <TextValidator
-                fullWidth
-                type="email"
-                name="email"
-                label="Email"
-                onChange={handleInputChange}
-                value={inputs?.email}
-                validators={validators.email}
-                errorMessages={errorMessages.email}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextValidator
-                fullWidth
-                type="text"
-                name="full_name"
-                label="Full name"
-                onChange={handleInputChange}
-                value={inputs?.full_name}
-                validators={validators.full_name}
-                errorMessages={errorMessages.full_name}
-              />
-            </Grid>
 
             <Grid item xs={12}>
               <TextValidator

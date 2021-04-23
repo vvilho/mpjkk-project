@@ -1,9 +1,10 @@
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
-import {Button} from '@material-ui/core';
+import PropTypes from 'prop-types';
+import {Button, Grid} from '@material-ui/core';
 import {useState} from 'react';
 
-const Login = () => {
+const Login = ({setModalOpen, setOpen}) => {
   const [toggle, setToggle] = useState(true);
 
   const showHide = () => {
@@ -11,11 +12,39 @@ const Login = () => {
   };
 
   return (
-    <>
-      { toggle ? <LoginForm/> : <RegisterForm setToggle={setToggle}/> }
-      <Button onClick={showHide}>{toggle ? 'or register' : 'or login'}</Button>
-    </>
+
+    <Grid
+      xs={12}
+      container
+      direction={'column'}
+      spacing={0}
+      justify={'center'}
+      alignItems={'center'}
+      alignContent={'center'}
+
+    >
+      <Grid
+        item
+
+      >
+
+        { toggle ?
+          <LoginForm setModalOpen={setModalOpen} setOpen={setOpen}/> :
+          <RegisterForm setToggle={setToggle}/> }
+        <Button onClick={showHide}>{toggle ?
+            'or register' :
+            'or login'}</Button>
+
+
+      </Grid>
+
+    </Grid>
+
+
   );
 };
-
+Login.propTypes = {
+  setModalOpen: PropTypes.func,
+  setOpen: PropTypes.func,
+};
 export default Login;

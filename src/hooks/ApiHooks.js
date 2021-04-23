@@ -152,7 +152,7 @@ const useUsers = () => {
     try {
       return await doFetch(baseUrl + 'users', fetchOptions);
     } catch (e) {
-      alert(e.message);
+      alert('putUser: ', e.message);
     }
   };
 

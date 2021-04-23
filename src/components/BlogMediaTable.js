@@ -4,6 +4,7 @@ import BlogMediaRow from './BlogMediaRow';
 import {MediaContext} from '../contexts/MediaContext';
 
 import {useMedia} from '../hooks/ApiHooks';
+
 import {
   CircularProgress,
   GridList,
@@ -41,9 +42,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const BlogMediaTable = ({ownFiles}) => {
+const BlogMediaTable = ({ownFiles, history}) => {
   const [user] = useContext(MediaContext);
-  console.log(user);
 
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:697px)');
@@ -65,7 +65,6 @@ const BlogMediaTable = ({ownFiles}) => {
     }
   }, [hashtagCategory]);
 
-  console.log(picArray);
   return (
     <div className={classes.root}>
       <Grid
@@ -202,7 +201,7 @@ const BlogMediaTable = ({ownFiles}) => {
       <GridList
         cellHeight={500}
         className={classes.gridList}
-        cols={matches ? 3 : 2}
+        cols={matches ? 3 : 1}
 
       >
         <GridListTile key="Subheader" cols={3} style={{height: 'auto'}}>
@@ -228,37 +227,35 @@ const BlogMediaTable = ({ownFiles}) => {
         }
       </GridList>
 
-      {user ?
-        <Fab
-          color="primary"
-          aria-label="add"
-          size={'large'}
-          className={classes.fab}
-          component={RouterLink}
-          to={'/blogUpload'}
-        >
-          <AddIcon />
-        </Fab> :
-        <Fab
-          color="primary"
-          aria-label="add"
-          size={'large'}
-          className={classes.fab}
-          component={RouterLink}
-          onClick={()=>{
-            alert('log in first');
+
+      <Fab
+        color="primary"
+        aria-label="add"
+        size={'large'}
+        className={classes.fab}
+        component={RouterLink}
+        onClick={
+          () => {
+            if (user) {
+              history.push('/blogupload');
+            } else {
+              alert('Login first');
+            }
           }
-          }
-        >
-          <AddIcon />
-        </Fab>
-      }
+
+        }
+      >
+        <AddIcon />
+      </Fab>
+
+
     </div>
   );
 };
 
 BlogMediaTable.propTypes = {
   ownFiles: PropTypes.bool,
+  history: PropTypes.object,
 };
 
 export default withRouter(BlogMediaTable);
