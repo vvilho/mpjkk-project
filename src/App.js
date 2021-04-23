@@ -8,7 +8,7 @@ import Logout from './views/Logout';
 import BlogUpload from './views/BlogUpload';
 import {MediaProvider} from './contexts/MediaContext';
 import {Container} from '@material-ui/core';
-import MyFiles from './views/MyFiles';
+import MyBlogPosts from './views/MyBlogPosts';
 import Modify from './views/Modify';
 
 const App = () => {
@@ -25,7 +25,7 @@ const App = () => {
               <Route path="/blogsingle" component={BlogSingle}/>
               <Route path="/logout" component={Logout}/>
               <Route path="/blogupload" component={BlogUpload}/>
-              <Route path="/myfiles" component={MyFiles}/>
+              <Route path="/myblogposts" component={MyBlogPosts}/>
               <Route path="/modify" component={Modify}/>
             </Switch>
           </main>

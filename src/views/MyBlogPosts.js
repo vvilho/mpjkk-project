@@ -1,4 +1,4 @@
-import MediaTable from '../components/MediaTable';
+import BlogMediaTable from '../components/BlogMediaTable';
 import {Typography} from '@material-ui/core';
 import BackButton from '../components/BackButton';
 import {appIdentifier} from '../utils/variables';
@@ -11,8 +11,8 @@ const MyFiles = () => {
       <Typography
         component="h1"
         variant="h2"
-        gutterBottom>My files</Typography>
-      <MediaTable ownFiles={true} tag={appIdentifier}/>
+        gutterBottom>My posts</Typography>
+      <BlogMediaTable ownFiles={true} tag={appIdentifier}/>
     </>
   );
 };

@@ -59,6 +59,7 @@ const BlogMediaTable = ({ownFiles}) => {
       (async () => {
         const media = await getMedia(hashtagCategory);
         setPicArray(media);
+        console.log('MEDIA LENGTH', media.length);
       })();
     } catch (e) {
       alert(e.message);

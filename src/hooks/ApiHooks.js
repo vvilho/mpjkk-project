@@ -310,6 +310,20 @@ const useFavorite = () => {
 };
 
 const useComments = () => {
+  const getComment = async (token) => {
+    const fetchOptions = {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      return await doFetch(baseUrl + 'comments', fetchOptions);
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  };
+
   const getCommentById = async (id) => {
     try {
       return await doFetch(baseUrl + 'comments/file/' + id);
@@ -356,7 +370,7 @@ const useComments = () => {
     }
   };
 
-  return {getCommentById, postComment, deleteComment};
+  return {getComment, getCommentById, postComment, deleteComment};
 };
 
 
