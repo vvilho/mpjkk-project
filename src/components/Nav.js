@@ -16,16 +16,22 @@ import {
   ListItemText,
   Link, Grid, Toolbar,
   Button,
+  Modal, Paper, useMediaQuery,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import CloseIcon from '@material-ui/icons/Close';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import {
 
-  CloudUpload, EmojiNature, EmojiPeople, Euro,
+  CloudUpload,
+  EmojiNature,
+  EmojiPeople,
+  Euro,
 
 } from '@material-ui/icons';
+import Login from '../views/Login';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,9 +69,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Nav = ({history}) => {
   const classes = useStyles();
+  const matches = useMediaQuery('(min-width:697px)');
   const [user, setUser] = useContext(MediaContext);
   const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const {getUser} = useUsers();
+  console.log(user);
 
   const toggleDrawer = (opener) => () => {
     setOpen(opener);
@@ -75,8 +84,23 @@ const Nav = ({history}) => {
     const checkUser = async () => {
       try {
         const token = localStorage.getItem('token');
-        const userData = await getUser(token);
-        setUser(userData);
+        const userdata = await getUser(token);
+
+        const data = {
+          email: userdata.user.email,
+          full_name: userdata.user.full_name,
+          first_name: JSON.parse( userdata.user.full_name).first_name,
+          last_name: JSON.parse( userdata.user.full_name).last_name,
+          user_id: userdata.user.user_id,
+          username: userdata.user.username,
+        };
+        setTimeout();
+        setUser(data);
+
+
+        console.log(userdata);
+
+        console.log('NAv', data);
       } catch (e) {
         // send to login
         history.push('/');
@@ -183,7 +207,7 @@ const Nav = ({history}) => {
                 variant="h8"
                 className={classes.userName}
 
-              >{'Hi, ' + user.full_name}</Typography>
+              >{'Hi, ' + user.first_name}</Typography>
             </Grid>
 
             }
@@ -249,7 +273,7 @@ const Nav = ({history}) => {
               button
               component={RouterLink}
               onClick={toggleDrawer(false)}
-              to="/upload"
+              to="/blogupload"
             >
               <ListItemIcon>
                 <CloudUpload/>
@@ -283,8 +307,11 @@ const Nav = ({history}) => {
             <ListItem
               button
               component={RouterLink}
-              onClick={toggleDrawer(false)}
-              to="/login"
+              onClick={() => {
+                toggleDrawer(false);
+                setModalOpen(!modalOpen);
+              }}
+
             >
               <ListItemIcon>
                 <ExitToAppIcon/>
@@ -298,6 +325,55 @@ const Nav = ({history}) => {
           }
 
         </List>
+        <Modal
+          open={modalOpen}
+          onClose={() => {
+            setModalOpen(!modalOpen);
+            setOpen(!open);
+          }}
+          aria-labelledby="Login/register modal"
+          aria-describedby="Log in or register "
+        >
+          <Grid
+            justify={'center'}
+            container
+            alignContent={'center'}
+            style={{
+              outline: 'none',
+            }}
+          >
+            <Grid
+              xs={matches ? 4 : 12}
+            >
+              <Paper
+                elevation={3}
+                style={{
+                  padding: '50px',
+                }}
+              >
+                <Grid
+                  container
+                  item
+                  justify={'flex-end'}
+                >
+                  <IconButton
+                    onClick={() => {
+                      setModalOpen(!modalOpen);
+                      setOpen(!open);
+                    }}
+                  >
+                    <CloseIcon/>
+                  </IconButton>
+                </Grid>
+
+                <Login setModalOpen={setModalOpen} setOpen={setOpen}/>
+              </Paper>
+            </Grid>
+
+          </Grid>
+
+
+        </Modal>
       </Drawer>
     </>
   );

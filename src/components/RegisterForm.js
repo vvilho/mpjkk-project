@@ -39,10 +39,10 @@ const RegisterForm = ({setToggle}) => {
           password: inputs.password,
           confirm: inputs.confirm,
           email: inputs.email,
-          full_name: {
+          full_name: JSON.stringify({
             first_name: inputs.first_name,
             last_name: inputs.last_name,
-          },
+          }),
         };
         console.log(data, JSON.stringify(data));
         const result = await register(data);

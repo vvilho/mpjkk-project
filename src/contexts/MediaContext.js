@@ -5,6 +5,7 @@ const MediaContext = React.createContext();
 
 const MediaProvider = ({children}) => {
   const [user, setUser] = useState(null);
+  console.log(user);
   return (
     <MediaContext.Provider value={[user, setUser]}>
       {children}

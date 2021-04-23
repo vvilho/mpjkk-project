@@ -3,7 +3,6 @@ import Nav from './components/Nav';
 import Home from './views/Home';
 import Profile from './views/Profile';
 import BlogSingle from './views/BlogSingle';
-import Login from './views/Login';
 import Logout from './views/Logout';
 import BlogUpload from './views/BlogUpload';
 import {MediaProvider} from './contexts/MediaContext';
@@ -20,7 +19,6 @@ const App = () => {
           <main style={{marginTop: 80, marginBottom: 40}}>
             <Switch>
               <Route path="/" exact component={Home}/>
-              <Route path="/login" component={Login}/>
               <Route path="/profile" component={Profile}/>
               <Route path="/blogsingle" component={BlogSingle}/>
               <Route path="/logout" component={Logout}/>
