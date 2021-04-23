@@ -137,6 +137,8 @@ const BlogSingle = ({location}) => {
       } catch (e) {
         console.log(e.message);
       }
+    } else {
+      alert('Login for liking');
     }
   };
 

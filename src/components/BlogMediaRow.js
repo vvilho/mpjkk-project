@@ -153,6 +153,8 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
       } catch (e) {
         console.log(e.message);
       }
+    } else {
+      alert('Login for liking');
     }
   };
 
