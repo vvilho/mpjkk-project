@@ -21,9 +21,7 @@ import {uploadsUrl} from '../utils/variables';
 import {Link as RouterLink} from 'react-router-dom';
 // import {Grid, GridListTileBar, IconButton, makeStyles} from '@material-ui/core';
 import {withRouter} from 'react-router-dom';
-
-import {useTag, useFavorite, useComments} from '../hooks/ApiHooks';
-
+import {useTag, useUsers, useFavorite, useComments} from '../hooks/ApiHooks';
 import {useEffect, useState, useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
 
@@ -68,7 +66,9 @@ const useStyles = makeStyles((theme) => ({
 
 const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   const classes = useStyles();
+  const [owner, setOwner] = useState(null);
   const [avatar, setAvatar] = useState();
+  const {getUserById} = useUsers();
   const {getTag} = useTag();
   const {postFavorite} = useFavorite();
   const {deleteFavorite} = useFavorite();
@@ -83,11 +83,24 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   useEffect(() => {
     (async () => {
       try {
+        setOwner(
+            await getUserById(localStorage.getItem('token'), file.user_id),
+        );
+      } catch (e) {
+        console.log(e.message);
+      }
+
+      try {
         const result = await getTag('avatar_' + file.user_id);
         if (result.length > 0) {
           const image = result.pop().filename;
           setAvatar(uploadsUrl + image);
         }
+      } catch (e) {
+        console.log(e.message);
+      }
+
+      try {
         const result2 = await getFavoriteById(localStorage.getItem('token'), file.file_id);
         console.log('setFav to', result2);
         result2.forEach((element) => {
@@ -100,6 +113,11 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             setLikes();
           }
         });
+      } catch (e) {
+        console.log(e.message);
+      }
+
+      try {
         const result3 = await getCommentById(file.file_id);
         console.log('amount of comments', result3.length);
         setComments(result3.length);
@@ -174,7 +192,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             {file.title}
           </Typography>
           <Typography className={classes.lines}>
-            {desc.owner}
+            {owner?.full_name}
           </Typography>
         </Box>
       </Box>
@@ -203,26 +221,26 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         <div className={classes.cardBottomNav}>
           <Box display="flex" justifyContent="center">
             {fav &&
-            <IconButton
-              aria-label="remove from favorites"
-              onClick={() => handleFav()}
-            >
-              <ThumbUpIcon color="primary" />
-              <Typography className={classes.paddingNumber}>
-                3
-              </Typography>
-            </IconButton>
+              <IconButton
+                aria-label="remove from favorites"
+                onClick={() => handleFav()}
+              >
+                <ThumbUpIcon color="primary" />
+                <Typography className={classes.paddingNumber}>
+                  {likes}
+                </Typography>
+              </IconButton>
             }
             {!fav &&
-            <IconButton
-              aria-label="remove from favorites"
-              onClick={() => handleFav()}
-            >
-              <ThumbUpIcon color="primary" />
-              <Typography className={classes.paddingNumber}>
-                {likes}
-              </Typography>
-            </IconButton>
+              <IconButton
+                aria-label="add to favorites"
+                onClick={() => handleFav()}
+              >
+                <ThumbUpIcon />
+                <Typography className={classes.paddingNumber}>
+                  {likes}
+                </Typography>
+              </IconButton>
             }
           </Box>
           <Box display="flex" justifyContent="center">
@@ -270,3 +288,4 @@ BlogMediaRow.propTypes = {
 };
 
 export default withRouter(BlogMediaRow);
+
