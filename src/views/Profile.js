@@ -7,8 +7,9 @@ import {
   Grid,
   List,
   ListItem, ListItemAvatar,
-  ListItemIcon, ListItemText,
+  ListItemIcon, ListItemText, Modal,
   Typography,
+  Paper,
 } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
 import BackButton from '../components/BackButton';
@@ -79,7 +80,7 @@ const Profile = () => {
                 </ListItemIcon>
                 <ListItemText
                   primary=
-                    {toggleForm ? 'Close update profile' : 'Update profile' }
+                    {'Update profile' }
                 />
               </ListItem>
             </List>
@@ -87,9 +88,32 @@ const Profile = () => {
         </Card>
       }
       {toggleForm &&
-      <Grid>
-        <ProfileForm user={user} setUser={setUser} setUpdate={setUpdate}/>
-      </Grid>
+            <Modal open={toggleForm} onClose={() => {
+              setToggleForm(!toggleForm);
+            }}>
+              <Grid
+                container
+                justify={'center'}
+                alignItems={'center'}
+              >
+                <Grid
+                  xs={4}
+                >
+                  <Paper
+                    style={{
+                      padding: '50px',
+                    }}>
+                    <ProfileForm
+                      user={user}
+                      setUser={setUser}
+                      setUpdate={setUpdate}/>
+                  </Paper>
+                </Grid>
+              </Grid>
+
+            </Modal>
+
+
       }
     </>
   );

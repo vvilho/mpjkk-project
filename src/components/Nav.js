@@ -85,22 +85,22 @@ const Nav = ({history}) => {
       try {
         const token = localStorage.getItem('token');
         const userdata = await getUser(token);
+        // ver1 that works
+        setUser(userdata);
+        // ver2 that doesn't work
+        // const data = {
+        //   email: userdata.user.email,
+        //   full_name: userdata.user.full_name,
+        //   first_name: JSON.parse( userdata.user.full_name).first_name,
+        //   last_name: JSON.parse( userdata.user.full_name).last_name,
+        //   user_id: userdata.user.user_id,
+        //   username: userdata.user.username,
+        // };
+        // setUser(data);
 
-        const data = {
-          email: userdata.user.email,
-          full_name: userdata.user.full_name,
-          first_name: JSON.parse( userdata.user.full_name).first_name,
-          last_name: JSON.parse( userdata.user.full_name).last_name,
-          user_id: userdata.user.user_id,
-          username: userdata.user.username,
-        };
-        setTimeout();
-        setUser(data);
-
-
+        alert(JSON.stringify(userdata));
         console.log(userdata);
-
-        console.log('NAv', data);
+        alert(data);
       } catch (e) {
         // send to login
         history.push('/');
