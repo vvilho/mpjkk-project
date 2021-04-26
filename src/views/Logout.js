@@ -5,7 +5,7 @@ import {MediaContext} from '../contexts/MediaContext';
 import {Redirect} from 'react-router-dom';
 
 const Logout = ({history}) => {
-  const [user, setUser] = useContext(MediaContext);
+  const {user, setUser} = useContext(MediaContext);
 
   useEffect(()=>{
     setUser(null);

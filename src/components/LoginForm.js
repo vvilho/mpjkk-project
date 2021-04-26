@@ -7,7 +7,7 @@ import {MediaContext} from '../contexts/MediaContext';
 import {Button, Grid, TextField, Typography} from '@material-ui/core';
 
 const LoginForm = ({setModalOpen, setOpen}) => {
-  const [user, setUser] = useContext(MediaContext);
+  const {user, setUser} = useContext(MediaContext);
   const {postLogin} = useLogin();
 
   const doLogin = async () => {

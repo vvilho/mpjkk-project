@@ -51,7 +51,7 @@ const BlogSingle = ({location}) => {
   const [fav, setFav] = React.useState(false);
   const {getFavoriteById} = useFavorite();
   // const {getFavorite} = useFavorite();
-  const [user] = useContext(MediaContext);
+  const {user} = useContext(MediaContext);
   const [likes, setLikes] = useState();
   const {getCommentById} = useComments();
   const [comments, setComments] = useState(0);

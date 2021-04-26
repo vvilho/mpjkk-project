@@ -24,7 +24,7 @@ const doFetch = async (url, options = {}) => {
 const useMedia = (update = false, ownFiles, tag) => {
   const [picArray, setPicArray] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [user] = useContext(MediaContext);
+  const {user} = useContext(MediaContext);
 
   if (update) {
     useEffect(() => {

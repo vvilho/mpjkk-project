@@ -7,10 +7,12 @@ import {
   Grid,
   List,
   ListItem, ListItemAvatar,
-  ListItemIcon, ListItemText,
+  ListItemIcon, ListItemText, Modal,
   Typography,
   Paper,
+
   Box,
+
 } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
@@ -42,8 +44,10 @@ const useStyles = makeStyles((theme) => ({
 // eslint-disable-next-line react/prop-types
 const Profile = () => {
   const classes = useStyles();
-  const [user, setUser] = useContext(MediaContext);
-  const [avatar, setAvatar] = useState();
+
+  const {user, setUser} = useContext(MediaContext);
+  const [avatar, setAvatar] = useState('logo512.png');
+
   const [update, setUpdate] = useState(false);
   const [toggleForm, setToggleForm] = useState(false);
   const {getTag} = useTag();
@@ -105,6 +109,7 @@ const Profile = () => {
       {user &&
         <Card variant="outlined" className={classes.root}>
           <CardContent>
+
             <Paper
               elevation={3}
               className={classes.paperMargin}>
@@ -167,7 +172,7 @@ const Profile = () => {
                   </ListItemIcon>
                   <ListItemText
                     primary=
-                      {toggleForm ? 'Close update profile' : 'Update profile' }
+                      {'Update profile' }
                   />
                 </ListItem>
               </List>
@@ -177,9 +182,32 @@ const Profile = () => {
         </Card>
       }
       {toggleForm &&
-      <Grid>
-        <ProfileForm user={user} setUser={setUser} setUpdate={setUpdate}/>
-      </Grid>
+            <Modal open={toggleForm} onClose={() => {
+              setToggleForm(!toggleForm);
+            }}>
+              <Grid
+                container
+                justify={'center'}
+                alignItems={'center'}
+              >
+                <Grid
+                  xs={4}
+                >
+                  <Paper
+                    style={{
+                      padding: '50px',
+                    }}>
+                    <ProfileForm
+                      user={user}
+                      setUser={setUser}
+                      setUpdate={setUpdate}/>
+                  </Paper>
+                </Grid>
+              </Grid>
+
+            </Modal>
+
+
       }
     </>
   );
