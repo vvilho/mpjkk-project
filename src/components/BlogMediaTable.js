@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const BlogMediaTable = ({ownFiles, history}) => {
-  const {user, setModalOpen} = useContext(MediaContext);
+  const {user, setModalOpen, setModalOpenText} = useContext(MediaContext);
 
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:697px)');
@@ -240,6 +240,7 @@ const BlogMediaTable = ({ownFiles, history}) => {
               history.push('/blogupload');
             } else {
               setModalOpen(true);
+              setModalOpenText('Login or register to create a post');
             }
           }
 

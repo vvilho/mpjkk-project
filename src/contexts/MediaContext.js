@@ -5,11 +5,18 @@ const MediaContext = React.createContext();
 
 const MediaProvider = ({children}) => {
   const [user, setUser] = useState(null);
-  const [modalOpen, setModalOpen] = useState(null);
-
-  console.log(user);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpenText, setModalOpenText] = useState('');
+  console.log(modalOpen);
   return (
-    <MediaContext.Provider value={{user, setUser, modalOpen, setModalOpen}}>
+    <MediaContext.Provider
+      value={{
+        user,
+        setUser,
+        modalOpen,
+        setModalOpen,
+        modalOpenText,
+        setModalOpenText}}>
       {children}
     </MediaContext.Provider>
   );
