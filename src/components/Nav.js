@@ -70,14 +70,21 @@ const useStyles = makeStyles((theme) => ({
 const Nav = ({history}) => {
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:697px)');
-  const {user, setUser, modalOpen, setModalOpen} = useContext(MediaContext);
+  const {
+    user,
+    setUser,
+    modalOpen,
+    setModalOpen,
+    modalOpenText,
+    setModalOpenText,
+  } = useContext(MediaContext);
   const [open, setOpen] = useState(false);
   const {getUser} = useUsers();
-  console.log(user);
 
   const toggleDrawer = (opener) => () => {
     setOpen(opener);
   };
+
 
   useEffect(() => {
     const checkUser = async () => {
@@ -97,11 +104,7 @@ const Nav = ({history}) => {
           user_id: userdata.user_id,
           username: userdata.username,
         };
-        console.log('joku viesti', data);
         setUser(data);
-
-        alert(JSON.stringify(userdata));
-        console.log(userdata);
       } catch (e) {
         // send to login
         history.push('/');
@@ -109,7 +112,7 @@ const Nav = ({history}) => {
     };
     checkUser();
   }, []);
-  console.log('Nav.js', modalOpen);
+
   return (
     <>
       <AppBar
@@ -308,8 +311,8 @@ const Nav = ({history}) => {
               button
               component={RouterLink}
               onClick={() => {
-                toggleDrawer(false);
-                setModalOpen(!modalOpen);
+                setOpen(false);
+                setModalOpen(true);
               }}
 
             >
@@ -325,56 +328,60 @@ const Nav = ({history}) => {
           }
 
         </List>
-        <Modal
-          open={modalOpen}git
-          onClose={() => {
-            setModalOpen(!modalOpen);
-            setOpen(!open);
+
+      </Drawer>
+      <Modal
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setModalOpenText('');
+        }}
+        aria-labelledby="Login/register modal"
+        aria-describedby="Log in or register "
+      >
+        <Grid
+          justify={'center'}
+          container
+          alignContent={'center'}
+          style={{
+            outline: 'none',
           }}
-          aria-labelledby="Login/register modal"
-          aria-describedby="Log in or register "
         >
           <Grid
-            justify={'center'}
-            container
-            alignContent={'center'}
-            style={{
-              outline: 'none',
-            }}
+            xs={matches ? 4 : 12}
           >
-            <Grid
-              xs={matches ? 4 : 12}
+            <Paper
+              elevation={3}
+              style={{
+                padding: '50px',
+              }}
             >
-              <Paper
-                elevation={3}
-                style={{
-                  padding: '50px',
-                }}
+              <Grid
+                container
+                item
+                justify={'flex-end'}
               >
-                <Grid
-                  container
-                  item
-                  justify={'flex-end'}
+                <IconButton
+                  onClick={() => {
+                    setModalOpen(false);
+                    setModalOpenText('');
+                  }}
                 >
-                  <IconButton
-                    onClick={() => {
-                      setModalOpen(!modalOpen);
-                      setOpen(!open);
-                    }}
-                  >
-                    <CloseIcon/>
-                  </IconButton>
-                </Grid>
+                  <CloseIcon/>
+                </IconButton>
+              </Grid>
 
-                <Login setModalOpen={setModalOpen} setOpen={setOpen}/>
-              </Paper>
-            </Grid>
-
+              <Typography
+                align={'center'}
+              >{modalOpenText}</Typography>
+              <Login setModalOpen={setModalOpen} />
+            </Paper>
           </Grid>
 
+        </Grid>
 
-        </Modal>
-      </Drawer>
+
+      </Modal>
     </>
   );
 };

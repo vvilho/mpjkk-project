@@ -11,7 +11,8 @@ import {
 } from '@material-ui/core';
 import BackButton from '../components/BackButton';
 import {useTag, useUsers} from '../hooks/ApiHooks';
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
+import {MediaContext} from '../contexts/MediaContext';
 
 const useStyles = makeStyles({
   root: {
@@ -24,6 +25,8 @@ const useStyles = makeStyles({
 
 const Single = ({location}) => {
   const [owner, setOwner] = useState(null);
+  const {user, setModalOpen} = useContext(MediaContext);
+
   const [avatar, setAvatar] = useState('logo512.png');
   const classes = useStyles();
   const {getUserById} = useUsers();
@@ -75,14 +78,7 @@ const Single = ({location}) => {
             className={classes.media}
             image={uploadsUrl + file.filename}
             title={file.title}
-            style={{
-              filter: `
-                      brightness(${desc.filters?.brightness}%)
-                      contrast(${desc.filters?.contrast}%)
-                      saturate(${desc.filters?.saturate}%)
-                      sepia(${desc.filters?.sepia}%)
-                      `,
-            }}
+
           />
           <CardContent>
             <Typography gutterBottom>{desc.description}</Typography>

@@ -6,7 +6,7 @@ import {withRouter} from 'react-router-dom';
 import {MediaContext} from '../contexts/MediaContext';
 import {Button, Grid, TextField, Typography} from '@material-ui/core';
 
-const LoginForm = ({setModalOpen, setOpen}) => {
+const LoginForm = ({setModalOpen}) => {
   const {user, setUser} = useContext(MediaContext);
   const {postLogin} = useLogin();
 
@@ -24,7 +24,6 @@ const LoginForm = ({setModalOpen, setOpen}) => {
         username: userdata.user.username,
       });
       setModalOpen(false);
-      setOpen(false);
     } catch (e) {
       console.log('doLogin', e.message);
     }
@@ -87,7 +86,6 @@ const LoginForm = ({setModalOpen, setOpen}) => {
 
 LoginForm.propTypes = {
   setModalOpen: PropTypes.func,
-  setOpen: PropTypes.func,
 };
 
 

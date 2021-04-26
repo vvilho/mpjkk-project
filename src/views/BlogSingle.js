@@ -51,7 +51,7 @@ const BlogSingle = ({location}) => {
   const [fav, setFav] = React.useState(false);
   const {getFavoriteById} = useFavorite();
   // const {getFavorite} = useFavorite();
-  const {user} = useContext(MediaContext);
+  const {user, setModalOpen, setModalOpenText} = useContext(MediaContext);
   const [likes, setLikes] = useState();
   const {getCommentById} = useComments();
   const [comments, setComments] = useState(0);
@@ -138,8 +138,9 @@ const BlogSingle = ({location}) => {
         console.log(e.message);
       }
     } else {
-      alert('Login for liking');
-    }
+      setModalOpen(true);
+      setModalOpenText('Login or register to like a post');
+    };
   };
 
   if (file.media_type === 'image') file.media_type = 'img';

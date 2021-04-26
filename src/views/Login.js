@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Button, Grid} from '@material-ui/core';
 import {useState} from 'react';
 
-const Login = ({setModalOpen, setOpen}) => {
+const Login = ({setModalOpen}) => {
   const [toggle, setToggle] = useState(true);
 
   const showHide = () => {
@@ -29,7 +29,7 @@ const Login = ({setModalOpen, setOpen}) => {
       >
 
         { toggle ?
-          <LoginForm setModalOpen={setModalOpen} setOpen={setOpen}/> :
+          <LoginForm setModalOpen={setModalOpen} /> :
           <RegisterForm setToggle={setToggle}/> }
         <Button onClick={showHide}>{toggle ?
             'or register' :
@@ -45,6 +45,5 @@ const Login = ({setModalOpen, setOpen}) => {
 };
 Login.propTypes = {
   setModalOpen: PropTypes.func,
-  setOpen: PropTypes.func,
 };
 export default Login;
