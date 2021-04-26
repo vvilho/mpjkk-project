@@ -20,7 +20,7 @@ import {uploadsUrl} from '../utils/variables';
 import CreateIcon from '@material-ui/icons/Create';
 
 const Profile = () => {
-  const [user, setUser] = useContext(MediaContext);
+  const {user, setUser} = useContext(MediaContext);
   const [avatar, setAvatar] = useState('logo512.png');
   const [update, setUpdate] = useState(false);
   const [toggleForm, setToggleForm] = useState(false);

@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const BlogMediaTable = ({ownFiles, history}) => {
-  const [user] = useContext(MediaContext);
+  const {user, setModalOpen} = useContext(MediaContext);
 
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:697px)');
@@ -239,7 +239,7 @@ const BlogMediaTable = ({ownFiles, history}) => {
             if (user) {
               history.push('/blogupload');
             } else {
-              alert('Login first');
+              setModalOpen(true);
             }
           }
 

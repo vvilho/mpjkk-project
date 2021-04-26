@@ -70,9 +70,8 @@ const useStyles = makeStyles((theme) => ({
 const Nav = ({history}) => {
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:697px)');
-  const [user, setUser] = useContext(MediaContext);
+  const {user, setUser, modalOpen, setModalOpen} = useContext(MediaContext);
   const [open, setOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
   const {getUser} = useUsers();
   console.log(user);
 
@@ -86,30 +85,31 @@ const Nav = ({history}) => {
         const token = localStorage.getItem('token');
         const userdata = await getUser(token);
         // ver1 that works
-        setUser(userdata);
+        // setUser(userdata);
+
         // ver2 that doesn't work
-        // const data = {
-        //   email: userdata.user.email,
-        //   full_name: userdata.user.full_name,
-        //   first_name: JSON.parse( userdata.user.full_name).first_name,
-        //   last_name: JSON.parse( userdata.user.full_name).last_name,
-        //   user_id: userdata.user.user_id,
-        //   username: userdata.user.username,
-        // };
-        // setUser(data);
+
+        const data = {
+          email: userdata.email,
+          full_name: userdata.full_name,
+          first_name: JSON.parse( userdata.full_name).first_name,
+          last_name: JSON.parse( userdata.full_name).last_name,
+          user_id: userdata.user_id,
+          username: userdata.username,
+        };
+        console.log('joku viesti', data);
+        setUser(data);
 
         alert(JSON.stringify(userdata));
         console.log(userdata);
-        alert(data);
       } catch (e) {
         // send to login
         history.push('/');
       }
     };
-
     checkUser();
   }, []);
-
+  console.log('Nav.js', modalOpen);
   return (
     <>
       <AppBar
@@ -326,7 +326,7 @@ const Nav = ({history}) => {
 
         </List>
         <Modal
-          open={modalOpen}
+          open={modalOpen}git
           onClose={() => {
             setModalOpen(!modalOpen);
             setOpen(!open);

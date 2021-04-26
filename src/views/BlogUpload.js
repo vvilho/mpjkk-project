@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 const BlogUpload = ({history}) => {
   const {postMedia, loading} = useMedia();
   const {postTag} = useTag();
-  const [user] = useContext(MediaContext);
+  const {user} = useContext(MediaContext);
   const classes = useStyles();
   const [dropdownHashtag, setDropdownHashtag] = useState('Materialreuse');
   const validators = {
