@@ -22,6 +22,22 @@ import React from 'react';
 import {Link as RouterLink} from 'react-router-dom';
 import {useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
+import CommentForm from '../components/CommentForm';
+import CommentRow from '../components/CommentRow';
+
+/* {!loading ?
+  showAllComments.slice(0).reverse().map((item) =>
+    <GridListTile key={item.file_id}>
+      <CommentRow
+        file={item}
+        ownFiles={ownFiles}
+        deleteMedia={deleteMedia}
+      />
+    </GridListTile>) :
+  <GridListTile>
+    <CircularProgress />
+  </GridListTile>
+}*/
 
 const useStyles = makeStyles({
   root: {
@@ -55,6 +71,7 @@ const BlogSingle = ({location}) => {
   const [likes, setLikes] = useState();
   const {getCommentById} = useComments();
   const [comments, setComments] = useState(0);
+  const [showAllComments, setShowAllComments] = useState();
 
   const file = location.state;
   let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
@@ -104,6 +121,13 @@ const BlogSingle = ({location}) => {
         const result3 = await getCommentById(file.file_id);
         console.log('amount of comments', result3.length);
         setComments(result3.length);
+
+        setShowAllComments(result3);
+        console.log('SHOW ALL COMMENTS BLOGSINGLE', showAllComments);
+        if (result3 == 0) {
+          console.log('NO COMMENTS FOR THIS POST');
+          setShowAllComments('No comments');
+        }
       } catch (e) {
         console.log(e.message);
       }
@@ -220,6 +244,12 @@ const BlogSingle = ({location}) => {
           </CardContent>
         </Card>
       </Paper>
+      <CommentForm
+        file={file}
+      />
+      <CommentRow
+        file={file}
+      />
     </>
   );
 };
