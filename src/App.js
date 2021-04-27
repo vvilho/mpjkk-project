@@ -9,6 +9,9 @@ import {MediaProvider} from './contexts/MediaContext';
 import {Container} from '@material-ui/core';
 import MyBlogPosts from './views/MyBlogPosts';
 import Modify from './views/Modify';
+import MeetingsSingle from './views/MeetingsSingle';
+import MeetingsUpload from './views/MeetingsUpload';
+import Meetings from './views/Meetings';
 
 const App = () => {
   return (
@@ -19,10 +22,13 @@ const App = () => {
           <main style={{marginTop: 80, marginBottom: 40}}>
             <Switch>
               <Route path="/" exact component={Home}/>
+              <Route path="/meetings" exact component={Meetings}/>
               <Route path="/profile" component={Profile}/>
               <Route path="/blogsingle" component={BlogSingle}/>
+              <Route path="/meetingssingle" component={MeetingsSingle}/>
               <Route path="/logout" component={Logout}/>
               <Route path="/blogupload" component={BlogUpload}/>
+              <Route path="/meetingsupload" component={MeetingsUpload}/>
               <Route path="/myblogposts" component={MyBlogPosts}/>
               <Route path="/modify" component={Modify}/>
             </Switch>

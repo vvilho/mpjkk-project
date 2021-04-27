@@ -167,6 +167,8 @@ const Nav = ({history}) => {
             >
               <Button
                 className={classes.siteButton}
+                component={RouterLink}
+                to={'/meetings'}
               >
                 <EmojiPeople
                   style={{

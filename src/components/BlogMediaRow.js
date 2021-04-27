@@ -177,10 +177,10 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         </Box>
         <Box className={classes.paddingBox}>
           <Typography gutterBottom variant="h6" component="h2" className={classes.lines}>
-            {file.title}
+            {desc.owner}
           </Typography>
           <Typography className={classes.lines}>
-            {desc.owner}
+            {file.title}
           </Typography>
         </Box>
       </Box>

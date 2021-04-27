@@ -8,9 +8,7 @@ const BackButton = ({history}) => {
   return (
     <Button
       color="secondary"
-      style={{
-        border: 'solid 1px',
-      }}
+
       onClick={() => {
         history.goBack();
       }}
