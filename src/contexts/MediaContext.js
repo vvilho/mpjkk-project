@@ -7,6 +7,7 @@ const MediaProvider = ({children}) => {
   const [user, setUser] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalOpenText, setModalOpenText] = useState('');
+
   console.log(modalOpen);
   return (
     <MediaContext.Provider
@@ -16,7 +17,8 @@ const MediaProvider = ({children}) => {
         modalOpen,
         setModalOpen,
         modalOpenText,
-        setModalOpenText}}>
+        setModalOpenText,
+      }}>
       {children}
     </MediaContext.Provider>
   );

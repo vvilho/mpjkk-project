@@ -77,8 +77,10 @@ const Nav = ({history}) => {
     setModalOpen,
     modalOpenText,
     setModalOpenText,
+
   } = useContext(MediaContext);
   const [open, setOpen] = useState(false);
+  const [green, setGreen] = useState('');
   const {getUser} = useUsers();
 
   const toggleDrawer = (opener) => () => {
@@ -148,10 +150,13 @@ const Nav = ({history}) => {
                 className={classes.siteButton}
                 component={RouterLink}
                 to={'/'}
+                onClick={() => {
+                  setGreen('1');
+                }}
 
               >
                 <EmojiNature
-                  color="primary"
+                  color={green === '1' ? 'primary' : 'black'}
                   style={{
                     marginRight: '0.5vw',
                   }}
@@ -169,8 +174,12 @@ const Nav = ({history}) => {
                 className={classes.siteButton}
                 component={RouterLink}
                 to={'/meetings'}
+                onClick={() => {
+                  setGreen('2');
+                }}
               >
                 <EmojiPeople
+                  color={green === '2' ? 'primary' : 'black'}
                   style={{
                     marginRight: '0.5vw',
                   }}
@@ -186,8 +195,12 @@ const Nav = ({history}) => {
             >
               <Button
                 className={classes.siteButton}
+                onClick={() => {
+                  setGreen('3');
+                }}
               >
                 <Euro
+                  color={green === '3' ? 'primary' : 'black'}
                   style={{
                     marginRight: '0.5vw',
                   }}
