@@ -204,6 +204,7 @@ const BlogUpload = ({history}) => {
                 variant={'filled'}
                 multiline
                 fullWidth
+                rows={6}
                 name="description"
                 label="Description"
                 value={inputs.description}

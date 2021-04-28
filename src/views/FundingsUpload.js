@@ -45,27 +45,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const MeetingsUpload = ({history}) => {
+const FundingsUpload = ({history}) => {
   const {postMedia, loading} = useMedia();
   const {postTag} = useTag();
   const {user} = useContext(MediaContext);
   const classes = useStyles();
   const validators = {
-    title: ['required', 'minStringLength: 3', 'maxStringLength: 30'],
+    title: ['required', 'minStringLength: 3', 'maxStringLength: 40'],
     description: ['required', 'minStringLength: 5'],
-    address: ['required', 'minStringLength: 5', 'maxStringLength: 30'],
-    zipcode: ['required', 'minStringLength: 5', 'maxStringLength: 5'],
-    city: ['required', 'minStringLength: 2', 'maxStringLength: 20'],
-    time: ['required'],
+    organizer: ['required', 'minStringLength: 5', 'maxStringLength: 30'],
+    location: ['required', 'minStringLength: 5', 'maxStringLength: 30'],
+    money: ['required', 'minNumber: 0', 'maxNumber: 1000000'],
   };
 
   const errorMessages = {
-    title: ['vaadittu kenttä', 'vähintään 3 merkkiä', 'max 30 merkkiä'],
+    title: ['vaadittu kenttä', 'vähintään 3 merkkiä', 'max 40 merkkiä'],
     description: ['vaadittu kenttä', 'vähintään 5 merkkiä'],
-    address: ['vaadittu kenttä', 'vähintään 5 merkkiä', 'max 30 merkkiä'],
-    zipcode: ['vaadittu kenttä', 'vähintään 5 merkkiä', 'max 5 merkkiä'],
-    city: ['vaadittu kenttä', 'vähintään 2 merkkiä', 'max 20 merkkiä'],
-    time: ['vaadittu kenttä'],
+    organizer: ['vaadittu kenttä', 'vähintään 5 merkkiä', 'max 30 merkkiä'],
+    location: ['vaadittu kenttä', 'vähintään 5 merkkiä', 'max 30 merkkiä'],
+    money: ['vaadittu kenttä', 'vähintään 0 euroa', 'max miljoona euroa'],
   };
 
   const doUpload = async () => {
@@ -73,13 +71,12 @@ const MeetingsUpload = ({history}) => {
       const fd = new FormData();
       fd.append('title', inputs.title);
       const desc = {
+        title: inputs.title,
+        organizer: inputs.organizer,
+        location: inputs.location,
+        money: inputs.money,
         description: inputs.description,
-        owner: JSON.parse(user.full_name).first_name,
-        address: inputs.address,
-        time_start: inputs.time_start,
-        time_end: inputs.time_end,
-        city: inputs.city,
-        zipcode: inputs.zipcode,
+        owner: user.first_name +' '+ user.last_name,
       };
       fd.append('description', JSON.stringify(desc));
       fd.append('file', inputs.file);
@@ -88,7 +85,7 @@ const MeetingsUpload = ({history}) => {
       const meetingsTagResult = await postTag(
           localStorage.getItem('token'),
           result.file_id,
-          'EnvironmetalIdealist_meetings',
+          'EnvironmetalIdealist_fundings',
       );
       const appTagResult = await postTag(
           localStorage.getItem('token'),
@@ -96,7 +93,7 @@ const MeetingsUpload = ({history}) => {
           appIdentifier,
       );
       console.log('doUpload', result, meetingsTagResult, appTagResult);
-      history.push('/meetings');
+      history.push('/fundings');
     } catch (e) {
       alert(e.message);
     }
@@ -108,11 +105,9 @@ const MeetingsUpload = ({history}) => {
       description: '',
       file: null,
       dataUrl: '',
-      address: '',
-      zipcode: '',
-      city: '',
-      time_start: `${new Date().toISOString().slice(0, -8)}`,
-      time_end: '',
+      organizer: '',
+      location: '',
+      money: '',
 
     });
 
@@ -169,7 +164,7 @@ const MeetingsUpload = ({history}) => {
             align={'center'}
             gutterBottom
           >
-            New Meeting
+            New Funding Project
           </Typography>
         </Grid>
 
@@ -187,7 +182,8 @@ const MeetingsUpload = ({history}) => {
                 justify={'center'}
               >
                 <Grid
-                  item xs={12}
+                  item
+                  xs={12}
                   style={{
                     marginBottom: '3vh',
                   }}
@@ -204,10 +200,8 @@ const MeetingsUpload = ({history}) => {
                   />
                 </Grid>
 
-
                 <Grid
-                  item
-                  xs={12}
+                  item xs={12}
                   style={{
                     marginBottom: '3vh',
                   }}
@@ -215,62 +209,14 @@ const MeetingsUpload = ({history}) => {
                   <TextValidator
                     variant={'filled'}
                     fullWidth
-                    name="address"
-                    label="Address"
-                    value={inputs.address}
+                    name="organizer"
+                    label="Organizer"
+                    value={inputs.organizer}
                     onChange={handleInputChange}
-                    validators={validators.address}
-                    errorMessages={errorMessages.address}
+                    validators={validators.organizer}
+                    errorMessages={errorMessages.organizer}
                   />
                 </Grid>
-                <Grid
-                  container
-                  direction={'row'}
-                  xs={12}
-                  style={{
-                    marginBottom: '3vh',
-                  }}
-                >
-                  <Grid
-                    item
-                    xs={4}
-                    style={{
-                      paddingRight: '10px',
-                    }}
-                  >
-                    <TextValidator
-                      fullWidth
-                      variant={'filled'}
-                      type={'number'}
-                      name="zipcode"
-                      label="Zipcode"
-                      value={inputs.zipcode}
-                      onChange={handleInputChange}
-                      validators={validators.zipcode}
-                      errorMessages={errorMessages.zipcode}
-
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    xs={8}
-
-                  >
-                    <TextValidator
-                      fullWidth
-                      variant={'filled'}
-                      name="city"
-                      label="City"
-                      value={inputs.city}
-                      onChange={handleInputChange}
-                      validators={validators.city}
-                      errorMessages={errorMessages.city}
-
-                    />
-                  </Grid>
-
-
-                </Grid>
 
 
                 <Grid
@@ -283,20 +229,39 @@ const MeetingsUpload = ({history}) => {
                   <TextValidator
                     fullWidth
                     variant={'filled'}
-                    name="time_start"
-                    label="Starting time"
-                    type="datetime-local"
-                    value={inputs.time_start}
+                    name="location"
+                    label="Location"
+                    value={inputs.location}
                     onChange={handleInputChange}
-                    validators={validators.time}
-                    errorMessages={errorMessages.time}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
+                    validators={validators.location}
+                    errorMessages={errorMessages.location}
+
+
+                  />
+                </Grid>
+
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    marginBottom: '3vh',
+                  }}
+                >
+                  <TextValidator
+                    fullWidth
+                    variant={'filled'}
+                    name="money"
+                    label="Fundraising ammount €"
+                    placeholder='€'
+                    type="number"
+                    value={inputs.money}
+                    onChange={handleInputChange}
+                    validators={validators.money}
+                    errorMessages={errorMessages.money}
                     inputProps={{
-                      min: `${new Date().toISOString().slice(0, -8)}`,
-
+                      min: '0',
                     }}
+
                   />
                 </Grid>
 
@@ -309,42 +274,17 @@ const MeetingsUpload = ({history}) => {
                 >
                   <TextValidator
                     fullWidth
-                    variant={'filled'}
-                    name="time_end"
-                    label="Ending time"
-                    type="datetime-local"
-                    value={inputs.time_end}
-                    onChange={handleInputChange}
-                    validators={validators.time}
-                    errorMessages={errorMessages.time}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    inputProps={{
-                      min: `${inputs.time_start}`,
-
-                    }}
-                  />
-                </Grid>
-
-                <Grid
-                  item
-                  xs={12}
-                  style={{
-                    marginBottom: '3vh',
-                  }}
-                >
-                  <TextValidator
-                    variant={'filled'}
                     multiline
+                    variant={'filled'}
                     rows={6}
-                    fullWidth
                     name="description"
-                    label="Description"
+                    label="description"
+                    type="Description"
                     value={inputs.description}
                     onChange={handleInputChange}
                     validators={validators.description}
                     errorMessages={errorMessages.description}
+
                   />
                 </Grid>
 
@@ -355,8 +295,11 @@ const MeetingsUpload = ({history}) => {
                     marginBottom: '3vh',
                   }}
                 >
+
                   <TextValidator
                     fullWidth
+                    label='Select image for post'
+                    InputLabelProps={{shrink: true}}
                     type="file"
                     name="file"
                     accept="image/*, audio/*, video/*"
@@ -394,7 +337,7 @@ const MeetingsUpload = ({history}) => {
                     variant="contained"
 
                   >
-                    Create new meeting
+                    Create new funding project
                   </Button>
                 </Grid>
               </Grid>
@@ -408,10 +351,10 @@ const MeetingsUpload = ({history}) => {
   );
 };
 
-MeetingsUpload.propTypes =
+FundingsUpload.propTypes =
   {
     history: PropTypes.object,
   };
 
 
-export default MeetingsUpload;
+export default FundingsUpload;

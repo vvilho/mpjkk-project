@@ -195,6 +195,8 @@ const Nav = ({history}) => {
             >
               <Button
                 className={classes.siteButton}
+                component={RouterLink}
+                to={'/fundings'}
                 onClick={() => {
                   setGreen('3');
                 }}
