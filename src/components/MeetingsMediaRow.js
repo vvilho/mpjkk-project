@@ -144,7 +144,7 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
           <Typography
             variant="h6"
 
-          >{dateFormat(desc.time, 'HH:MM')}</Typography>
+          >{dateFormat(desc.time_start, 'HH:MM')}</Typography>
           <Grid
             container
             direction={'column'}
@@ -184,12 +184,13 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               <Typography
                 variant="body2"
                 color="textSecondary"
-                component="p"
+                style={{wordWrap: 'break-word'}}
               >
-                {desc.description.length > 150 ?
-                desc.description.slice(0, 150) + '...' :
+                {desc.description.length > 300 ?
+                desc.description.slice(0, 300) + '...' :
                 desc.description}
               </Typography>
+
             </Grid>
           </Grid>
           <Grid
