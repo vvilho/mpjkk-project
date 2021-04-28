@@ -5,41 +5,27 @@ import {
   Card,
   CardContent,
   Typography,
+  Box,
+  Avatar,
+  CardHeader,
 } from '@material-ui/core';
-import {useTag, useUsers, useComments} from '../hooks/ApiHooks';
+import {useTag, useUsers} from '../hooks/ApiHooks';
 import {useEffect, useState} from 'react';
 import React from 'react';
 // import {useContext} from 'react';
 // import {MediaContext} from '../contexts/MediaContext';
 
 const CommentRow = ({file}) => {
-  // const [owner, setOwner] = useState(null);
-  // const [avatar, setAvatar] = useState();
   const {getUserById} = useUsers();
   const {getTag} = useTag();
   // const {getFavorite} = useFavorite();
   // const [user] = useContext(MediaContext);
-  const {getCommentById} = useComments();
-  const [showComment, setShowComment] = useState();
-
-  let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
-  try {
-    desc = JSON.parse(file.description);
-    console.log(desc);
-  } catch (e) {
-    desc = {description: file.description};
-  }
+  const [avatar, setAvatar] = useState();
+  // const [commentOwner, setCommentOwner] = useState();
+  // const [commentTime, setCommentTime] = useState();
 
   useEffect(() => {
     (async () => {
-      try {
-        setOwner(
-            await getUserById(localStorage.getItem('token'), file.user_id),
-        );
-      } catch (e) {
-        console.log(e.message);
-      }
-
       try {
         const result = await getTag('avatar_' + file.user_id);
         if (result.length > 0) {
@@ -51,16 +37,9 @@ const CommentRow = ({file}) => {
       }
 
       try {
-        const result3 = await getCommentById(file.file_id);
-        console.log('show me comments', result3);
-        result3.forEach((element) => {
-          setShowComment(element.comment);
-        });
-        console.log('SHOW COMMENTS', showComment);
-        if (result3 == 0) {
-          console.log('NO COMMENTS FOR THIS POST');
-          setShowComment('No comments');
-        }
+        const result1 = await getUserById(localStorage.getItem('token'), file.user_id);
+        console.log('result1 getUSerByID', result1);
+        setOwner(result1.full_name);
       } catch (e) {
         console.log(e.message);
       }
@@ -69,9 +48,28 @@ const CommentRow = ({file}) => {
 
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardContent>
-        <Typography gutterBottom>{showComment}</Typography>
+        <Typography>
+          {file.time_added}
+        </Typography>
+        <Box>
+          <CardHeader
+            avatar={
+              <Avatar
+                variant={'circle'}
+                src={avatar}
+                aria-label="avatar"
+              >
+
+              </Avatar>
+            }
+          />
+          <Typography>
+          Posted by: {file.owner}
+          </Typography>
+        </Box>
+        <Typography gutterBottom>{file.comment}</Typography>
       </CardContent>
     </Card>
   );

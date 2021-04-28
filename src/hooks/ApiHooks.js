@@ -348,10 +348,11 @@ const useComments = () => {
     }
   };
 
-  const postComment = async (token, id, inputs) => {
+  const postComment = async (token, id, inputs, firstName) => {
     const data = {
       file_id: id,
-      comment: inputs.comment,
+      comment: inputs,
+      owner: firstName,
     };
     const fetchOptions = {
       method: 'POST',

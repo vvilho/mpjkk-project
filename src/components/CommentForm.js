@@ -5,9 +5,12 @@ import {Button, Grid, CircularProgress, Typography} from '@material-ui/core';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import React from 'react';
 import PropTypes from 'prop-types';
+import {MediaContext} from '../contexts/MediaContext';
+import {useContext} from 'react';
 
 const CommentsForm = ({file}) => {
   const {postComment, loading} = useComments();
+  const {user} = useContext(MediaContext);
 
   console.log('THIS PAGES ID IS: ' + file.file_id);
 
@@ -23,7 +26,7 @@ const CommentsForm = ({file}) => {
     try {
       console.log('check', inputs.comment);
       console.log('comments lomake lähtee');
-      const result = await postComment(localStorage.getItem('token'), file.file_id, inputs);
+      const result = await postComment(localStorage.getItem('token'), file.file_id, inputs, user.first_name);
       console.log('doComments', result);
     } catch (e) {
       alert(e.message);
