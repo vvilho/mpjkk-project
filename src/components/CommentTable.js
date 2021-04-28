@@ -11,7 +11,7 @@ const CommentTable = ({file}) => {
   // const {getFavorite} = useFavorite();
   // const [user] = useContext(MediaContext);
   const {getCommentById} = useComments();
-  const [showComment, setShowComment] = useState([]);
+  const [showAllComments, setShowAllComments] = useState([]);
   // const [commentOwner, setCommentOwner] = useState();
   // const [commentTime, setCommentTime] = useState();
 
@@ -20,12 +20,12 @@ const CommentTable = ({file}) => {
       try {
         const result3 = await getCommentById(file.file_id);
         console.log('show me comments', result3);
-        setShowComment(result3);
-        console.log('SHOW COMMENTS', showComment);
+        setShowAllComments(result3);
+        console.log('SHOW COMMENTS', showAllComments);
         // console.log('SHOW OWNER OF THIS COMMENT', commentOwner);
-        if (result3 == 0) {
+        if (result3.lenght < 1) {
           console.log('NO COMMENTS FOR THIS POST');
-          setShowComment('No comments');
+          setShowAllComments('No comments');
         }
       } catch (e) {
         console.log(e.message);
@@ -36,8 +36,8 @@ const CommentTable = ({file}) => {
 
   return (
     <>
-      {showComment &&
-        showComment.map((item) =>
+      {showAllComments.length > 0 &&
+        showAllComments.map((item) =>
           <CommentRow
             key={item.file_id}
             file={item}

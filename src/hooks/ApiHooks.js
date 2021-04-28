@@ -351,8 +351,10 @@ const useComments = () => {
   const postComment = async (token, id, inputs, firstName) => {
     const data = {
       file_id: id,
-      comment: inputs,
-      owner: firstName,
+      comment: JSON.stringify({
+        comment: inputs,
+        owner: firstName,
+      }),
     };
     const fetchOptions = {
       method: 'POST',

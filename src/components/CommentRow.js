@@ -9,14 +9,15 @@ import {
   Avatar,
   CardHeader,
 } from '@material-ui/core';
-import {useTag, useUsers} from '../hooks/ApiHooks';
+import {useTag} from '../hooks/ApiHooks';
 import {useEffect, useState} from 'react';
 import React from 'react';
 // import {useContext} from 'react';
 // import {MediaContext} from '../contexts/MediaContext';
+// {JSON.parse(file.comment).owner}
+// {JSON.parse(file.comment).comment}
 
 const CommentRow = ({file}) => {
-  const {getUserById} = useUsers();
   const {getTag} = useTag();
   // const {getFavorite} = useFavorite();
   // const [user] = useContext(MediaContext);
@@ -35,20 +36,16 @@ const CommentRow = ({file}) => {
       } catch (e) {
         console.log(e.message);
       }
-
-      try {
-        const result1 = await getUserById(localStorage.getItem('token'), file.user_id);
-        console.log('result1 getUSerByID', result1);
-        setOwner(result1.full_name);
-      } catch (e) {
-        console.log(e.message);
-      }
+      console.log('JSON PARSE OWNER ', JSON.parse(file.comment).comment.comment);
     })();
   }, []);
 
 
   return (
-    <Card variant="outlined">
+    <Card variant="outlined"
+      style={{
+        marginTop: '2em',
+      }}>
       <CardContent>
         <Typography>
           {file.time_added}
@@ -66,10 +63,10 @@ const CommentRow = ({file}) => {
             }
           />
           <Typography>
-          Posted by: {file.owner}
+          Posted by: {JSON.parse(file.comment).owner}
           </Typography>
         </Box>
-        <Typography gutterBottom>{file.comment}</Typography>
+        <Typography gutterBottom>{JSON.parse(file.comment).comment.comment}</Typography>
       </CardContent>
     </Card>
   );

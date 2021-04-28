@@ -47,11 +47,13 @@ const CommentsForm = ({file}) => {
       >
         <Grid item xs={12}>
           <Typography
-            component="h1"
-            variant="h2"
-            color={'primary'}
+            component="h2"
+            variant="h4"
             align={'center'}
             gutterBottom
+            style={{
+              marginTop: '2em',
+            }}
           >
             Post a comment
           </Typography>
@@ -60,6 +62,9 @@ const CommentsForm = ({file}) => {
         <Grid
           item
           xs={10}
+          style={{
+            marginTop: '1.5em',
+          }}
         >
           {!loading ?
             <ValidatorForm
