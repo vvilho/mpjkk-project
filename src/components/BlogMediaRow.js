@@ -92,7 +92,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
 
       try {
         const result2 = await getFavoriteById(file.file_id);
-        console.log('setFav to', result2);
+        // console.log('setFav to', result2);
 
         result2.forEach((element) => {
           if (user) {
@@ -101,7 +101,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             }
           }
           setLikes(result2.length);
-          console.log('amount of likes result2', result2.length);
+          // console.log('amount of likes result2', result2.length);
         });
       } catch {
       }
@@ -119,7 +119,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   const likingsAmount = async () => {
     try {
       const result2 = await getFavoriteById(file.file_id);
-      console.log('result2 length', result2.length);
+      // console.log('result2 length', result2.length);
       setLikes(result2.length);
     } catch (e) {
       console.log(e.message);
@@ -131,12 +131,12 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
       setFav(!fav);
       try {
         if (fav == false) {
-          console.log('add fav');
+          // console.log('add fav');
           await postFavorite(localStorage.getItem('token'), file.file_id);
           likingsAmount();
         } else {
           // or delete it from firestore
-          console.log('delete fav');
+          // console.log('delete fav');
           await deleteFavorite(localStorage.getItem('token'), file.file_id);
           likingsAmount();
         }
