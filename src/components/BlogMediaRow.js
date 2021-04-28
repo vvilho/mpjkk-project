@@ -73,7 +73,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   const [fav, setFav] = React.useState(false);
   const {getFavoriteById} = useFavorite();
   // const {getFavorite} = useFavorite();
-  const {user} = useContext(MediaContext);
+  const {user, setModalOpen, setModalOpenText} = useContext(MediaContext);
   const [likes, setLikes] = useState();
   const {getCommentById} = useComments();
   const [comments, setComments] = useState(0);
@@ -144,8 +144,9 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         console.log(e.message);
       }
     } else {
-      alert('Login for liking');
-    }
+      setModalOpen(true);
+      setModalOpenText('Login or register to like a post');
+    };
   };
 
   let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
@@ -176,10 +177,10 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         </Box>
         <Box className={classes.paddingBox}>
           <Typography gutterBottom variant="h6" component="h2" className={classes.lines}>
-            {file.title}
+            {desc.owner}
           </Typography>
           <Typography className={classes.lines}>
-            {desc.owner}
+            {file.title}
           </Typography>
         </Box>
       </Box>
