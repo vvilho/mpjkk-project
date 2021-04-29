@@ -11,8 +11,7 @@ import {
 } from '@material-ui/core';
 import BackButton from '../components/BackButton';
 import {useTag, useUsers} from '../hooks/ApiHooks';
-import {useContext, useEffect, useState} from 'react';
-import {MediaContext} from '../contexts/MediaContext';
+
 
 const useStyles = makeStyles({
   root: {
@@ -25,7 +24,6 @@ const useStyles = makeStyles({
 
 const Single = ({location}) => {
   const [owner, setOwner] = useState(null);
-  const {user, setModalOpen} = useContext(MediaContext);
 
   const [avatar, setAvatar] = useState('logo512.png');
   const classes = useStyles();

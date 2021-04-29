@@ -9,9 +9,6 @@ import {
 } from '@material-ui/core';
 
 const CommentTable = ({file, user, setComments, showAllComments, setShowAllComments, getCommentById, postComment, loading}) => {
-  // const {showAllComments, setShowAllComments, getCommentById, postComment, loading} = useComments(true, file.file_id);
-  // const {user} = useContext(MediaContext);
-
   return (
     <>
       {user &&
@@ -41,6 +38,7 @@ const CommentTable = ({file, user, setComments, showAllComments, setShowAllComme
           <CommentRow
             key={item.file_id}
             file={item}
+            user={user}
           />,
         ) :
         <Typography>

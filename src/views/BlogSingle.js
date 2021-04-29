@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import BackButton from '../components/BackButton';
-import {useTag, useUsers, useFavorite, useComments} from '../hooks/ApiHooks';
+import {useTag, useFavorite, useComments} from '../hooks/ApiHooks';
 import {useEffect, useState} from 'react';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
@@ -23,6 +23,8 @@ import {Link as RouterLink} from 'react-router-dom';
 import {useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
 import CommentTable from '../components/CommentTable';
+import DeleteIcon from '@material-ui/icons/Delete';
+import {useMedia} from '../hooks/ApiHooks';
 
 const useStyles = makeStyles({
   root: {
@@ -39,12 +41,14 @@ const useStyles = makeStyles({
   paddingNumber: {
     paddingLeft: 10,
   },
+  top: {
+    marginBottom: '-1.5em',
+  },
 });
 
-const BlogSingle = ({location}) => {
+const BlogSingle = ({location, ownFiles, history}) => {
   const [avatar, setAvatar] = useState();
   const classes = useStyles();
-  const {getUserById} = useUsers();
   const {getTag} = useTag();
   const {postFavorite} = useFavorite();
   const {deleteFavorite} = useFavorite();
@@ -56,6 +60,7 @@ const BlogSingle = ({location}) => {
   const file = location.state;
   const {showAllComments, setShowAllComments, getCommentById, postComment, loading} = useComments(true, file.file_id);
   const [comments, setComments] = useState(0);
+  const {deleteMedia} = useMedia(true, ownFiles);
 
   let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
   try {
@@ -67,14 +72,6 @@ const BlogSingle = ({location}) => {
 
   useEffect(() => {
     (async () => {
-      try {
-        setOwner(
-            await getUserById(localStorage.getItem('token'), file.user_id),
-        );
-      } catch (e) {
-        console.log(e.message);
-      }
-
       try {
         const result = await getTag('avatar_' + file.user_id);
         if (result.length > 0) {
@@ -145,6 +142,12 @@ const BlogSingle = ({location}) => {
 
   if (file.media_type === 'image') file.media_type = 'img';
 
+  if (user) {
+    if (file.user_id === user.user_id) {
+      ownFiles = true;
+    }
+  }
+
   return (
     <>
       <BackButton />
@@ -157,12 +160,37 @@ const BlogSingle = ({location}) => {
       </Typography>
       <Paper elevation={0}>
         <Card className={classes.root}>
+          <Box>
+            {ownFiles &&
+        <Box display="flex" justifyContent="flex-end" className={classes.top}>
+          <IconButton
+            aria-label={`delete file`}
+            className={classes.icon}
+            onClick={() => {
+              try {
+                const conf = confirm('Do you really want to delete?');
+                if (conf) {
+                  deleteMedia(file.file_id, localStorage.getItem('token'));
+                  history.push('/');
+                }
+              } catch (e) {
+                console.log(e.message);
+              }
+            }}
+          >
+            <DeleteIcon/>
+          </IconButton>
+        </Box>
+            }
+          </Box>
           <List>
             <ListItem>
               <ListItemAvatar>
                 <Avatar variant={'circle'} src={avatar} />
               </ListItemAvatar>
               <Typography variant="subtitle2">{desc.owner}</Typography>
+            </ListItem>
+            <ListItem>
             </ListItem>
           </List>
           <CardMedia
@@ -237,6 +265,8 @@ const BlogSingle = ({location}) => {
 
 BlogSingle.propTypes = {
   location: PropTypes.object,
+  ownFiles: PropTypes.bool,
+  history: PropTypes.object,
 };
 
 export default BlogSingle;
