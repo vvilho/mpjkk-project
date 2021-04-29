@@ -4,7 +4,7 @@ import {
   Avatar, Button,
   Card,
   CardContent,
-  Grid, List, ListItem, ListItemAvatar,
+  Grid, IconButton, List, ListItem, ListItemAvatar,
   makeStyles, Modal,
   Paper, Slider,
   Typography,
@@ -14,6 +14,7 @@ import {useTag, useUsers} from '../hooks/ApiHooks';
 import {useEffect, useState} from 'react';
 
 import React from 'react';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 const useStyles = makeStyles({
@@ -189,41 +190,53 @@ const FundingsSingle = ({location}) => {
 
           >
             <Paper
-              style={{
-                margin: '10vh',
-                padding: '10vh 10vh',
-              }}
-            >
-              <Typography
-                variant="h4"
-                component="h4"
-                align={'center'}
-                gutterBottom
-              >Donate ammount</Typography>
-              <Grid
-                container
-                justify={'space-evenly'}
-              >
-                <Button
-                  variant={'contained'}
-                  color={'secondary'}
-                >
-                  10€
-                </Button>
-                <Button
-                  variant={'contained'}
-                  color={'secondary'}
-                >
-                  20€
-                </Button>
-                <Button
-                  variant={'contained'}
-                  color={'secondary'}
-                >
-                  50€
-                </Button>
-              </Grid>
 
+            >
+              <Grid>
+                <IconButton
+                  onClick={() => {
+                    setModalOpen(false);
+                  }}
+                >
+                  <CloseIcon/>
+                </IconButton>
+              </Grid>
+              <Grid
+                style={{
+                  padding: '10vh 10vh',
+                }}>
+
+
+                <Typography
+                  variant="h4"
+                  component="h4"
+                  align={'center'}
+                  gutterBottom
+                >Donate ammount</Typography>
+                <Grid
+                  container
+                  justify={'space-evenly'}
+                >
+                  <Button
+                    variant={'contained'}
+                    color={'secondary'}
+                  >
+                  10€
+                  </Button>
+                  <Button
+                    variant={'contained'}
+                    color={'secondary'}
+                  >
+                  20€
+                  </Button>
+                  <Button
+                    variant={'contained'}
+                    color={'secondary'}
+                  >
+                  50€
+                  </Button>
+                </Grid>
+              </Grid>
             </Paper>
 
           </Grid>
