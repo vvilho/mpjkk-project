@@ -22,6 +22,7 @@ import React from 'react';
 import {Link as RouterLink} from 'react-router-dom';
 import {useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
+import CommentTable from '../components/CommentTable';
 
 const useStyles = makeStyles({
   root: {
@@ -41,7 +42,6 @@ const useStyles = makeStyles({
 });
 
 const BlogSingle = ({location}) => {
-  const [owner, setOwner] = useState(null);
   const [avatar, setAvatar] = useState();
   const classes = useStyles();
   const {getUserById} = useUsers();
@@ -53,14 +53,14 @@ const BlogSingle = ({location}) => {
   // const {getFavorite} = useFavorite();
   const {user, setModalOpen, setModalOpenText} = useContext(MediaContext);
   const [likes, setLikes] = useState();
-  const {getCommentById} = useComments();
+  const file = location.state;
+  const {showAllComments, setShowAllComments, getCommentById, postComment, loading} = useComments(true, file.file_id);
   const [comments, setComments] = useState(0);
 
-  const file = location.state;
   let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
   try {
     desc = JSON.parse(file.description);
-    console.log(desc);
+    // console.log(desc);
   } catch (e) {
     desc = {description: file.description};
   }
@@ -162,7 +162,7 @@ const BlogSingle = ({location}) => {
               <ListItemAvatar>
                 <Avatar variant={'circle'} src={avatar} />
               </ListItemAvatar>
-              <Typography variant="subtitle2">{owner?.username}</Typography>
+              <Typography variant="subtitle2">{desc.owner}</Typography>
             </ListItem>
           </List>
           <CardMedia
@@ -221,6 +221,16 @@ const BlogSingle = ({location}) => {
           </CardContent>
         </Card>
       </Paper>
+      <CommentTable
+        file={file}
+        setShowAllComments={setShowAllComments}
+        getCommentById={getCommentById}
+        postComment={postComment}
+        loading={loading}
+        user={user}
+        showAllComments={showAllComments}
+        setComments={setComments}
+      />
     </>
   );
 };

@@ -61,6 +61,17 @@ const useMedia = (update = false, ownFiles, tag) => {
     }
   };
 
+  const getMediaById = async (id) => {
+    setLoading(true);
+    try {
+      return await doFetch(baseUrl + 'media/' + id);
+    } catch (e) {
+      throw new Error(e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const postMedia = async (fd, token) => {
     setLoading(true);
     const fetchOptions = {
@@ -119,7 +130,7 @@ const useMedia = (update = false, ownFiles, tag) => {
     }
   };
 
-  return {getMedia, postMedia, putMedia, deleteMedia, loading, picArray, setPicArray};
+  return {getMedia, postMedia, putMedia, deleteMedia, loading, picArray, setPicArray, getMediaById};
 };
 
 const useUsers = () => {
@@ -309,10 +320,27 @@ const useFavorite = () => {
   return {postFavorite, deleteFavorite, getFavoriteById, getFavorite};
 };
 
-const useComments = () => {
+const useComments = (update = false, id) => {
+  const [loading, setLoading] = useState(false);
+  const [showAllComments, setShowAllComments] = useState([]);
+
+  if (update) {
+    useEffect(() => {
+      try {
+        (async () => {
+          const comments = await getCommentById(id);
+          setShowAllComments(comments);
+          console.log('set comments apiHooks', comments);
+        })();
+      } catch (e) {
+        alert(e.message);
+      }
+    }, []);
+  }
+
   const getComment = async (token) => {
     const fetchOptions = {
-      method: 'DELETE',
+      method: 'GET',
       headers: {
         'x-access-token': token,
       },
@@ -325,17 +353,23 @@ const useComments = () => {
   };
 
   const getCommentById = async (id) => {
+    setLoading(true);
     try {
       return await doFetch(baseUrl + 'comments/file/' + id);
     } catch (e) {
       throw new Error(e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const postComment = async (token, id) => {
+  const postComment = async (token, id, inputs, firstName) => {
     const data = {
       file_id: id,
-      comment,
+      comment: JSON.stringify({
+        comment: inputs,
+        owner: firstName,
+      }),
     };
     const fetchOptions = {
       method: 'POST',
@@ -345,12 +379,13 @@ const useComments = () => {
       },
       body: JSON.stringify(data),
     };
+    console.log('DATA', data);
     try {
       const resp = await doFetch(baseUrl + 'comments', fetchOptions);
-      console.log('you liked a post', resp);
+      console.log('you posted a comment', resp);
       return resp;
     } catch (e) {
-      throw new Error('liking failed');
+      throw new Error('posting a comment failed');
     }
   };
 
@@ -370,7 +405,7 @@ const useComments = () => {
     }
   };
 
-  return {getComment, getCommentById, postComment, deleteComment};
+  return {getComment, getCommentById, postComment, deleteComment, loading, showAllComments, setShowAllComments};
 };
 
 
