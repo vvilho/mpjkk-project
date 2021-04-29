@@ -1,48 +1,51 @@
 /* eslint-disable max-len */
 import PropTypes from 'prop-types';
-import {useComments} from '../hooks/ApiHooks';
-import {useEffect, useState} from 'react';
 import React from 'react';
-// import {useContext} from 'react';
-// import {MediaContext} from '../contexts/MediaContext';
 import CommentRow from './CommentRow';
+import CommentForm from '../components/CommentForm';
 
-const CommentTable = ({file}) => {
-  // const {getFavorite} = useFavorite();
-  // const [user] = useContext(MediaContext);
-  const {getCommentById} = useComments();
-  const [showAllComments, setShowAllComments] = useState([]);
-  // const [commentOwner, setCommentOwner] = useState();
-  // const [commentTime, setCommentTime] = useState();
+import {
+  Typography,
+} from '@material-ui/core';
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const result3 = await getCommentById(file.file_id);
-        console.log('show me comments', result3);
-        setShowAllComments(result3);
-        console.log('SHOW COMMENTS', showAllComments);
-        // console.log('SHOW OWNER OF THIS COMMENT', commentOwner);
-        if (result3.lenght < 1) {
-          console.log('NO COMMENTS FOR THIS POST');
-          setShowAllComments('No comments');
-        }
-      } catch (e) {
-        console.log(e.message);
-      }
-    })();
-  }, []);
-
+const CommentTable = ({file, user, setComments, showAllComments, setShowAllComments, getCommentById, postComment, loading}) => {
+  // const {showAllComments, setShowAllComments, getCommentById, postComment, loading} = useComments(true, file.file_id);
+  // const {user} = useContext(MediaContext);
 
   return (
     <>
-      {showAllComments.length > 0 &&
+      {user &&
+      <CommentForm
+        file={file}
+        setShowAllComments={setShowAllComments}
+        getCommentById={getCommentById}
+        postComment={postComment}
+        loading={loading}
+        user={user}
+        setComments={setComments}
+      />
+      }
+      <Typography
+        component="h2"
+        variant="h4"
+        align={'center'}
+        gutterBottom
+        style={{
+          paddingTop: '2em',
+        }}
+      >
+            Comments
+      </Typography>
+      {showAllComments.length > 0 ?
         showAllComments.map((item) =>
           <CommentRow
             key={item.file_id}
             file={item}
           />,
-        )
+        ) :
+        <Typography>
+          No comments
+        </Typography>
       }
     </>
   );
@@ -50,6 +53,13 @@ const CommentTable = ({file}) => {
 
 CommentTable.propTypes = {
   file: PropTypes.object,
+  setShowAllComments: PropTypes.func,
+  getCommentById: PropTypes.func,
+  postComment: PropTypes.func,
+  loading: PropTypes.bool,
+  user: PropTypes.object,
+  showAllComments: PropTypes.func,
+  setComments: PropTypes.func,
 };
 
 export default CommentTable;

@@ -320,8 +320,23 @@ const useFavorite = () => {
   return {postFavorite, deleteFavorite, getFavoriteById, getFavorite};
 };
 
-const useComments = () => {
+const useComments = (update = false, id) => {
   const [loading, setLoading] = useState(false);
+  const [showAllComments, setShowAllComments] = useState([]);
+
+  if (update) {
+    useEffect(() => {
+      try {
+        (async () => {
+          const comments = await getCommentById(id);
+          setShowAllComments(comments);
+          console.log('set comments apiHooks', comments);
+        })();
+      } catch (e) {
+        alert(e.message);
+      }
+    }, []);
+  }
 
   const getComment = async (token) => {
     const fetchOptions = {
@@ -390,7 +405,7 @@ const useComments = () => {
     }
   };
 
-  return {getComment, getCommentById, postComment, deleteComment, loading};
+  return {getComment, getCommentById, postComment, deleteComment, loading, showAllComments, setShowAllComments};
 };
 
 

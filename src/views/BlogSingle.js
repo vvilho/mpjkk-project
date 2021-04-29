@@ -22,7 +22,6 @@ import React from 'react';
 import {Link as RouterLink} from 'react-router-dom';
 import {useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
-import CommentForm from '../components/CommentForm';
 import CommentTable from '../components/CommentTable';
 
 const useStyles = makeStyles({
@@ -54,10 +53,10 @@ const BlogSingle = ({location}) => {
   // const {getFavorite} = useFavorite();
   const {user, setModalOpen, setModalOpenText} = useContext(MediaContext);
   const [likes, setLikes] = useState();
-  const {getCommentById} = useComments();
+  const file = location.state;
+  const {showAllComments, setShowAllComments, getCommentById, postComment, loading} = useComments(true, file.file_id);
   const [comments, setComments] = useState(0);
 
-  const file = location.state;
   let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
   try {
     desc = JSON.parse(file.description);
@@ -222,24 +221,15 @@ const BlogSingle = ({location}) => {
           </CardContent>
         </Card>
       </Paper>
-      {user &&
-      <CommentForm
-        file={file}
-      />
-      }
-      <Typography
-        component="h2"
-        variant="h4"
-        align={'center'}
-        gutterBottom
-        style={{
-          paddingTop: '2em',
-        }}
-      >
-            Comments
-      </Typography>
       <CommentTable
         file={file}
+        setShowAllComments={setShowAllComments}
+        getCommentById={getCommentById}
+        postComment={postComment}
+        loading={loading}
+        user={user}
+        showAllComments={showAllComments}
+        setComments={setComments}
       />
     </>
   );

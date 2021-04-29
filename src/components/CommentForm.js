@@ -1,17 +1,11 @@
 /* eslint-disable max-len */
 import useForm from '../hooks/FormHooks';
-import {useComments} from '../hooks/ApiHooks';
 import {Button, Grid, CircularProgress, Typography} from '@material-ui/core';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {MediaContext} from '../contexts/MediaContext';
-import {useContext} from 'react';
 
-const CommentsForm = ({file}) => {
-  const {postComment, loading} = useComments();
-  const {user} = useContext(MediaContext);
-
+const CommentsForm = ({file, setComments, setShowAllComments, getCommentById, postComment, loading, user}) => {
   console.log('THIS PAGES ID IS: ' + file.file_id);
 
   const validators = {
@@ -28,6 +22,11 @@ const CommentsForm = ({file}) => {
       console.log('comments lomake lähtee');
       const result = await postComment(localStorage.getItem('token'), file.file_id, inputs, user.first_name);
       console.log('doComments', result);
+      if (result) {
+        const result2 = await getCommentById(file.file_id);
+        setShowAllComments(result2);
+        setComments(result2.length);
+      }
     } catch (e) {
       alert(e.message);
     }
@@ -116,6 +115,12 @@ const CommentsForm = ({file}) => {
 
 CommentsForm.propTypes = {
   file: PropTypes.object,
+  setShowAllComments: PropTypes.func,
+  getCommentById: PropTypes.func,
+  postComment: PropTypes.func,
+  loading: PropTypes.bool,
+  user: PropTypes.object,
+  setComments: PropTypes.func,
 };
 
 export default CommentsForm;
