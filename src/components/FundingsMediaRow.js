@@ -2,19 +2,13 @@
 /* eslint-disable require-jsdoc */
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-
-
-import {Avatar, CardContent, CardHeader, Card, Grid, Button, Slider} from '@material-ui/core';
+import {Avatar, CardHeader, Card, Grid, Button, Slider} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-// import FavoriteIcon from '@material-ui/icons/Favorite';
 import Box from '@material-ui/core/Box';
-
-
+import DoneIcon from '@material-ui/icons/Done';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
-import {useTag} from '../hooks/ApiHooks';
-
-// import {Grid, GridListTileBar, IconButton, makeStyles} from '@material-ui/core';
+import {useComments, useTag} from '../hooks/ApiHooks';
 import {Link as RouterLink, withRouter} from 'react-router-dom';
 import CardMedia from '@material-ui/core/CardMedia';
 
@@ -64,8 +58,29 @@ const useStyles = makeStyles((theme) => ({
 const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   const classes = useStyles();
   const [avatar, setAvatar] = useState();
+  const [donatedTotal, setDonatedTotal] = useState(0);
+  const [donationDone, setDonationDone] = useState(false);
+  const {getCommentById} = useComments(true, file.file_id);
+
 
   const {getTag} = useTag();
+
+  const updateTotalFundings = async () => {
+    const result = await getCommentById(file.file_id);
+    let total = 0;
+    if (result) {
+      result.map((item) => {
+        total += parseInt(JSON.parse(item.comment).comment, 10);
+      });
+      setDonatedTotal(total);
+    }
+
+    if (total >= parseInt(desc.money, 10)) {
+      setDonationDone(true);
+      console.log(donationDone);
+    }
+  };
+
 
   useEffect(() => {
     (async () => {
@@ -75,6 +90,7 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
           const image = result.pop().filename;
           setAvatar(uploadsUrl + image);
         }
+        updateTotalFundings();
       } catch (e) {
         console.log(e.message);
       }
@@ -88,7 +104,6 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   } catch (e) {
     desc = {description: file.description};
   }
-  console.log(desc.description.slice(0, 10));
 
   if (file.media_type === 'image') file.media_type = 'img';
 
@@ -162,7 +177,7 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             valueLabelDisplay={'auto'}
             min={0}
             max={desc.money}
-            value={50}
+            value={donatedTotal}
           />
           <Grid>
             <Typography
@@ -172,35 +187,48 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
                 fontWeight: 'bold',
 
               }}
-            >150€ raised of</Typography>
+            >{donatedTotal+'€ raised of '}</Typography>
             <Typography
               variant="h7"
 
               component="h7"
-            > {' '+desc.money+'€'}</Typography>
+            > {desc.money+'€'}</Typography>
           </Grid>
 
         </Grid>
         <Grid
           container
-          justify={'center'}
+          direction={'column'}
+          alignItems={'center'}
         >
-          <Button
-            aria-label={`info about ${file.title}`}
-            component={RouterLink}
-            to={{
-              pathname: '/fundingssingle',
-              state: file,
-            }}
-            className={classes.icon}
-            color="secondary"
+          {donationDone &&
+          <Grid
+            item
+            direction={'row'}
           >
-            Read more
-          </Button>
-        </Grid>
-        <CardContent>
+            <Button
+              disabled
+              endIcon={<DoneIcon/>}
+            >This donation is done</Button>
 
-        </CardContent>
+          </Grid>
+          }
+          <Grid item >
+            <Button
+              aria-label={`info about ${file.title}`}
+              component={RouterLink}
+              to={{
+                pathname: '/fundingssingle',
+                state: file,
+              }}
+              className={classes.icon}
+              color="secondary"
+            >
+              Read more
+            </Button>
+          </Grid>
+
+        </Grid>
 
       </Card>
     </>

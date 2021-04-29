@@ -10,11 +10,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import BackButton from '../components/BackButton';
-import {useTag, useUsers} from '../hooks/ApiHooks';
-import {useEffect, useState} from 'react';
+import {useComments, useTag, useUsers} from '../hooks/ApiHooks';
+import {useContext, useEffect, useState} from 'react';
 
 import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
+import {MediaContext} from '../contexts/MediaContext';
 
 
 const useStyles = makeStyles({
@@ -35,24 +36,71 @@ const useStyles = makeStyles({
 });
 
 const FundingsSingle = ({location}) => {
+  const file = location.state;
+  const {user, setModalOpen, setModalOpenText} = useContext(MediaContext);
   const [owner, setOwner] = useState(null);
   const [avatar, setAvatar] = useState();
-  const [modalOpen, setModalOpen] = useState(false);
+  const [donateModalOpen, setDonateModalOpen] = useState(false);
+  const [donatedTotal, setDonatedTotal] = useState(0);
+  const [donationDone, setDonationDone] = useState(false);
   const classes = useStyles();
   const {getUserById} = useUsers();
   const {getTag} = useTag();
+  const {postComment, getCommentById} = useComments(true, file.file_id);
 
-
-  const file = location.state;
   let desc = {};
   try {
     desc = JSON.parse(file.description);
-    console.log(desc);
   } catch (e) {
     desc = {description: file.description};
   }
-  console.log(file.user_id);
-  console.log('toimiiko');
+
+  const updateTotalFundings = async () => {
+    const result = await getCommentById(file.file_id);
+    let total = 0;
+    if (result) {
+      console.log(result);
+
+      result.map((item) => {
+        total += parseInt(JSON.parse(item.comment).comment, 10);
+      });
+      console.log(total);
+
+      setDonatedTotal(total);
+      console.log(typeof(donatedTotal), typeof(parseInt(desc.money)));
+      console.log(donatedTotal, parseInt(desc.money));
+    }
+
+    if (total >= parseInt(desc.money)) {
+      setDonationDone(true);
+    }
+  };
+
+  useEffect(() => {
+    try {
+      updateTotalFundings();
+    } catch (e) {
+      console.error(e.message);
+    }
+  }, []);
+
+  const doDonateComment = async (ammount) => {
+    try {
+      console.log('donate lähtee');
+      const result =
+        await postComment(
+            localStorage.getItem('token'),
+            file.file_id,
+            ammount,
+            user.first_name);
+      console.log('doComments', result);
+      updateTotalFundings();
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+
   useEffect(() => {
     (async () => {
       try {
@@ -127,7 +175,7 @@ const FundingsSingle = ({location}) => {
                   valueLabelDisplay={'auto'}
                   min={0}
                   max={desc.money}
-                  value={50}
+                  value={donatedTotal}
                 />
                 <Grid>
                   <Typography
@@ -137,7 +185,7 @@ const FundingsSingle = ({location}) => {
                       fontWeight: 'bold',
 
                     }}
-                  >150€ raised of</Typography>
+                  >{donatedTotal+'€ raised of'}</Typography>
                   <Typography
                     variant="h7"
 
@@ -154,11 +202,18 @@ const FundingsSingle = ({location}) => {
                     <Button
                       variant={'contained'}
                       color={'secondary'}
+                      disabled={donationDone}
                       onClick={() => {
-                        setModalOpen(true);
+                        if (user) {
+                          setDonateModalOpen(true);
+                        } else {
+                          setModalOpen(true);
+                          setModalOpenText(
+                              'Login or register to donate to project');
+                        }
                       }}
                     >
-                      Donate
+                      {donationDone ? 'Donation done' : 'Donate'}
                     </Button>
                   </Grid>
                 </Grid>
@@ -173,9 +228,9 @@ const FundingsSingle = ({location}) => {
         </Card>
       </Paper>
       <Modal
-        open={modalOpen}
+        open={donateModalOpen}
         onClose={() => {
-          setModalOpen(false);
+          setDonateModalOpen(false);
         }}
       >
         <Grid
@@ -195,7 +250,7 @@ const FundingsSingle = ({location}) => {
               <Grid>
                 <IconButton
                   onClick={() => {
-                    setModalOpen(false);
+                    setDonateModalOpen(false);
                   }}
                 >
                   <CloseIcon/>
@@ -220,18 +275,36 @@ const FundingsSingle = ({location}) => {
                   <Button
                     variant={'contained'}
                     color={'secondary'}
+                    onClick={() => {
+                      alert('in real version this ' +
+                        'would forward you to nets etc.');
+                      doDonateComment(10);
+                      setDonateModalOpen(false);
+                    }}
                   >
                   10€
                   </Button>
                   <Button
                     variant={'contained'}
                     color={'secondary'}
+                    onClick={() => {
+                      alert('in real version this ' +
+                        'would forward you to nets etc.');
+                      doDonateComment(20);
+                      setDonateModalOpen(false);
+                    }}
                   >
                   20€
                   </Button>
                   <Button
                     variant={'contained'}
                     color={'secondary'}
+                    onClick={() => {
+                      alert('in real version this ' +
+                        'would forward you to nets etc.');
+                      doDonateComment(50);
+                      setDonateModalOpen(false);
+                    }}
                   >
                   50€
                   </Button>

@@ -8,7 +8,6 @@ const MediaProvider = ({children}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalOpenText, setModalOpenText] = useState('');
 
-  console.log(modalOpen);
   return (
     <MediaContext.Provider
       value={{
