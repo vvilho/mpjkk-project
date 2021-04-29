@@ -10,6 +10,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import DeleteIcon from '@material-ui/icons/Delete';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -61,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
   paddingBox: {
     padding: '1em',
     marginLeft: '-1.9em',
+  },
+  top: {
+    marginBottom: '-1.5em',
   },
 }));
 
@@ -160,6 +164,28 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
 
   return (
     <Card className={classes.root} variant="outlined">
+      <Box>
+        {ownFiles &&
+        <Box display="flex" justifyContent="flex-end" className={classes.top}>
+          <IconButton
+            aria-label={`delete file`}
+            className={classes.icon}
+            onClick={() => {
+              try {
+                const conf = confirm('Do you really want to delete?');
+                if (conf) {
+                  deleteMedia(file.file_id, localStorage.getItem('token'));
+                }
+              } catch (e) {
+                console.log(e.message);
+              }
+            }}
+          >
+            <DeleteIcon/>
+          </IconButton>
+        </Box>
+        }
+      </Box>
       <Box display="flex">
         <Box>
           <CardHeader
@@ -185,7 +211,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         </Box>
       </Box>
       <Box display="flex" justifyContent="flex-end">
-        <Button color="secondary" size="small">
+        <Button color="secondary" size="small" disabled>
           #{desc.hashtag}
         </Button>
       </Box>
@@ -241,6 +267,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               }}
               className={classes.icon}
               color="secondary"
+              ownFiles={ownFiles}
             >
               Read more
             </Button>
@@ -249,6 +276,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             <IconButton
               aria-label={`comments of ${file.title}`}
               component={RouterLink}
+              ownFiles={ownFiles}
               to={{
                 pathname: '/blogsingle',
                 state: file,
