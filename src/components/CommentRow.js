@@ -8,22 +8,18 @@ import {
   Box,
   Avatar,
   CardHeader,
+  IconButton,
 } from '@material-ui/core';
-import {useTag} from '../hooks/ApiHooks';
+import {useTag, useComments} from '../hooks/ApiHooks';
 import {useEffect, useState} from 'react';
 import React from 'react';
-// import {useContext} from 'react';
-// import {MediaContext} from '../contexts/MediaContext';
-// {JSON.parse(file.comment).owner}
-// {JSON.parse(file.comment).comment}
+import DeleteIcon from '@material-ui/icons/Delete';
 
-const CommentRow = ({file}) => {
+const CommentRow = ({file, user}) => {
   const {getTag} = useTag();
-  // const {getFavorite} = useFavorite();
-  // const [user] = useContext(MediaContext);
   const [avatar, setAvatar] = useState();
-  // const [commentOwner, setCommentOwner] = useState();
-  // const [commentTime, setCommentTime] = useState();
+  const [showMyComments, setShowMyComments] = useState(false);
+  const {deleteComment} = useComments();
 
   useEffect(() => {
     (async () => {
@@ -36,10 +32,17 @@ const CommentRow = ({file}) => {
       } catch (e) {
         console.log(e.message);
       }
-      console.log('JSON PARSE OWNER ', JSON.parse(file.comment).comment.comment);
+
+      if (user) {
+        if (user.user_id === file.user_id) {
+          console.log('testing show my comments user');
+          console.log('user id', user.user_id + 'comment id', file.user_id);
+          setShowMyComments(true);
+          console.log(showMyComments);
+        }
+      }
     })();
   }, []);
-
 
   return (
     <Card variant="outlined"
@@ -50,6 +53,27 @@ const CommentRow = ({file}) => {
         <Typography>
           {file.time_added}
         </Typography>
+        <Box>
+          {showMyComments &&
+        <Box display="flex" justifyContent="flex-end">
+          <IconButton
+            aria-label={`delete file`}
+            onClick={() => {
+              try {
+                const conf = confirm('Do you really want to delete?');
+                if (conf) {
+                  deleteComment(localStorage.getItem('token'), file.comment_id);
+                }
+              } catch (e) {
+                console.log(e.message);
+              }
+            }}
+          >
+            <DeleteIcon/>
+          </IconButton>
+        </Box>
+          }
+        </Box>
         <Box>
           <CardHeader
             avatar={
@@ -74,6 +98,7 @@ const CommentRow = ({file}) => {
 
 CommentRow.propTypes = {
   file: PropTypes.object,
+  user: PropTypes.object,
 };
 
 export default CommentRow;

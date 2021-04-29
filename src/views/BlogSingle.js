@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import BackButton from '../components/BackButton';
-import {useTag, useUsers, useFavorite, useComments} from '../hooks/ApiHooks';
+import {useTag, useFavorite, useComments} from '../hooks/ApiHooks';
 import {useEffect, useState} from 'react';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
@@ -49,7 +49,6 @@ const useStyles = makeStyles({
 const BlogSingle = ({location, ownFiles, history}) => {
   const [avatar, setAvatar] = useState();
   const classes = useStyles();
-  const {getUserById} = useUsers();
   const {getTag} = useTag();
   const {postFavorite} = useFavorite();
   const {deleteFavorite} = useFavorite();
@@ -73,14 +72,6 @@ const BlogSingle = ({location, ownFiles, history}) => {
 
   useEffect(() => {
     (async () => {
-      try {
-        setOwner(
-            await getUserById(localStorage.getItem('token'), file.user_id),
-        );
-      } catch (e) {
-        console.log(e.message);
-      }
-
       try {
         const result = await getTag('avatar_' + file.user_id);
         if (result.length > 0) {

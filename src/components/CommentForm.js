@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const CommentsForm = ({file, setComments, setShowAllComments, getCommentById, postComment, loading, user}) => {
-  console.log('THIS PAGES ID IS: ' + file.file_id);
+  console.log('THIS PAGES ID IS: ' + user.user_id);
 
   const validators = {
     comment: ['minStringLength: 1'],
