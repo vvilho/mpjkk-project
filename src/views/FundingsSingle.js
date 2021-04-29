@@ -1,16 +1,14 @@
 import {uploadsUrl} from '../utils/variables';
 import PropTypes from 'prop-types';
-import dateFormat from 'dateformat';
 import {
-  Avatar,
+  Avatar, Button,
   Card,
   CardContent,
   Grid, List, ListItem, ListItemAvatar,
-  makeStyles,
-  Paper,
+  makeStyles, Modal,
+  Paper, Slider,
   Typography,
 } from '@material-ui/core';
-import RoomIcon from '@material-ui/icons/Room';
 import BackButton from '../components/BackButton';
 import {useTag, useUsers} from '../hooks/ApiHooks';
 import {useEffect, useState} from 'react';
@@ -20,7 +18,7 @@ import React from 'react';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: '100%',
+    width: '100%',
   },
   media: {
     height: '50vh',
@@ -35,9 +33,10 @@ const useStyles = makeStyles({
   },
 });
 
-const MeetingsSingle = ({location}) => {
+const FundingsSingle = ({location}) => {
   const [owner, setOwner] = useState(null);
   const [avatar, setAvatar] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
   const classes = useStyles();
   const {getUserById} = useUsers();
   const {getTag} = useTag();
@@ -97,58 +96,70 @@ const MeetingsSingle = ({location}) => {
               <Typography
                 variant="subtitle6">
                 {owner?.first_name +
-                ' posted this meetup'}</Typography>
+                ' posted this funding project'}</Typography>
             </ListItem>
+            <Grid
+            >
+              <img
+                style={{
+                  height: '100%',
+                  width: '100%',
+                }}
+                src={uploadsUrl + file.filename}
+                alt={file.title}
+              />
+            </Grid>
             <ListItem>
-              <Grid
-                direction={'column'}
-              >
-                <Typography
-                  variant="h5"
-                >When?</Typography>
-                <Typography>
-                  {dateFormat(desc.time_start, 'dddd, dS') +
-                  ' of ' +
-                  dateFormat(desc.time_start, 'mmmm yyyy HH:MM')}
-                </Typography>
-                <Typography
-                  variant="h6"
-                >To</Typography>
-                <Typography>
-                  {dateFormat(desc.time_end, 'dddd, dS') +
-                  ' of ' +
-                  dateFormat(desc.time_end, 'mmmm yyyy HH:MM')}
-                </Typography>
-
-              </Grid>
 
             </ListItem>
             <ListItem>
               <Grid
                 container
-                alignItems={'center'}
                 direction={'column'}
               >
-                <Grid
-                  item
-                >
-                  <RoomIcon
+                <Typography
+                  variant="h6"
+
+                  component="h6"
+                >Donations</Typography>
+                <Slider
+                  valueLabelDisplay={'auto'}
+                  min={0}
+                  max={desc.money}
+                  value={50}
+                />
+                <Grid>
+                  <Typography
+                    variant="h7"
+                    component="h7"
                     style={{
-                      fontSize: '50px',
+                      fontWeight: 'bold',
+
                     }}
-                  />
-                </Grid>
-                <Grid item>
-                  <Typography>{desc.address}</Typography>
-                </Grid>
+                  >150€ raised of</Typography>
+                  <Typography
+                    variant="h7"
 
-                <Grid item>
-                  <Typography>{desc.zipcode}</Typography>
+                    component="h7"
+                  > {' '+desc.money+'€'}</Typography>
                 </Grid>
-
-                <Grid item>
-                  <Typography>{desc.city}</Typography>
-
+                <Grid
+                  container
+                  direction={'column'}
+                  alignItems={'center'}
+                >
+                  <Grid
+                    item>
+                    <Button
+                      variant={'contained'}
+                      color={'secondary'}
+                      onClick={() => {
+                        setModalOpen(true);
+                      }}
+                    >
+                      Donate
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
             </ListItem>
@@ -160,12 +171,70 @@ const MeetingsSingle = ({location}) => {
           </CardContent>
         </Card>
       </Paper>
+      <Modal
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+        }}
+      >
+        <Grid
+          container
+          alignItems={'center'}
+          justify={'center'}
+        >
+
+          <Grid
+            item
+            xs={4}
+
+          >
+            <Paper
+              style={{
+                margin: '10vh',
+                padding: '10vh 10vh',
+              }}
+            >
+              <Typography
+                variant="h4"
+                component="h4"
+                align={'center'}
+                gutterBottom
+              >Donate ammount</Typography>
+              <Grid
+                container
+                justify={'space-evenly'}
+              >
+                <Button
+                  variant={'contained'}
+                  color={'secondary'}
+                >
+                  10€
+                </Button>
+                <Button
+                  variant={'contained'}
+                  color={'secondary'}
+                >
+                  20€
+                </Button>
+                <Button
+                  variant={'contained'}
+                  color={'secondary'}
+                >
+                  50€
+                </Button>
+              </Grid>
+
+            </Paper>
+
+          </Grid>
+        </Grid>
+      </Modal>
     </>
   );
 };
 
-MeetingsSingle.propTypes = {
+FundingsSingle.propTypes = {
   location: PropTypes.object,
 };
 
-export default MeetingsSingle;
+export default FundingsSingle;

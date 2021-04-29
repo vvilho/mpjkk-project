@@ -146,6 +146,7 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               variant="body2"
               color="textSecondary"
               style={{wordWrap: 'break-word'}}
+              gutterBottom
             >
               {desc.description.length > 300 ?
                 desc.description.slice(0, 300) + '...' :
@@ -160,13 +161,8 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
           <Slider
             valueLabelDisplay={'auto'}
             min={0}
-            max={100}
+            max={desc.money}
             value={50}
-            style={{
-              ':&hover': {
-                cursor: 'auto',
-              },
-            }}
           />
           <Grid>
             <Typography
@@ -181,7 +177,7 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               variant="h7"
 
               component="h7"
-            > 300€</Typography>
+            > {' '+desc.money+'€'}</Typography>
           </Grid>
 
         </Grid>

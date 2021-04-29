@@ -59,7 +59,7 @@ const MeetingsMediaTable = ({ownFiles, history}) => {
 
 
       <GridList
-        cellHeight={1500}
+        cellHeight={800}
         className={classes.gridList}
         cols={matches ? 1 : 1}
 
