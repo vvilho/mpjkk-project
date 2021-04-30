@@ -9,11 +9,15 @@ import {
   makeStyles,
   Paper,
   Typography,
+  Box,
+  IconButton,
 } from '@material-ui/core';
 import RoomIcon from '@material-ui/icons/Room';
 import BackButton from '../components/BackButton';
 import {useTag, useUsers} from '../hooks/ApiHooks';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useContext} from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
+import {MediaContext} from '../contexts/MediaContext';
 
 import React from 'react';
 
@@ -33,15 +37,18 @@ const useStyles = makeStyles({
   paddingNumber: {
     paddingLeft: 10,
   },
+  top: {
+    marginBottom: '-1.5em',
+  },
 });
 
-const MeetingsSingle = ({location}) => {
+const MeetingsSingle = ({location, ownFiles, history}) => {
   const [owner, setOwner] = useState(null);
   const [avatar, setAvatar] = useState();
   const classes = useStyles();
   const {getUserById} = useUsers();
   const {getTag} = useTag();
-
+  const {user} = useContext(MediaContext);
 
   const file = location.state;
   let desc = {};
@@ -53,6 +60,7 @@ const MeetingsSingle = ({location}) => {
   }
   console.log(file.user_id);
   console.log('toimiiko');
+
   useEffect(() => {
     (async () => {
       try {
@@ -75,6 +83,12 @@ const MeetingsSingle = ({location}) => {
     })();
   }, []);
 
+  if (user) {
+    if (file.user_id === user.user_id) {
+      ownFiles = true;
+    }
+  }
+
   if (file.media_type === 'image') file.media_type = 'img';
 
   return (
@@ -89,6 +103,29 @@ const MeetingsSingle = ({location}) => {
       </Typography>
       <Paper elevation={0}>
         <Card className={classes.root}>
+          <Box>
+            {ownFiles &&
+        <Box display="flex" justifyContent="flex-end" className={classes.top}>
+          <IconButton
+            aria-label={`delete file`}
+            className={classes.icon}
+            onClick={() => {
+              try {
+                const conf = confirm('Do you really want to delete?');
+                if (conf) {
+                  deleteMedia(file.file_id, localStorage.getItem('token'));
+                  history.push('/');
+                }
+              } catch (e) {
+                console.log(e.message);
+              }
+            }}
+          >
+            <DeleteIcon/>
+          </IconButton>
+        </Box>
+            }
+          </Box>
           <List>
             <ListItem>
               <ListItemAvatar>
@@ -166,6 +203,8 @@ const MeetingsSingle = ({location}) => {
 
 MeetingsSingle.propTypes = {
   location: PropTypes.object,
+  ownFiles: PropTypes.bool,
+  history: PropTypes.object,
 };
 
 export default MeetingsSingle;

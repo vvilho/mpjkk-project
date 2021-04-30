@@ -162,7 +162,19 @@ const Profile = () => {
                   <ListItemIcon>
                     <PersonIcon />
                   </ListItemIcon>
-                  <ListItemText primary="My posts"/>
+                  <ListItemText primary="My blog posts"/>
+                </ListItem>
+                <ListItem component={RouterLink} to="/MyMeetups">
+                  <ListItemIcon>
+                    <PersonIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="My meetup posts"/>
+                </ListItem>
+                <ListItem component={RouterLink} to="/MyFundings">
+                  <ListItemIcon>
+                    <PersonIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="My fundings posts"/>
                 </ListItem>
                 <ListItem button onClick={()=> {
                   setToggleForm(!toggleForm);

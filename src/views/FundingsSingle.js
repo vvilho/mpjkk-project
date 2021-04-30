@@ -8,6 +8,7 @@ import {
   makeStyles, Modal,
   Paper, Slider,
   Typography,
+  Box,
 } from '@material-ui/core';
 import BackButton from '../components/BackButton';
 import {useComments, useTag, useUsers} from '../hooks/ApiHooks';
@@ -16,6 +17,7 @@ import {useContext, useEffect, useState} from 'react';
 import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import {MediaContext} from '../contexts/MediaContext';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const useStyles = makeStyles({
@@ -33,9 +35,12 @@ const useStyles = makeStyles({
   paddingNumber: {
     paddingLeft: 10,
   },
+  top: {
+    marginBottom: '-1.5em',
+  },
 });
 
-const FundingsSingle = ({location}) => {
+const FundingsSingle = ({location, ownFiles, history}) => {
   const file = location.state;
   const {user, setModalOpen, setModalOpenText} = useContext(MediaContext);
   const [owner, setOwner] = useState(null);
@@ -123,6 +128,12 @@ const FundingsSingle = ({location}) => {
     })();
   }, []);
 
+  if (user) {
+    if (file.user_id === user.user_id) {
+      ownFiles = true;
+    }
+  }
+
   if (file.media_type === 'image') file.media_type = 'img';
 
   return (
@@ -137,6 +148,29 @@ const FundingsSingle = ({location}) => {
       </Typography>
       <Paper elevation={0}>
         <Card className={classes.root}>
+          <Box>
+            {ownFiles &&
+        <Box display="flex" justifyContent="flex-end" className={classes.top}>
+          <IconButton
+            aria-label={`delete file`}
+            className={classes.icon}
+            onClick={() => {
+              try {
+                const conf = confirm('Do you really want to delete?');
+                if (conf) {
+                  deleteMedia(file.file_id, localStorage.getItem('token'));
+                  history.push('/');
+                }
+              } catch (e) {
+                console.log(e.message);
+              }
+            }}
+          >
+            <DeleteIcon/>
+          </IconButton>
+        </Box>
+            }
+          </Box>
           <List>
             <ListItem>
               <ListItemAvatar>
@@ -321,6 +355,8 @@ const FundingsSingle = ({location}) => {
 
 FundingsSingle.propTypes = {
   location: PropTypes.object,
+  ownFiles: PropTypes.bool,
+  history: PropTypes.object,
 };
 
 export default FundingsSingle;

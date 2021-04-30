@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@material-ui/core';
 
-const CommentTable = ({file, user, setComments, showAllComments, setShowAllComments, getCommentById, postComment, loading}) => {
+const CommentTable = ({file, user, setComments, showAllComments, setShowAllComments, getCommentById, postComment, loading, deleteComment}) => {
   return (
     <>
       {user &&
@@ -39,6 +39,10 @@ const CommentTable = ({file, user, setComments, showAllComments, setShowAllComme
             key={item.file_id}
             file={item}
             user={user}
+            deleteComment={deleteComment}
+            setShowAllComments={setShowAllComments}
+            getCommentById={getCommentById}
+            setComments={setComments}
           />,
         ) :
         <Typography>
@@ -58,6 +62,7 @@ CommentTable.propTypes = {
   user: PropTypes.object,
   showAllComments: PropTypes.func,
   setComments: PropTypes.func,
+  deleteComment: PropTypes.func,
 };
 
 export default CommentTable;

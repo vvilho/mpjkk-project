@@ -10,16 +10,15 @@ import {
   CardHeader,
   IconButton,
 } from '@material-ui/core';
-import {useTag, useComments} from '../hooks/ApiHooks';
+import {useTag} from '../hooks/ApiHooks';
 import {useEffect, useState} from 'react';
 import React from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const CommentRow = ({file, user}) => {
+const CommentRow = ({file, user, deleteComment, getCommentById, setComments, setShowAllComments}) => {
   const {getTag} = useTag();
   const [avatar, setAvatar] = useState();
   const [showMyComments, setShowMyComments] = useState(false);
-  const {deleteComment} = useComments();
 
   useEffect(() => {
     (async () => {
@@ -38,11 +37,31 @@ const CommentRow = ({file, user}) => {
           console.log('testing show my comments user');
           console.log('user id', user.user_id + 'comment id', file.user_id);
           setShowMyComments(true);
-          console.log(showMyComments);
         }
       }
     })();
   }, []);
+
+  const delComments = async () => {
+    try {
+      const result = await deleteComment(localStorage.getItem('token'), file.comment_id);
+      if (result) {
+        updateCommentList();
+      }
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  const updateCommentList = async () => {
+    try {
+      const result2 = await getCommentById(file.file_id);
+      setShowAllComments(result2);
+      setComments(result2.length);
+    } catch (e) {
+      alert(e.message);
+    }
+  };
 
   return (
     <Card variant="outlined"
@@ -62,7 +81,7 @@ const CommentRow = ({file, user}) => {
               try {
                 const conf = confirm('Do you really want to delete?');
                 if (conf) {
-                  deleteComment(localStorage.getItem('token'), file.comment_id);
+                  delComments();
                 }
               } catch (e) {
                 console.log(e.message);
@@ -99,6 +118,10 @@ const CommentRow = ({file, user}) => {
 CommentRow.propTypes = {
   file: PropTypes.object,
   user: PropTypes.object,
+  deleteComment: PropTypes.func,
+  setComments: PropTypes.func,
+  getCommentById: PropTypes.func,
+  setShowAllComments: PropTypes.func,
 };
 
 export default CommentRow;
