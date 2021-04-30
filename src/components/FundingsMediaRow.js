@@ -2,7 +2,7 @@
 /* eslint-disable require-jsdoc */
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Avatar, CardHeader, Card, Grid, Button, Slider} from '@material-ui/core';
+import {Avatar, CardHeader, Card, Grid, Button, Slider, IconButton} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import DoneIcon from '@material-ui/icons/Done';
@@ -11,6 +11,7 @@ import {uploadsUrl} from '../utils/variables';
 import {useComments, useTag} from '../hooks/ApiHooks';
 import {Link as RouterLink, withRouter} from 'react-router-dom';
 import CardMedia from '@material-ui/core/CardMedia';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
 
   card: {
     width: '100%',
+  },
+  top: {
+    marginBottom: '-1.5em',
   },
 }));
 
@@ -117,6 +121,28 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
 
 
       >
+        <Box>
+          {ownFiles &&
+        <Box display="flex" justifyContent="flex-end" className={classes.top}>
+          <IconButton
+            aria-label={`delete file`}
+            className={classes.icon}
+            onClick={() => {
+              try {
+                const conf = confirm('Do you really want to delete?');
+                if (conf) {
+                  deleteMedia(file.file_id, localStorage.getItem('token'));
+                }
+              } catch (e) {
+                console.log(e.message);
+              }
+            }}
+          >
+            <DeleteIcon/>
+          </IconButton>
+        </Box>
+          }
+        </Box>
         <Box
           display="flex"
         >

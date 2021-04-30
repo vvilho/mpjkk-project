@@ -58,7 +58,7 @@ const BlogSingle = ({location, ownFiles, history}) => {
   const {user, setModalOpen, setModalOpenText} = useContext(MediaContext);
   const [likes, setLikes] = useState();
   const file = location.state;
-  const {showAllComments, setShowAllComments, getCommentById, postComment, loading} = useComments(true, file.file_id);
+  const {showAllComments, setShowAllComments, getCommentById, postComment, loading, deleteComment} = useComments(true, file.file_id);
   const [comments, setComments] = useState(0);
   const {deleteMedia} = useMedia(true, ownFiles);
 
@@ -258,6 +258,7 @@ const BlogSingle = ({location, ownFiles, history}) => {
         user={user}
         showAllComments={showAllComments}
         setComments={setComments}
+        deleteComment={deleteComment}
       />
     </>
   );
