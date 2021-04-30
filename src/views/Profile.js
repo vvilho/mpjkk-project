@@ -10,9 +10,7 @@ import {
   ListItemIcon, ListItemText, Modal,
   Typography,
   Paper,
-
   Box,
-
 } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
@@ -24,6 +22,7 @@ import {uploadsUrl} from '../utils/variables';
 import CreateIcon from '@material-ui/icons/Create';
 import {useMedia} from '../hooks/ApiHooks';
 import {makeStyles} from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,16 +33,27 @@ const useStyles = makeStyles((theme) => ({
   paperMargin: {
     margin: '2em',
     padding: '2em',
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
   },
   avatarStyle: {
     display: 'flex',
     justifyContent: 'center',
+  },
+  flexCenter: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
 }));
 
 // eslint-disable-next-line react/prop-types
 const Profile = () => {
   const classes = useStyles();
+  const screenNarrow = useMediaQuery('(max-width:550px)');
+  const screenMobile = useMediaQuery('(max-width:350px)');
 
   const {user, setUser} = useContext(MediaContext);
   const [avatar, setAvatar] = useState('logo512.png');
@@ -111,20 +121,19 @@ const Profile = () => {
           <CardContent>
 
             <Paper
-              elevation={3}
-              className={classes.paperMargin}>
-              <Box className={classes.avatarStyle}>
+              elevation={screenMobile ? 0 : 3}
+              className={classes.paperMargin}
+              // eslint-disable-next-line max-len
+              style={{minWidth: screenNarrow ? '65vw' : '25em'}}
+            >
+              <Box>
                 <List>
-                  <ListItem
-                    alignItems={'center'}
-                  >
-                    <ListItemAvatar
-                      className={classes.avatarStyle}
-                    >
+                  <ListItem className={classes.avatarStyle}>
+                    <ListItemAvatar>
                       <Avatar variant={'circle'} src={avatar} />
                     </ListItemAvatar>
                   </ListItem>
-                  <ListItem>
+                  <ListItem className={classes.avatarStyle}>
                     <Typography
                       component="h4"
                       variant="h8"
@@ -137,7 +146,7 @@ const Profile = () => {
               <List>
                 <ListItem>
                   <Typography>
-                  Posts made: {myPosts}
+                  Blog posts made: {myPosts}
                   </Typography>
                 </ListItem>
                 <ListItem>
@@ -152,12 +161,6 @@ const Profile = () => {
                 </ListItem>
               </List>
               <List>
-                <ListItem>
-                  <ListItemIcon>
-                    <EmailIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={user.email} />
-                </ListItem>
                 <ListItem component={RouterLink} to="/MyBlogPosts">
                   <ListItemIcon>
                     <PersonIcon />
@@ -176,6 +179,12 @@ const Profile = () => {
                   </ListItemIcon>
                   <ListItemText primary="My fundings posts"/>
                 </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <EmailIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={user.email} />
+                </ListItem>
                 <ListItem button onClick={()=> {
                   setToggleForm(!toggleForm);
                 }}>
@@ -184,7 +193,7 @@ const Profile = () => {
                   </ListItemIcon>
                   <ListItemText
                     primary=
-                      {'Update profile' }
+                      {'Change password' }
                   />
                 </ListItem>
               </List>
