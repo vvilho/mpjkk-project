@@ -70,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
 const Nav = ({history}) => {
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:697px)');
+  const wdth1000 = useMediaQuery('(min-width:1000px)');
+  const wdth850 = useMediaQuery('(min-width:850px)');
+
   const {
     user,
     setUser,
@@ -135,16 +138,19 @@ const Nav = ({history}) => {
           </Grid>
 
           <Grid
-            sm={7}
+            sm={6}
             container
             direction={'row'}
+            justify={wdth1000 ? 'center' : 'space-between'}
           >
+
             <Grid
               item
               container
               sm={3}
               direction={'row'}
               justify={'center'}
+
             >
               <Button
                 className={classes.siteButton}
@@ -163,6 +169,7 @@ const Nav = ({history}) => {
                 />Blog
               </Button>
             </Grid>
+
             <Grid
               item
               container
@@ -211,26 +218,31 @@ const Nav = ({history}) => {
             </Grid>
           </Grid>
           <Grid
-            sm={2}
+            sm={3}
             container
             direction={'row'}
           >
 
 
-            {user &&
             <Grid
-              item
+              container
               sm={10}
+              alignContent={'center'}
+              justify={'flex-end'}
             >
+
+              {user &&
               <Typography
                 component="h4"
                 variant="h8"
                 className={classes.userName}
 
-              >{'Hi, ' + user.first_name}</Typography>
+              >{wdth850 &&'Hi, ' + user.first_name}</Typography>
+              }
+
             </Grid>
 
-            }
+
             <Grid
               item
               sm={2}
