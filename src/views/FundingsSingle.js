@@ -95,7 +95,8 @@ const FundingsSingle = ({location, ownFiles, history}) => {
             localStorage.getItem('token'),
             file.file_id,
             ammount,
-            user.first_name);
+            user.first_name,
+            'donations');
       console.log('doComments', result);
       updateTotalFundings();
     } catch (e) {

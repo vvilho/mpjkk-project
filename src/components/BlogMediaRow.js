@@ -16,7 +16,8 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-
+import Grid from '@material-ui/core/Grid';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
 import {Link as RouterLink} from 'react-router-dom';
@@ -69,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
+  const screenNarrow = useMediaQuery('(max-width:600px)');
   const classes = useStyles();
   const [avatar, setAvatar] = useState();
   const {getTag} = useTag();
@@ -163,9 +165,14 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   if (file.media_type === 'image') file.media_type = 'img';
 
   return (
-    <Card className={classes.root} variant="outlined">
-      <Box>
-        {ownFiles &&
+    <Grid
+      container
+      justify={'center'}
+    >
+      <Grid item xs={screenNarrow? 12 : 8}>
+        <Card className={classes.root} variant="outlined">
+          <Box>
+            {ownFiles &&
         <Box display="flex" justifyContent="flex-end" className={classes.top}>
           <IconButton
             aria-label={`delete file`}
@@ -184,59 +191,59 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             <DeleteIcon/>
           </IconButton>
         </Box>
-        }
-      </Box>
-      <Box display="flex">
-        <Box>
-          <CardHeader
-            avatar={
-              <Avatar
-                variant={'circle'}
-                src={avatar}
-                aria-label="avatar"
-                className={classes.avatar}
-              >
-
-              </Avatar>
             }
-          />
-        </Box>
-        <Box className={classes.paddingBox}>
-          <Typography gutterBottom variant="h6" component="h2" className={classes.lines}>
-            {file.title}
-          </Typography>
-          <Typography className={classes.lines}>
-            {desc.owner}
-          </Typography>
-        </Box>
-      </Box>
-      <Box display="flex" justifyContent="flex-end">
-        <Button color="secondary" size="small" disabled>
+          </Box>
+          <Box display="flex">
+            <Box>
+              <CardHeader
+                avatar={
+                  <Avatar
+                    variant={'circle'}
+                    src={avatar}
+                    aria-label="avatar"
+                    className={classes.avatar}
+                  >
+
+                  </Avatar>
+                }
+              />
+            </Box>
+            <Box className={classes.paddingBox}>
+              <Typography gutterBottom variant="h6" component="h2" className={classes.lines}>
+                {file.title}
+              </Typography>
+              <Typography className={classes.lines}>
+                {desc.owner}
+              </Typography>
+            </Box>
+          </Box>
+          <Box display="flex" justifyContent="flex-end">
+            <Button color="secondary" size="small" disabled>
           #{desc.hashtag}
-        </Button>
-      </Box>
-      <CardMedia
-        className={classes.media}
-        image={uploadsUrl + file.thumbnails?.w320}
-        alt={file.title}
-      />
-      <CardContent>
-        <Typography
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          <div>
-            {ownFiles || desc.description.length > 300 ?
+            </Button>
+          </Box>
+          <CardMedia
+            className={classes.media}
+            image={uploadsUrl + file.thumbnails?.w320}
+            alt={file.title}
+          />
+          <CardContent>
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              component="p"
+            >
+              <div>
+                {ownFiles || desc.description.length > 300 ?
                 desc.description.slice(0, 300) + '...' :
                 desc.description}
-          </div>
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <div className={classes.cardBottomNav}>
-          <Box display="flex" justifyContent="center">
-            {fav &&
+              </div>
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <div className={classes.cardBottomNav}>
+              <Box display="flex" justifyContent="center">
+                {fav &&
               <IconButton
                 aria-label="remove from favorites"
                 onClick={() => handleFav()}
@@ -246,8 +253,8 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
                   {likes}
                 </Typography>
               </IconButton>
-            }
-            {!fav &&
+                }
+                {!fav &&
               <IconButton
                 aria-label="add to favorites"
                 onClick={() => handleFav()}
@@ -257,44 +264,46 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
                   {likes}
                 </Typography>
               </IconButton>
-            }
-          </Box>
-          <Box display="flex" justifyContent="center">
-            <Button
-              aria-label={`info about ${file.title}`}
-              component={RouterLink}
-              to={{
-                pathname: '/blogsingle',
-                state: file,
-              }}
-              className={classes.icon}
-              color="secondary"
-              ownFiles={ownFiles}
-            >
+                }
+              </Box>
+              <Box display="flex" justifyContent="center">
+                <Button
+                  aria-label={`info about ${file.title}`}
+                  component={RouterLink}
+                  to={{
+                    pathname: '/blogsingle',
+                    state: file,
+                  }}
+                  className={classes.icon}
+                  color="secondary"
+                  ownFiles={ownFiles}
+                >
               Read more
-            </Button>
-          </Box>
-          <Box display="flex" justifyContent="center">
-            <IconButton
-              aria-label={`comments of ${file.title}`}
-              component={RouterLink}
-              ownFiles={ownFiles}
-              to={{
-                pathname: '/blogsingle',
-                state: file,
-              }}
-              className={classes.icon}
-            >
-              <ChatBubbleOutlineIcon />
-              <Typography
-                className={classes.paddingNumber}>
-                {comments}
-              </Typography>
-            </IconButton>
-          </Box>
-        </div>
-      </CardActions>
-    </Card>
+                </Button>
+              </Box>
+              <Box display="flex" justifyContent="center">
+                <IconButton
+                  aria-label={`comments of ${file.title}`}
+                  component={RouterLink}
+                  ownFiles={ownFiles}
+                  to={{
+                    pathname: '/blogsingle',
+                    state: file,
+                  }}
+                  className={classes.icon}
+                >
+                  <ChatBubbleOutlineIcon />
+                  <Typography
+                    className={classes.paddingNumber}>
+                    {comments}
+                  </Typography>
+                </IconButton>
+              </Box>
+            </div>
+          </CardActions>
+        </Card>
+      </Grid>
+    </Grid>
   );
 };
 

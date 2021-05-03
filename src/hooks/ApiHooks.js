@@ -361,12 +361,13 @@ const useComments = (update = false, id) => {
     }
   };
 
-  const postComment = async (token, id, inputs, firstName) => {
+  const postComment = async (token, id, inputs, firstName, tagName) => {
     const data = {
       file_id: id,
       comment: JSON.stringify({
         comment: inputs,
         owner: firstName,
+        tag: tagName,
       }),
     };
     const fetchOptions = {

@@ -22,7 +22,7 @@ const CommentsForm = ({file, setComments, setShowAllComments, getCommentById, po
     try {
       console.log('check', inputs.comment);
       console.log('comments lomake lähtee');
-      const result = await postComment(localStorage.getItem('token'), file.file_id, inputs, user.first_name);
+      const result = await postComment(localStorage.getItem('token'), file.file_id, inputs, user.first_name, 'comments');
       console.log('doComments', result);
       inputs.comment = '';
       if (result) {

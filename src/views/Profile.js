@@ -17,7 +17,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import BackButton from '../components/BackButton';
 import {Link as RouterLink} from 'react-router-dom';
 import ProfileForm from '../components/ProfileForm';
-import {useFavorite, useComments, useTag} from '../hooks/ApiHooks';
+import {useFavorite, useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
 import CreateIcon from '@material-ui/icons/Create';
 import {useMedia} from '../hooks/ApiHooks';
@@ -62,8 +62,6 @@ const Profile = () => {
   const [update, setUpdate] = useState(false);
   const [toggleForm, setToggleForm] = useState(false);
   const {getTag} = useTag();
-  const {getComment} = useComments();
-  const [myComments, setMyComments] = useState(0);
   const {getFavorite} = useFavorite();
   const [myLikes, setMyLikes] = useState(0);
   const [hashtagCategory] = useState('EnvironmetalIdealist_blog');
@@ -86,14 +84,6 @@ const Profile = () => {
         const result2 = await getFavorite(localStorage.getItem('token'));
         console.log('amount of likes result2', result2.length);
         setMyLikes(result2.length);
-      } catch (e) {
-        console.log(e.message);
-      }
-
-      try {
-        const result3 = await getComment(localStorage.getItem('token'));
-        console.log('amount of comments result3', result3.length);
-        setMyComments(result3.length);
       } catch (e) {
         console.log(e.message);
       }
@@ -148,11 +138,6 @@ const Profile = () => {
                 <ListItem>
                   <Typography>
                   Blog posts made: {myPosts}
-                  </Typography>
-                </ListItem>
-                <ListItem>
-                  <Typography>
-                  Comments written: {myComments}
                   </Typography>
                 </ListItem>
                 <ListItem>

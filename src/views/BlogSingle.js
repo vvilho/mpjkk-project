@@ -161,13 +161,18 @@ const BlogSingle = ({location, ownFiles, history}) => {
   return (
     <>
       <BackButton />
-      <Typography
-        component="h1"
-        variant="h2"
-        gutterBottom
+      <Box
+        display="flex"
+        justifyContent="center"
       >
-        {file.title}
-      </Typography>
+        <Typography
+          component="h1"
+          variant="h2"
+          gutterBottom
+        >
+          {file.title}
+        </Typography>
+      </Box>
       <Paper elevation={0} className={screenMobile && classes.paperZero}>
         <Card className={classes.root}>
           <Box>
