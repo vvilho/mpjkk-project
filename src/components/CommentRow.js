@@ -7,18 +7,47 @@ import {
   Typography,
   Box,
   Avatar,
-  CardHeader,
+  ListItem,
+  List,
+  ListItemAvatar,
   IconButton,
+  Grid,
+  makeStyles,
 } from '@material-ui/core';
 import {useTag} from '../hooks/ApiHooks';
 import {useEffect, useState} from 'react';
 import React from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
+import dateFormat from 'dateformat';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+const useStyles = makeStyles({
+  root: {
+    maxWidth: '100%',
+  },
+  media: {
+    height: '100%',
+    width: '100%',
+  },
+  cardBottomNav: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  paddingNumber: {
+    paddingLeft: 10,
+  },
+  top: {
+    marginTop: '-1em',
+  },
+});
 
 const CommentRow = ({file, user, deleteComment, getCommentById, setComments, setShowAllComments}) => {
   const {getTag} = useTag();
   const [avatar, setAvatar] = useState();
   const [showMyComments, setShowMyComments] = useState(false);
+  const classes = useStyles();
+  const screenMobile = useMediaQuery('(max-width:600px)');
 
   useEffect(() => {
     (async () => {
@@ -64,15 +93,18 @@ const CommentRow = ({file, user, deleteComment, getCommentById, setComments, set
   };
 
   return (
-    <Card variant="outlined"
-      style={{
-        marginTop: '2em',
-      }}>
-      <CardContent>
-        <Typography>
-          {file.time_added}
-        </Typography>
-        <Box>
+    <Grid
+      container
+      justify={'center'}
+    >
+      <Grid
+        item
+        xs={screenMobile? 12 : 8}
+        style={{
+          marginTop: '1.5em',
+        }}
+      >
+        <Card variant="outlined" className={classes.root}>
           {showMyComments &&
         <Box display="flex" justifyContent="flex-end">
           <IconButton
@@ -92,26 +124,33 @@ const CommentRow = ({file, user, deleteComment, getCommentById, setComments, set
           </IconButton>
         </Box>
           }
-        </Box>
-        <Box>
-          <CardHeader
-            avatar={
-              <Avatar
-                variant={'circle'}
-                src={avatar}
-                aria-label="avatar"
+          <List>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar variant={'circle'} src={avatar} small/>
+              </ListItemAvatar>
+              <Typography
+                style={{
+                  fontSize: '0.8em',
+                }}>{JSON.parse(file.comment).owner}</Typography>
+              <Typography>
+                  &nbsp;&middot;&nbsp;
+              </Typography>
+              <Typography
+                style={{
+                  fontSize: '0.8em',
+                }}
               >
-
-              </Avatar>
-            }
-          />
-          <Typography>
-          Posted by: {JSON.parse(file.comment).owner}
-          </Typography>
-        </Box>
-        <Typography gutterBottom>{JSON.parse(file.comment).comment.comment}</Typography>
-      </CardContent>
-    </Card>
+                {dateFormat(file.time_added, 'dd.mm.yyyy, HH:MM')}
+              </Typography>
+            </ListItem>
+          </List>
+          <CardContent>
+            <Typography gutterBottom>{JSON.parse(file.comment).comment.comment}</Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 };
 

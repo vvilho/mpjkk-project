@@ -203,10 +203,10 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         </Box>
         <Box className={classes.paddingBox}>
           <Typography gutterBottom variant="h6" component="h2" className={classes.lines}>
-            {desc.owner}
+            {file.title}
           </Typography>
           <Typography className={classes.lines}>
-            {file.title}
+            {desc.owner}
           </Typography>
         </Box>
       </Box>
@@ -226,8 +226,10 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
           color="textSecondary"
           component="p"
         >
-          <div style={{overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', width: '11rem'}}>
-            {ownFiles || desc.description}
+          <div>
+            {ownFiles || desc.description.length > 300 ?
+                desc.description.slice(0, 300) + '...' :
+                desc.description}
           </div>
         </Typography>
       </CardContent>

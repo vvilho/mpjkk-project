@@ -4,9 +4,11 @@ import {Button, Grid, CircularProgress, Typography} from '@material-ui/core';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import React from 'react';
 import PropTypes from 'prop-types';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const CommentsForm = ({file, setComments, setShowAllComments, getCommentById, postComment, loading, user}) => {
-  console.log('THIS PAGES ID IS: ' + user.user_id);
+  // const screenNarrow = useMediaQuery('(max-width:550px)');
+  const screenMobile = useMediaQuery('(max-width:600px)');
 
   const validators = {
     comment: ['minStringLength: 1'],
@@ -22,6 +24,7 @@ const CommentsForm = ({file, setComments, setShowAllComments, getCommentById, po
       console.log('comments lomake lähtee');
       const result = await postComment(localStorage.getItem('token'), file.file_id, inputs, user.first_name);
       console.log('doComments', result);
+      inputs.comment = '';
       if (result) {
         const result2 = await getCommentById(file.file_id);
         setShowAllComments(result2);
@@ -60,7 +63,7 @@ const CommentsForm = ({file, setComments, setShowAllComments, getCommentById, po
 
         <Grid
           item
-          xs={10}
+          xs={screenMobile? 12 : 8}
           style={{
             marginTop: '1.5em',
           }}

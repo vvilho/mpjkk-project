@@ -3,12 +3,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import CommentRow from './CommentRow';
 import CommentForm from '../components/CommentForm';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import {
   Typography,
+  Grid,
+  Card,
+  CardContent,
 } from '@material-ui/core';
 
 const CommentTable = ({file, user, setComments, showAllComments, setShowAllComments, getCommentById, postComment, loading, deleteComment}) => {
+  const screenMobile = useMediaQuery('(max-width:600px)');
+
   return (
     <>
       {user &&
@@ -45,9 +51,22 @@ const CommentTable = ({file, user, setComments, showAllComments, setShowAllComme
             setComments={setComments}
           />,
         ) :
-        <Typography>
-          No comments
-        </Typography>
+        <>
+          <Grid container justify={'center'}>
+            <Grid item xs={screenMobile? 12 : 8}
+              style={{
+                marginTop: '1.5em',
+              }}>
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography>
+                    No comments
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </>
       }
     </>
   );
