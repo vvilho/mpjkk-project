@@ -55,10 +55,15 @@ const useStyles = makeStyles((theme) => ({
   },
   siteButton: {
     'fontFamily': 'Roboto Mono',
+    'fontSize': '15px',
+    'height': '64px',
+    'width': '100%',
+  },
+  siteButtonMobile: {
+    'fontFamily': 'Roboto Mono',
     'fontSize': '10px',
     'height': '64px',
     'width': '100%',
-
   },
 
   buttonLabel: {
@@ -189,7 +194,7 @@ const Nav = ({history}) => {
                           setGreen('1');
                         }}
                         classes={{
-                          root: classes.siteButton,
+                          root: classes.siteButtonMobile,
                           label: classes.buttonLabel}}
 
                       >
@@ -205,7 +210,7 @@ const Nav = ({history}) => {
                     >
                       <Button
                         classes={{
-                          root: classes.siteButton,
+                          root: classes.siteButtonMobile,
                           label: classes.buttonLabel}}
                         component={RouterLink}
                         to={'/meetings'}
@@ -227,7 +232,7 @@ const Nav = ({history}) => {
                     >
                       <Button
                         classes={{
-                          root: classes.siteButton,
+                          root: classes.siteButtonMobile,
                           label: classes.buttonLabel}}
                         component={RouterLink}
                         to={'/fundings'}

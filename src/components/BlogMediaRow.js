@@ -28,7 +28,7 @@ import {MediaContext} from '../contexts/MediaContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    maxWidth: '100%',
   },
   media: {
     height: 0,

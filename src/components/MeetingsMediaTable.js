@@ -9,7 +9,6 @@ import {
   GridList,
   GridListTile,
   makeStyles,
-  useMediaQuery,
   Fab, Grid,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
@@ -46,7 +45,6 @@ const MeetingsMediaTable = ({ownFiles, history}) => {
   const {user, setModalOpen, setModalOpenText} = useContext(MediaContext);
 
   const classes = useStyles();
-  const matches = useMediaQuery('(min-width:697px)');
 
 
   const {picArray, loading, deleteMedia} =
@@ -58,9 +56,9 @@ const MeetingsMediaTable = ({ownFiles, history}) => {
 
 
       <GridList
-        cellHeight={550}
+        cellHeight={'auto'}
         className={classes.gridList}
-        cols={matches ? 1 : 1}
+        cols={1}
 
 
       >
@@ -74,7 +72,8 @@ const MeetingsMediaTable = ({ownFiles, history}) => {
             >
               <GridListTile
                 style={{
-                  width: '75%',
+                  width: '100%',
+                  marginBottom: '15px',
                 }}
               >
 
