@@ -15,6 +15,7 @@ import FundingsSingle from './views/FundingsSingle';
 import BlogUpload from './views/BlogUpload';
 import MeetingsUpload from './views/MeetingsUpload';
 import FundingsUpload from './views/FundingsUpload';
+require('typeface-roboto-mono');
 
 import Meetings from './views/Meetings';
 import Fundings from './views/Fundings';
@@ -25,7 +26,7 @@ const App = () => {
       <MediaProvider>
         <Container maxWidth="md">
           <Nav />
-          <main style={{marginTop: 80, marginBottom: 40}}>
+          <main style={{marginTop: 120, marginBottom: 40}}>
             <Switch>
               <Route path="/" exact component={Home}/>
               <Route path="/meetings" exact component={Meetings}/>

@@ -11,7 +11,7 @@ import {
   Box,
 } from '@material-ui/core';
 import BackButton from '../components/BackButton';
-import {useComments, useTag, useUsers} from '../hooks/ApiHooks';
+import {useComments, useTag} from '../hooks/ApiHooks';
 import {useContext, useEffect, useState} from 'react';
 
 import React from 'react';
@@ -43,13 +43,11 @@ const useStyles = makeStyles({
 const FundingsSingle = ({location, ownFiles, history}) => {
   const file = location.state;
   const {user, setModalOpen, setModalOpenText} = useContext(MediaContext);
-  const [owner, setOwner] = useState(null);
   const [avatar, setAvatar] = useState();
   const [donateModalOpen, setDonateModalOpen] = useState(false);
   const [donatedTotal, setDonatedTotal] = useState(0);
   const [donationDone, setDonationDone] = useState(false);
   const classes = useStyles();
-  const {getUserById} = useUsers();
   const {getTag} = useTag();
   const {postComment, getCommentById} = useComments(true, file.file_id);
 
@@ -108,14 +106,6 @@ const FundingsSingle = ({location, ownFiles, history}) => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const name =
-          await getUserById(localStorage.getItem('token'), file.user_id);
-        setOwner(JSON.parse(name.full_name));
-      } catch (e) {
-        console.log(e.message);
-      }
-
       try {
         const result = await getTag('avatar_' + file.user_id);
         if (result.length > 0) {
@@ -178,7 +168,7 @@ const FundingsSingle = ({location, ownFiles, history}) => {
               </ListItemAvatar>
               <Typography
                 variant="subtitle6">
-                {owner?.first_name +
+                {desc.owner +
                 ' posted this funding project'}</Typography>
             </ListItem>
             <Grid
@@ -211,7 +201,11 @@ const FundingsSingle = ({location, ownFiles, history}) => {
                   max={desc.money}
                   value={donatedTotal}
                 />
-                <Grid>
+                <Grid
+                  style={{
+                    paddingBottom: '10px',
+                  }}
+                >
                   <Typography
                     variant="h7"
                     component="h7"

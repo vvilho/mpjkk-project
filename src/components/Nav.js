@@ -24,8 +24,6 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import {
-
-  CloudUpload,
   EmojiNature,
   EmojiPeople,
   Euro,
@@ -39,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 
   },
   menuButton: {
-    marginRight: theme.spacing(2),
     color: 'black',
   },
   title: {
@@ -58,9 +55,14 @@ const useStyles = makeStyles((theme) => ({
   },
   siteButton: {
     'fontFamily': 'Roboto Mono',
+    'fontSize': '10px',
     'height': '64px',
     'width': '100%',
 
+  },
+
+  buttonLabel: {
+    flexDirection: 'column',
   },
 
 
@@ -120,146 +122,291 @@ const Nav = ({history}) => {
 
   return (
     <>
-      <AppBar
-        color={'white'}
-        className={classes.appBar}
-      >
-        <Toolbar>
-          <Grid
-            sm={3}
-            container
-            direction={'row'}
-          >
-            <Typography variant="h6" className={classes.title}>
-              <Link
-                component={RouterLink}
-                to="/" color="inherit">Environmental Idealists</Link>
-            </Typography>
-          </Grid>
-
-          <Grid
-            sm={6}
-            container
-            direction={'row'}
-            justify={wdth1000 ? 'center' : 'space-between'}
-          >
-
+      {!wdth850 ?
+        <AppBar
+          color={'white'}
+          className={classes.appBar}
+        >
+          <Toolbar>
             <Grid
-              item
               container
+              direction={'column'}
+            >
+              <Grid
+                container
+                direction={'row'}
+                justify={'space-between'}
+              >
+                <Grid
+                  item
+                >
+                  <Typography variant="h6" className={classes.title}>
+                    <Link
+                      component={RouterLink}
+                      to="/" color="inherit">Environmental Idealists</Link>
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                >
+
+                  {user &&
+                  <Typography
+                    component="h4"
+                    variant="h8"
+                    className={classes.userName}
+
+                  >{'Hi ' + user.first_name+'!'}</Typography>
+                  }
+
+                </Grid>
+
+              </Grid>
+
+
+              <Grid
+                container
+                direction={'row'}
+                justify={'space-between'}
+
+              >
+                <Grid
+                  item
+                  xs={8}
+                >
+                  <Grid
+                    container
+                    justify={'space-around'}
+                  >
+
+                    <Grid
+                      item
+                    >
+                      <Button
+                        component={RouterLink}
+                        to={'/'}
+                        onClick={() => {
+                          setGreen('1');
+                        }}
+                        classes={{
+                          root: classes.siteButton,
+                          label: classes.buttonLabel}}
+
+                      >
+                        <EmojiNature
+                          color={green === '1' ? 'primary' : 'black'}
+
+                        />Blog
+                      </Button>
+                    </Grid>
+
+                    <Grid
+                      item
+                    >
+                      <Button
+                        classes={{
+                          root: classes.siteButton,
+                          label: classes.buttonLabel}}
+                        component={RouterLink}
+                        to={'/meetings'}
+                        onClick={() => {
+                          setGreen('2');
+                        }}
+                      >
+                        <EmojiPeople
+                          color={green === '2' ? 'primary' : 'black'}
+                          style={{
+                            marginRight: '0.5vw',
+                          }}
+                        />Meetings
+                      </Button>
+                    </Grid>
+
+                    <Grid
+                      item
+                    >
+                      <Button
+                        classes={{
+                          root: classes.siteButton,
+                          label: classes.buttonLabel}}
+                        component={RouterLink}
+                        to={'/fundings'}
+                        onClick={() => {
+                          setGreen('3');
+                        }}
+                      >
+                        <Euro
+                          color={green === '3' ? 'primary' : 'black'}
+                          style={{
+                            marginRight: '0.5vw',
+                          }}
+                        />Fundings
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  item
+                >
+
+                  <IconButton
+                    edge="start"
+                    className={classes.menuButton}
+                    aria-label="menu"
+                    onClick={toggleDrawer(true)}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+
+                </Grid>
+              </Grid>
+
+
+            </Grid>
+          </Toolbar>
+        </AppBar> :
+        <AppBar
+          color={'white'}
+          className={classes.appBar}
+        >
+          <Toolbar>
+            <Grid
               sm={3}
+              container
               direction={'row'}
-              justify={'center'}
-
             >
-              <Button
-                className={classes.siteButton}
-                component={RouterLink}
-                to={'/'}
-                onClick={() => {
-                  setGreen('1');
-                }}
-
-              >
-                <EmojiNature
-                  color={green === '1' ? 'primary' : 'black'}
-                  style={{
-                    marginRight: '0.5vw',
-                  }}
-                />Blog
-              </Button>
+              <Typography variant="h6" className={classes.title}>
+                <Link
+                  component={RouterLink}
+                  to="/" color="inherit">Environmental Idealists</Link>
+              </Typography>
             </Grid>
 
             <Grid
-              item
+              sm={6}
               container
+              direction={'row'}
+              justify={wdth1000 ? 'center' : 'space-between'}
+            >
+
+              <Grid
+                item
+                container
+                sm={3}
+                direction={'row'}
+                justify={'center'}
+
+              >
+                <Button
+                  className={classes.siteButton}
+                  component={RouterLink}
+                  to={'/'}
+                  onClick={() => {
+                    setGreen('1');
+                  }}
+
+                >
+                  <EmojiNature
+                    color={green === '1' ? 'primary' : 'black'}
+                    style={{
+                      marginRight: '0.5vw',
+                    }}
+                  />Blog
+                </Button>
+              </Grid>
+
+              <Grid
+                item
+                container
+                sm={3}
+                direction={'row'}
+                justify={'center'}
+              >
+                <Button
+                  className={classes.siteButton}
+                  component={RouterLink}
+                  to={'/meetings'}
+                  onClick={() => {
+                    setGreen('2');
+                  }}
+                >
+                  <EmojiPeople
+                    color={green === '2' ? 'primary' : 'black'}
+                    style={{
+                      marginRight: '0.5vw',
+                    }}
+                  />Meetings
+                </Button>
+              </Grid>
+              <Grid
+                item
+                container
+                sm={3}
+                direction={'row'}
+                justify={'center'}
+              >
+                <Button
+                  className={classes.siteButton}
+                  component={RouterLink}
+                  to={'/fundings'}
+                  onClick={() => {
+                    setGreen('3');
+                  }}
+                >
+                  <Euro
+                    color={green === '3' ? 'primary' : 'black'}
+                    style={{
+                      marginRight: '0.5vw',
+                    }}
+                  />Fundings
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid
               sm={3}
-              direction={'row'}
-              justify={'center'}
-            >
-              <Button
-                className={classes.siteButton}
-                component={RouterLink}
-                to={'/meetings'}
-                onClick={() => {
-                  setGreen('2');
-                }}
-              >
-                <EmojiPeople
-                  color={green === '2' ? 'primary' : 'black'}
-                  style={{
-                    marginRight: '0.5vw',
-                  }}
-                />Meetings
-              </Button>
-            </Grid>
-            <Grid
-              item
               container
-              sm={3}
               direction={'row'}
-              justify={'center'}
             >
-              <Button
-                className={classes.siteButton}
-                component={RouterLink}
-                to={'/fundings'}
-                onClick={() => {
-                  setGreen('3');
-                }}
+
+
+              <Grid
+                container
+                sm={10}
+                alignContent={'center'}
+                justify={'flex-end'}
               >
-                <Euro
-                  color={green === '3' ? 'primary' : 'black'}
-                  style={{
-                    marginRight: '0.5vw',
-                  }}
-                />Fundings
-              </Button>
-            </Grid>
-          </Grid>
-          <Grid
-            sm={3}
-            container
-            direction={'row'}
-          >
+
+                {user &&
+                <Typography
+                  component="h4"
+                  variant="h8"
+                  className={classes.userName}
+
+                >{'Hi ' + user.first_name+'!'}</Typography>
+                }
+
+              </Grid>
 
 
-            <Grid
-              container
-              sm={10}
-              alignContent={'center'}
-              justify={'flex-end'}
-            >
-
-              {user &&
-              <Typography
-                component="h4"
-                variant="h8"
-                className={classes.userName}
-
-              >{wdth850 &&'Hi, ' + user.first_name}</Typography>
-              }
-
-            </Grid>
-
-
-            <Grid
-              item
-              sm={2}
-            >
-              <IconButton
-                edge="start"
-                className={classes.menuButton}
-                aria-label="menu"
-                onClick={toggleDrawer(true)}
+              <Grid
+                item
+                sm={2}
               >
-                <MenuIcon />
-              </IconButton>
-            </Grid>
+                <IconButton
+                  edge="start"
+                  className={classes.menuButton}
+                  aria-label="menu"
+                  onClick={toggleDrawer(true)}
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Grid>
 
-          </Grid>
-        </Toolbar>
-      </AppBar>
+            </Grid>
+          </Toolbar>
+        </AppBar>
+      }
       <Drawer
         open={open}
         onClose={toggleDrawer(false)}
@@ -301,21 +448,7 @@ const Nav = ({history}) => {
                 className={classes.typography}
               />
             </ListItem>
-            <ListItem
-              button
-              component={RouterLink}
-              onClick={toggleDrawer(false)}
-              to="/blogupload"
-            >
-              <ListItemIcon>
-                <CloudUpload/>
-              </ListItemIcon>
-              <ListItemText
-                primary="BlogUpload"
-                disableTypography
-                className={classes.typography}
-              />
-            </ListItem>
+
           </>
           }
 
@@ -357,7 +490,6 @@ const Nav = ({history}) => {
           }
 
         </List>
-
       </Drawer>
       <Modal
         open={modalOpen}
