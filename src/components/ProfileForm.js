@@ -107,7 +107,7 @@ const ProfileForm = ({user, setUpdate}) => {
                 fullWidth
                 type="password"
                 name="password"
-                label="Password"
+                label="New password"
                 value={inputs?.password}
                 onChange={handleInputChange}
                 validators={validators.password}
@@ -120,7 +120,7 @@ const ProfileForm = ({user, setUpdate}) => {
                 fullWidth
                 type="password"
                 name="confirm"
-                label="Confirm password"
+                label="Confirm new password"
                 value={inputs?.confirm}
                 onChange={handleInputChange}
                 validators={validators.confirm}
@@ -132,6 +132,8 @@ const ProfileForm = ({user, setUpdate}) => {
             <Grid item xs={12}>
               <TextValidator
                 fullWidth
+                label='Select profile picture'
+                InputLabelProps={{shrink: true}}
                 type="file"
                 name="file"
                 accept="image/*"

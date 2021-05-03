@@ -221,10 +221,12 @@ const BlogUpload = ({history}) => {
               }}
             >
               <TextValidator
+                label='Select image or video for post'
+                InputLabelProps={{shrink: true}}
                 fullWidth
                 type="file"
                 name="file"
-                accept="image/*, audio/*, video/*"
+                accept="image/*, video/*"
                 required
                 onChange={handleFileChange}
               />

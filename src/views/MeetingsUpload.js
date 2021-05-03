@@ -357,9 +357,11 @@ const MeetingsUpload = ({history}) => {
                 >
                   <TextValidator
                     fullWidth
+                    label='Select image or video for post'
+                    InputLabelProps={{shrink: true}}
                     type="file"
                     name="file"
-                    accept="image/*, audio/*, video/*"
+                    accept="image/*, video/*"
                     required
                     onChange={handleFileChange}
                   />

@@ -10,7 +10,7 @@ import {
   ListItemIcon, ListItemText, Modal,
   Typography,
   Paper,
-  Box,
+  Box, IconButton,
 } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
@@ -23,6 +23,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import {useMedia} from '../hooks/ApiHooks';
 import {makeStyles} from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -193,7 +194,7 @@ const Profile = () => {
                   </ListItemIcon>
                   <ListItemText
                     primary=
-                      {'Change password' }
+                      {'Change userdata' }
                   />
                 </ListItem>
               </List>
@@ -214,10 +215,24 @@ const Profile = () => {
                 <Grid
                   xs={4}
                 >
+
                   <Paper
                     style={{
                       padding: '50px',
                     }}>
+                    <Grid
+                      container
+                      item
+                      justify={'flex-end'}
+                    >
+                      <IconButton
+                        onClick={() => {
+                          setToggleForm(false);
+                        }}
+                      >
+                        <CloseIcon/>
+                      </IconButton>
+                    </Grid>
                     <ProfileForm
                       user={user}
                       setUser={setUser}

@@ -93,7 +93,6 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   } catch (e) {
     desc = {description: file.description};
   }
-  console.log(desc.description.slice(0, 10));
 
   if (file.media_type === 'image') file.media_type = 'img';
 

@@ -44,6 +44,11 @@ const useStyles = makeStyles((theme) => ({
     color: '#47D378',
     fontFamily: 'Roboto Mono',
   },
+  titleMobile: {
+    color: '#47D378',
+    fontFamily: 'Roboto Mono',
+    fontSize: '15px',
+  },
   appBar: {
     boxShadow: 'none',
     borderBottom: 'solid #47D378',
@@ -51,6 +56,12 @@ const useStyles = makeStyles((theme) => ({
   userName: {
     marginRight: '2vw',
     fontFamily: 'Roboto Mono',
+
+  },
+  userNameMobile: {
+    marginRight: '2vw',
+    fontFamily: 'Roboto Mono',
+    fontSize: '13px',
 
   },
   siteButton: {
@@ -103,10 +114,7 @@ const Nav = ({history}) => {
       try {
         const token = localStorage.getItem('token');
         const userdata = await getUser(token);
-        // ver1 that works
-        // setUser(userdata);
 
-        // ver2 that doesn't work
 
         const data = {
           email: userdata.email,
@@ -124,6 +132,23 @@ const Nav = ({history}) => {
     };
     checkUser();
   }, []);
+
+  useEffect(()=>{
+    console.log(window.location.pathname);
+    if (window.location.pathname === '/' ) {
+      setGreen('1');
+    } else if (window.location.pathname === '/blogupload') {
+      setGreen('1');
+    } else if (window.location.pathname === '/meetings') {
+      setGreen('2');
+    } else if (window.location.pathname === '/meetingsupload') {
+      setGreen('2');
+    } else if (window.location.pathname === '/fundings') {
+      setGreen('3');
+    } else if (window.location.pathname === '/fundingsupload') {
+      setGreen('3');
+    }
+  }, [window.location.pathname]);
 
   return (
     <>
@@ -145,7 +170,7 @@ const Nav = ({history}) => {
                 <Grid
                   item
                 >
-                  <Typography variant="h6" className={classes.title}>
+                  <Typography variant="h6" className={classes.titleMobile}>
                     <Link
                       component={RouterLink}
                       to="/" color="inherit">Environmental Idealists</Link>
@@ -159,7 +184,7 @@ const Nav = ({history}) => {
                   <Typography
                     component="h4"
                     variant="h8"
-                    className={classes.userName}
+                    className={classes.userNameMobile}
 
                   >{'Hi ' + user.first_name+'!'}</Typography>
                   }
@@ -190,9 +215,7 @@ const Nav = ({history}) => {
                       <Button
                         component={RouterLink}
                         to={'/'}
-                        onClick={() => {
-                          setGreen('1');
-                        }}
+
                         classes={{
                           root: classes.siteButtonMobile,
                           label: classes.buttonLabel}}
@@ -214,9 +237,7 @@ const Nav = ({history}) => {
                           label: classes.buttonLabel}}
                         component={RouterLink}
                         to={'/meetings'}
-                        onClick={() => {
-                          setGreen('2');
-                        }}
+
                       >
                         <EmojiPeople
                           color={green === '2' ? 'primary' : 'black'}
@@ -236,9 +257,7 @@ const Nav = ({history}) => {
                           label: classes.buttonLabel}}
                         component={RouterLink}
                         to={'/fundings'}
-                        onClick={() => {
-                          setGreen('3');
-                        }}
+
                       >
                         <Euro
                           color={green === '3' ? 'primary' : 'black'}
@@ -307,9 +326,7 @@ const Nav = ({history}) => {
                   className={classes.siteButton}
                   component={RouterLink}
                   to={'/'}
-                  onClick={() => {
-                    setGreen('1');
-                  }}
+
 
                 >
                   <EmojiNature
@@ -332,9 +349,7 @@ const Nav = ({history}) => {
                   className={classes.siteButton}
                   component={RouterLink}
                   to={'/meetings'}
-                  onClick={() => {
-                    setGreen('2');
-                  }}
+
                 >
                   <EmojiPeople
                     color={green === '2' ? 'primary' : 'black'}
@@ -355,9 +370,7 @@ const Nav = ({history}) => {
                   className={classes.siteButton}
                   component={RouterLink}
                   to={'/fundings'}
-                  onClick={() => {
-                    setGreen('3');
-                  }}
+
                 >
                   <Euro
                     color={green === '3' ? 'primary' : 'black'}

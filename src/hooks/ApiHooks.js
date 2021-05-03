@@ -43,7 +43,6 @@ const useMedia = (update = false, ownFiles, tag) => {
     try {
       setLoading(true);
       const files = await doFetch(baseUrl + 'tags/' + tag);
-      console.log(baseUrl + 'tags/' + tag);
       // console.log(files);
       let allFiles = await Promise.all(files.map(async (item) => {
         return await doFetch(baseUrl + 'media/' + item.file_id);
@@ -330,7 +329,6 @@ const useComments = (update = false, id) => {
         (async () => {
           const comments = await getCommentById(id);
           setShowAllComments(comments);
-          console.log('set comments apiHooks', comments);
         })();
       } catch (e) {
         alert(e.message);
