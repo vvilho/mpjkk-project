@@ -489,7 +489,6 @@ const Nav = ({history}) => {
             </ListItem> :
             <ListItem
               button
-              component={RouterLink}
               onClick={() => {
                 setOpen(false);
                 setModalOpen(true);

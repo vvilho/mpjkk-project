@@ -7,13 +7,12 @@ import {MediaContext} from '../contexts/MediaContext';
 import {Button, Grid, TextField, Typography} from '@material-ui/core';
 
 const LoginForm = ({setModalOpen}) => {
-  const {user, setUser} = useContext(MediaContext);
+  const {setUser} = useContext(MediaContext);
   const {postLogin} = useLogin();
 
   const doLogin = async () => {
     try {
       const userdata = await postLogin(inputs);
-      console.log('userdata', userdata);
       localStorage.setItem('token', userdata.token);
       setUser({
         email: userdata.user.email,
@@ -34,7 +33,6 @@ const LoginForm = ({setModalOpen}) => {
     password: '',
   });
 
-  console.log('LoginForm', inputs, user);
 
   return (
     <Grid container>
@@ -52,7 +50,7 @@ const LoginForm = ({setModalOpen}) => {
                 fullWidth
                 type="text"
                 name="username"
-                label="Username"
+                label="Email"
                 onChange={handleInputChange}
                 value={inputs.username}
               />
