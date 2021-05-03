@@ -9,6 +9,7 @@ import {
   makeStyles,
   Paper,
   Typography,
+  Button,
 } from '@material-ui/core';
 import BackButton from '../components/BackButton';
 import {useTag, useFavorite, useComments} from '../hooks/ApiHooks';
@@ -25,13 +26,17 @@ import {MediaContext} from '../contexts/MediaContext';
 import CommentTable from '../components/CommentTable';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useMedia} from '../hooks/ApiHooks';
+import dateFormat from 'dateformat';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 
 const useStyles = makeStyles({
   root: {
     maxWidth: '100%',
   },
   media: {
-    height: '50vh',
+    height: '100%',
+    width: '100%',
   },
   cardBottomNav: {
     width: '100%',
@@ -42,7 +47,11 @@ const useStyles = makeStyles({
     paddingLeft: 10,
   },
   top: {
-    marginBottom: '-1.5em',
+    marginBottom: '-1em',
+  },
+  paperZero: {
+    marginLeft: '-1.5em',
+    marginRight: '-1.5em',
   },
 });
 
@@ -61,6 +70,7 @@ const BlogSingle = ({location, ownFiles, history}) => {
   const {showAllComments, setShowAllComments, getCommentById, postComment, loading, deleteComment} = useComments(true, file.file_id);
   const [comments, setComments] = useState(0);
   const {deleteMedia} = useMedia(true, ownFiles);
+  const screenMobile = useMediaQuery('(max-width:600px)');
 
   let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
   try {
@@ -158,7 +168,7 @@ const BlogSingle = ({location, ownFiles, history}) => {
       >
         {file.title}
       </Typography>
-      <Paper elevation={0}>
+      <Paper elevation={0} className={screenMobile && classes.paperZero}>
         <Card className={classes.root}>
           <Box>
             {ownFiles &&
@@ -188,11 +198,25 @@ const BlogSingle = ({location, ownFiles, history}) => {
               <ListItemAvatar>
                 <Avatar variant={'circle'} src={avatar} />
               </ListItemAvatar>
-              <Typography variant="subtitle2">{desc.owner}</Typography>
-            </ListItem>
-            <ListItem>
+              <Typography>{desc.owner}</Typography>
+              <Typography>
+              &nbsp;&middot;&nbsp;
+              </Typography>
+              <Typography>
+                {dateFormat(file.time_added, 'dd.mm.yyyy')}
+              </Typography>
             </ListItem>
           </List>
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            style={{
+              marginRight: '0.7em',
+            }}>
+            <Button color="secondary" size="small" disabled>
+          #{desc.hashtag}
+            </Button>
+          </Box>
           <CardMedia
             component={file.media_type}
             controls

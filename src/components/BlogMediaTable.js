@@ -10,7 +10,6 @@ import {
   GridList,
   GridListTile, ListSubheader,
   makeStyles,
-  useMediaQuery,
   Fab, Grid, Button,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
@@ -46,7 +45,6 @@ const BlogMediaTable = ({ownFiles, history}) => {
   const {user, setModalOpen, setModalOpenText} = useContext(MediaContext);
 
   const classes = useStyles();
-  const matches = useMediaQuery('(min-width:697px)');
 
   const [hashtagCategory, setHashtagCategory] =
     useState('EnvironmetalIdealist_blog');
@@ -200,12 +198,12 @@ const BlogMediaTable = ({ownFiles, history}) => {
         </Grid>
       </Grid>
       <GridList
-        cellHeight={500}
+        cellHeight={'auto'}
         className={classes.gridList}
-        cols={matches ? 3 : 1}
+        cols={1}
 
       >
-        <GridListTile key="Subheader" cols={3} style={{height: 'auto'}}>
+        <GridListTile key="Subheader" style={{height: 'auto'}}>
           <ListSubheader
             component="div">
             {hashtagCategory.length === 25 ?
@@ -215,7 +213,12 @@ const BlogMediaTable = ({ownFiles, history}) => {
         </GridListTile>
         {!loading ?
           picArray.slice(0).reverse().map((item) =>
-            <GridListTile key={item.file_id}>
+            <GridListTile
+              key={item.file_id}
+              style={{
+                marginBottom: '15px',
+              }}
+            >
               <BlogMediaRow
                 file={item}
                 ownFiles={ownFiles}
