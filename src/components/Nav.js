@@ -570,6 +570,7 @@ const Nav = ({history}) => {
           alignContent={'center'}
           style={{
             outline: 'none',
+            paddingTop: '15vh',
           }}
         >
           <Grid

@@ -200,7 +200,7 @@ const Profile = () => {
                 alignItems={'center'}
                 alignContent={'center'}
                 style={{
-                  paddingTop: '35%',
+                  paddingTop: '20vh',
                 }}
               >
                 <Grid
