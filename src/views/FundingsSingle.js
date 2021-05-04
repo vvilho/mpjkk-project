@@ -18,6 +18,7 @@ import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import {MediaContext} from '../contexts/MediaContext';
 import DeleteIcon from '@material-ui/icons/Delete';
+import dateFormat from 'dateformat';
 
 
 const useStyles = makeStyles({
@@ -37,6 +38,10 @@ const useStyles = makeStyles({
   },
   top: {
     marginBottom: '-1.5em',
+  },
+  donate: {
+    margin: '1em',
+    marginTop: '-1em',
   },
 });
 
@@ -139,13 +144,18 @@ const FundingsSingle = ({location, ownFiles, history}) => {
   return (
     <>
       <BackButton />
-      <Typography
-        component="h1"
-        variant="h2"
-        gutterBottom
+      <Box
+        display="flex"
+        justifyContent="center"
       >
-        {file.title}
-      </Typography>
+        <Typography
+          component="h1"
+          variant="h2"
+          gutterBottom
+        >
+          {file.title}
+        </Typography>
+      </Box>
       <Paper elevation={0}>
         <Card className={classes.root}>
           <Box>
@@ -178,8 +188,14 @@ const FundingsSingle = ({location, ownFiles, history}) => {
               </ListItemAvatar>
               <Typography
                 variant="subtitle6">
-                {desc.owner +
-                ' posted this funding project'}</Typography>
+                {desc.owner}
+              </Typography>
+              <Typography>
+              &nbsp;&middot;&nbsp;
+              </Typography>
+              <Typography>
+                {dateFormat(file.time_added, 'dd.mm.yyyy')}
+              </Typography>
             </ListItem>
             <Grid
             >
@@ -193,42 +209,47 @@ const FundingsSingle = ({location, ownFiles, history}) => {
               />
             </Grid>
             <ListItem>
-
+              <CardContent>
+                <Typography>{desc.description}</Typography>
+              </CardContent>
             </ListItem>
             <ListItem>
               <Grid
                 container
                 direction={'column'}
+                style={{marginBottom: '1em'}}
               >
-                <Typography
-                  variant="h6"
-
-                  component="h6"
-                >Donations</Typography>
-                <Slider
-                  valueLabelDisplay={'auto'}
-                  min={0}
-                  max={desc.money}
-                  value={donatedTotal}
-                />
-                <Grid
-                  style={{
-                    paddingBottom: '10px',
-                  }}
-                >
+                <Grid className={classes.donate}>
                   <Typography
-                    variant="h7"
-                    component="h7"
+                    variant="h6"
+
+                    component="h6"
+                  >Donations</Typography>
+                  <Slider
+                    valueLabelDisplay={'auto'}
+                    min={0}
+                    max={desc.money}
+                    value={donatedTotal}
+                  />
+                  <Grid
                     style={{
-                      fontWeight: 'bold',
-
+                      paddingBottom: '10px',
                     }}
-                  >{donatedTotal+'€ raised of'}</Typography>
-                  <Typography
-                    variant="h7"
+                  >
+                    <Typography
+                      variant="h7"
+                      component="h7"
+                      style={{
+                        fontWeight: 'bold',
 
-                    component="h7"
-                  > {' '+desc.money+'€'}</Typography>
+                      }}
+                    >{donatedTotal+'€ raised of'}</Typography>
+                    <Typography
+                      variant="h7"
+
+                      component="h7"
+                    > {' '+desc.money+'€'}</Typography>
+                  </Grid>
                 </Grid>
                 <Grid
                   container
@@ -258,11 +279,6 @@ const FundingsSingle = ({location, ownFiles, history}) => {
               </Grid>
             </ListItem>
           </List>
-
-
-          <CardContent>
-            <Typography gutterBottom>{desc.description}</Typography>
-          </CardContent>
         </Card>
       </Paper>
       <Modal
