@@ -15,6 +15,7 @@ import FundingsSingle from './views/FundingsSingle';
 import BlogUpload from './views/BlogUpload';
 import MeetingsUpload from './views/MeetingsUpload';
 import FundingsUpload from './views/FundingsUpload';
+import AboutUs from './views/AboutUs';
 require('typeface-roboto-mono');
 
 import Meetings from './views/Meetings';
@@ -43,6 +44,7 @@ const App = () => {
               <Route path="/mymeetups" component={MyMeetups}/>
               <Route path="/myfundings" component={MyFundings}/>
               <Route path="/modify" component={Modify}/>
+              <Route path="/aboutus" component={AboutUs}/>
             </Switch>
           </main>
         </Container>
