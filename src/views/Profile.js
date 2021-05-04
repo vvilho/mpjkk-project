@@ -199,6 +199,9 @@ const Profile = () => {
                 justify={'center'}
                 alignItems={'center'}
                 alignContent={'center'}
+                style={{
+                  paddingTop: '35%',
+                }}
               >
                 <Grid
                   md={4}
