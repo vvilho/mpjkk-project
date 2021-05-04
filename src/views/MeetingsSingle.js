@@ -39,12 +39,11 @@ const useStyles = makeStyles({
     paddingLeft: 10,
   },
   top: {
-    marginBottom: '-1.5em',
+    marginBottom: '-1em',
   },
 });
 
 const MeetingsSingle = ({location, ownFiles, history}) => {
-  const [owner, setOwner] = useState(null);
   const [avatar, setAvatar] = useState();
   const classes = useStyles();
   const {getUserById} = useUsers();
@@ -150,13 +149,18 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
   return (
     <>
       <BackButton />
-      <Typography
-        component="h1"
-        variant="h2"
-        gutterBottom
+      <Box
+        display="flex"
+        justifyContent="center"
       >
-        {file.title}
-      </Typography>
+        <Typography
+          component="h1"
+          variant="h2"
+          gutterBottom
+        >
+          {file.title}
+        </Typography>
+      </Box>
       <Paper elevation={0}>
         <Card className={classes.root}>
           <Box>
@@ -183,15 +187,27 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
             }
           </Box>
           <List>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar variant={'circle'} src={avatar} />
-              </ListItemAvatar>
-              <Typography
-                variant="subtitle6">
-                {owner?.first_name +
-              ' posted this meetup'}</Typography>
-            </ListItem>
+            <Box style={{marginBottom: '0.5em'}}>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar variant={'circle'} src={avatar} />
+                </ListItemAvatar>
+                <Typography
+                  variant="subtitle6">
+                  {desc.owner}
+                </Typography>
+              </ListItem>
+            </Box>
+            <Grid
+            >
+              <CardMedia
+                component={file.media_type}
+                controls
+                className={classes.media}
+                image={uploadsUrl + file.filename}
+                title={file.title}
+              />
+            </Grid>
             <ListItem>
               <Grid
                 direction={'column'}
@@ -235,17 +251,6 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
 
           <CardContent>
             <Typography gutterBottom>{desc.description}</Typography>
-
-            <Grid
-            >
-              <CardMedia
-                component={file.media_type}
-                controls
-                className={classes.media}
-                image={uploadsUrl + file.filename}
-                title={file.title}
-              />
-            </Grid>
           </CardContent>
         </Card>
       </Paper>

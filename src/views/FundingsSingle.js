@@ -19,6 +19,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import {MediaContext} from '../contexts/MediaContext';
 import DeleteIcon from '@material-ui/icons/Delete';
 import dateFormat from 'dateformat';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 const useStyles = makeStyles({
@@ -37,7 +38,7 @@ const useStyles = makeStyles({
     paddingLeft: 10,
   },
   top: {
-    marginBottom: '-1.5em',
+    marginBottom: '-1em',
   },
   donate: {
     margin: '1em',
@@ -56,6 +57,7 @@ const FundingsSingle = ({location, ownFiles, history}) => {
   const {getTag} = useTag();
   const {postComment, getCommentById} = useComments(true, file.file_id);
   const {deleteMedia} = useMedia(true, ownFiles);
+  const screenNarrow = useMediaQuery('(max-width:600px)');
 
   let desc = {};
   try {
@@ -182,21 +184,23 @@ const FundingsSingle = ({location, ownFiles, history}) => {
             }
           </Box>
           <List>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar variant={'circle'} src={avatar} />
-              </ListItemAvatar>
-              <Typography
-                variant="subtitle6">
-                {desc.owner}
-              </Typography>
-              <Typography>
+            <Box style={{marginBottom: '0.5em'}}>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar variant={'circle'} src={avatar} />
+                </ListItemAvatar>
+                <Typography
+                  variant="subtitle6">
+                  {desc.owner}
+                </Typography>
+                <Typography>
               &nbsp;&middot;&nbsp;
-              </Typography>
-              <Typography>
-                {dateFormat(file.time_added, 'dd.mm.yyyy')}
-              </Typography>
-            </ListItem>
+                </Typography>
+                <Typography>
+                  {dateFormat(file.time_added, 'dd.mm.yyyy')}
+                </Typography>
+              </ListItem>
+            </Box>
             <Grid
             >
               <CardMedia
@@ -207,16 +211,19 @@ const FundingsSingle = ({location, ownFiles, history}) => {
                 title={file.title}
               />
             </Grid>
-            <ListItem>
-              <CardContent>
-                <Typography>{desc.description}</Typography>
-              </CardContent>
-            </ListItem>
+            <CardContent>
+              <Typography
+                style={{padding: '1em  0'}}
+              >
+                {desc.description}
+              </Typography>
+            </CardContent>
             <ListItem>
               <Grid
                 container
                 direction={'column'}
-                style={{marginBottom: '1em'}}
+                // eslint-disable-next-line max-len
+                style={{marginBottom: '1em', padding: screenNarrow? '1em 0' : '1em 8%'}}
               >
                 <Grid className={classes.donate}>
                   <Typography

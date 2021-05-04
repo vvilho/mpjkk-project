@@ -194,7 +194,7 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             <Paper
               style={{
                 padding: '15px',
-                margin: '0 3em',
+                margin: '0 8%',
                 marginTop: '0.5em',
                 height: 'auto',
               }}
@@ -261,8 +261,8 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
                     color="textSecondary"
                     style={{wordWrap: 'break-word', fontSize: '1.1em', marginBottom: '1em'}}
                   >
-                    {desc.description.length > 300 ?
-                desc.description.slice(0, 300) + '...' :
+                    {desc.description.length > 100 ?
+                desc.description.slice(0, 100) + '...' :
                 desc.description}
                   </Typography>
                 </Grid>
