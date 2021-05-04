@@ -18,6 +18,7 @@ import {useContext, useEffect} from 'react';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import BackButton from '../components/BackButton';
 import {EmojiNature} from '@material-ui/icons';
+import moment from 'moment';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -111,12 +112,10 @@ const MeetingsUpload = ({history}) => {
       address: '',
       zipcode: '',
       city: '',
-      time_start: `${new Date().toISOString().slice(0, -8)}`,
+      time_start: `${(moment().format()).slice(0, -9)}`,
       time_end: '',
 
     });
-
-
   useEffect(() => {
     const reader = new FileReader();
 
@@ -148,6 +147,7 @@ const MeetingsUpload = ({history}) => {
         container
         justify={'center'}
       >
+
         <Grid
           item
           container
@@ -294,7 +294,7 @@ const MeetingsUpload = ({history}) => {
                       shrink: true,
                     }}
                     inputProps={{
-                      min: `${new Date().toISOString().slice(0, -8)}`,
+                      min: `${(moment().format()).slice(0, -9)}`,
 
                     }}
                   />
