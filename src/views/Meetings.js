@@ -24,7 +24,7 @@ const Meetings = () => {
             component="h1"
             variant="h2"
             color="primary"
-            gutterBottom>Meetings</Typography>
+            gutterBottom>Meetups</Typography>
         </Grid>
       </Grid>
       <MeetingsMediaTable/>

@@ -264,7 +264,7 @@ const Nav = ({history}) => {
                           style={{
                             marginRight: '0.5vw',
                           }}
-                        />Meetings
+                        />Meetups
                       </Button>
                     </Grid>
 
@@ -399,7 +399,7 @@ const Nav = ({history}) => {
                     style={{
                       marginRight: '0.5vw',
                     }}
-                  />Meetings
+                  />Meetups
                 </Button>
               </Grid>
               <Grid
