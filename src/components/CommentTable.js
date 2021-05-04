@@ -61,6 +61,9 @@ const CommentTable = ({file, user, setComments, showAllComments, setShowAllComme
                 <CardContent>
                   <Typography>
                     No comments
+                    {!user &&
+                    ' (log in to post a comment)'
+                    }
                   </Typography>
                 </CardContent>
               </Card>

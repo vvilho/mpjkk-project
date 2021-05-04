@@ -26,6 +26,7 @@ import {withRouter} from 'react-router-dom';
 import {useTag, useFavorite, useComments} from '../hooks/ApiHooks';
 import {useEffect, useState, useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
+import dateFormat from 'dateformat';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -208,15 +209,21 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               />
             </Box>
             <Box className={classes.paddingBox}>
-              <Typography gutterBottom variant="h6" component="h2" className={classes.lines}>
+              <Typography gutterBottom variant="h5" component="h2" className={classes.lines}>
                 {file.title}
               </Typography>
-              <Typography className={classes.lines}>
-                {desc.owner}
+              <Typography className={classes.lines}
+                style={{fontSize: '0.8em'}}>
+                {desc.owner}&nbsp;&middot;&nbsp;{dateFormat(file.time_added, 'dd.mm.yyyy')}
               </Typography>
             </Box>
           </Box>
-          <Box display="flex" justifyContent="flex-end">
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            style={{
+              marginRight: '0.7em',
+            }}>
             <Button color="secondary" size="small" disabled>
           #{desc.hashtag}
             </Button>
@@ -232,7 +239,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               color="textSecondary"
               component="p"
             >
-              <div>
+              <div style={{fontSize: '1.1em'}}>
                 {ownFiles || desc.description.length > 300 ?
                 desc.description.slice(0, 300) + '...' :
                 desc.description}

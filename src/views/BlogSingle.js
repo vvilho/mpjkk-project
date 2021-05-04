@@ -27,7 +27,7 @@ import CommentTable from '../components/CommentTable';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useMedia} from '../hooks/ApiHooks';
 import dateFormat from 'dateformat';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+// import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 const useStyles = makeStyles({
@@ -49,10 +49,6 @@ const useStyles = makeStyles({
   top: {
     marginBottom: '-1em',
   },
-  paperZero: {
-    marginLeft: '-1.5em',
-    marginRight: '-1.5em',
-  },
 });
 
 const BlogSingle = ({location, ownFiles, history}) => {
@@ -70,7 +66,7 @@ const BlogSingle = ({location, ownFiles, history}) => {
   const {showAllComments, setShowAllComments, getCommentById, postComment, loading, deleteComment} = useComments(true, file.file_id);
   const [comments, setComments] = useState(0);
   const {deleteMedia} = useMedia(true, ownFiles);
-  const screenMobile = useMediaQuery('(max-width:600px)');
+  // const screenMobile = useMediaQuery('(max-width:600px)');
 
   let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
   try {
@@ -181,7 +177,7 @@ const BlogSingle = ({location, ownFiles, history}) => {
           {file.title}
         </Typography>
       </Box>
-      <Paper elevation={0} className={screenMobile && classes.paperZero}>
+      <Paper elevation={0}>
         <Card className={classes.root}>
           <Box>
             {ownFiles &&
