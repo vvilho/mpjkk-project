@@ -153,7 +153,6 @@ const BlogSingle = ({location, ownFiles, history}) => {
   const delPost = async () => {
     try {
       await deleteMedia(file.file_id, localStorage.getItem('token'));
-      history.push('/');
     } catch (e) {
       alert(e.message);
     }
@@ -195,6 +194,7 @@ const BlogSingle = ({location, ownFiles, history}) => {
                 const conf = confirm('Do you really want to delete?');
                 if (conf) {
                   delPost();
+                  history.push('/');
                 }
               } catch (e) {
                 console.log(e.message);

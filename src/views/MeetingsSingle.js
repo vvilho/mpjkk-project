@@ -18,6 +18,7 @@ import {useTag, useUsers} from '../hooks/ApiHooks';
 import {useEffect, useState, useContext} from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {MediaContext} from '../contexts/MediaContext';
+import {useMedia} from '../hooks/ApiHooks';
 
 import React from 'react';
 
@@ -49,6 +50,7 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
   const {getUserById} = useUsers();
   const {getTag} = useTag();
   const {user} = useContext(MediaContext);
+  const {deleteMedia} = useMedia(true, ownFiles);
 
   const file = location.state;
   let desc = {};
@@ -91,6 +93,14 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
 
   if (file.media_type === 'image') file.media_type = 'img';
 
+  const delPost = async () => {
+    try {
+      await deleteMedia(file.file_id, localStorage.getItem('token'));
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
   return (
     <>
       <BackButton />
@@ -113,8 +123,8 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
               try {
                 const conf = confirm('Do you really want to delete?');
                 if (conf) {
-                  deleteMedia(file.file_id, localStorage.getItem('token'));
-                  history.push('/');
+                  delPost();
+                  history.push('/meetings');
                 }
               } catch (e) {
                 console.log(e.message);

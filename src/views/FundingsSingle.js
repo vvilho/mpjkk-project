@@ -13,7 +13,7 @@ import {
 import BackButton from '../components/BackButton';
 import {useComments, useTag} from '../hooks/ApiHooks';
 import {useContext, useEffect, useState} from 'react';
-
+import {useMedia} from '../hooks/ApiHooks';
 import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import {MediaContext} from '../contexts/MediaContext';
@@ -50,6 +50,7 @@ const FundingsSingle = ({location, ownFiles, history}) => {
   const classes = useStyles();
   const {getTag} = useTag();
   const {postComment, getCommentById} = useComments(true, file.file_id);
+  const {deleteMedia} = useMedia(true, ownFiles);
 
   let desc = {};
   try {
@@ -119,6 +120,14 @@ const FundingsSingle = ({location, ownFiles, history}) => {
     })();
   }, []);
 
+  const delPost = async () => {
+    try {
+      await deleteMedia(file.file_id, localStorage.getItem('token'));
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
   if (user) {
     if (file.user_id === user.user_id) {
       ownFiles = true;
@@ -149,8 +158,8 @@ const FundingsSingle = ({location, ownFiles, history}) => {
               try {
                 const conf = confirm('Do you really want to delete?');
                 if (conf) {
-                  deleteMedia(file.file_id, localStorage.getItem('token'));
-                  history.push('/');
+                  delPost();
+                  history.push('/fundings');
                 }
               } catch (e) {
                 console.log(e.message);
