@@ -23,6 +23,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import InfoIcon from '@material-ui/icons/Info';
 import {
   EmojiNature,
   EmojiPeople,
@@ -496,6 +497,22 @@ const Nav = ({history}) => {
               className={classes.typography}
             />
           </ListItem>
+          <ListItem
+            button
+            component={RouterLink}
+            onClick={toggleDrawer(false)}
+            to="/aboutus"
+          >
+            <ListItemIcon>
+              <InfoIcon/>
+            </ListItemIcon>
+            <ListItemText
+              primary="About us"
+              disableTypography
+              className={classes.typography}
+            />
+          </ListItem>
+
           {user &&
           <>
             <ListItem
