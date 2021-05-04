@@ -12,6 +12,8 @@ import {useComments, useTag} from '../hooks/ApiHooks';
 import {Link as RouterLink, withRouter} from 'react-router-dom';
 import CardMedia from '@material-ui/core/CardMedia';
 import DeleteIcon from '@material-ui/icons/Delete';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import dateFormat from 'dateformat';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
   top: {
     marginBottom: '-1.5em',
   },
+  donate: {
+    margin: '2em 1em',
+  },
 }));
 
 const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
@@ -65,6 +70,7 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   const [donatedTotal, setDonatedTotal] = useState(0);
   const [donationDone, setDonationDone] = useState(false);
   const {getCommentById} = useComments(true, file.file_id);
+  const screenNarrow = useMediaQuery('(max-width:600px)');
 
 
   const {getTag} = useTag();
@@ -113,16 +119,17 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
 
   return (
     <>
-
-
-      <Card
-        variant="outlined"
-        classes={classes.card}
-
-
+      <Grid
+        container
+        justify={'center'}
       >
-        <Box>
-          {ownFiles &&
+        <Grid item xs={screenNarrow? 12 : 8}>
+          <Card
+            variant="outlined"
+            classes={classes.card}
+          >
+            <Box>
+              {ownFiles &&
         <Box display="flex" justifyContent="flex-end" className={classes.top}>
           <IconButton
             aria-label={`delete file`}
@@ -141,93 +148,99 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             <DeleteIcon/>
           </IconButton>
         </Box>
-          }
-        </Box>
-        <Box
-          display="flex"
-        >
-          <Box>
-            <CardHeader
-              avatar={
-                <Avatar
-                  variant={'circle'}
-                  src={avatar}
-                  aria-label="avatar"
-                  className={classes.avatar}
-                >
-
-                </Avatar>
               }
-            />
-          </Box>
-          <Box className={classes.paddingBox}>
-            <Typography gutterBottom variant="h6" component="h2" className={classes.lines}>
-              {file.title}
-            </Typography>
-            <Typography>{desc.owner}</Typography>
-          </Box>
-        </Box>
-        <Grid
-
-        >
-          <CardMedia
-            className={classes.media}
-            image={uploadsUrl + file.filename}
-            alt={file.title}
-
-          />
-        </Grid>
-        <Grid
-          style={{
-            padding: '15px',
-          }}
-        >
-          <Grid>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              style={{wordWrap: 'break-word'}}
-              gutterBottom
+            </Box>
+            <Box
+              display="flex"
             >
-              {desc.description.length > 300 ?
+              <Box>
+                <CardHeader
+                  avatar={
+                    <Avatar
+                      variant={'circle'}
+                      src={avatar}
+                      aria-label="avatar"
+                      className={classes.avatar}
+                    >
+
+                    </Avatar>
+                  }
+                />
+              </Box>
+              <Box className={classes.paddingBox}>
+                <Typography gutterBottom variant="h5" component="h2" className={classes.lines}>
+                  {file.title}
+                </Typography>
+                <Typography
+                  className={classes.lines}
+                  style={{fontSize: '0.8em'}}
+                >
+                  {desc.owner}&nbsp;&middot;&nbsp;{dateFormat(file.time_added, 'dd.mm.yyyy')}
+                </Typography>
+              </Box>
+            </Box>
+            <Grid
+
+            >
+              <CardMedia
+                className={classes.media}
+                image={uploadsUrl + file.filename}
+                alt={file.title}
+
+              />
+            </Grid>
+            <Grid
+              style={{
+                padding: '15px',
+              }}
+            >
+              <Grid>
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  style={{wordWrap: 'break-word', fontSize: '1.1em'}}
+                  gutterBottom
+                >
+                  {desc.description.length > 300 ?
                 desc.description.slice(0, 300) + '...' :
                 desc.description}
-            </Typography>
-          </Grid>
-          <Typography
-            variant="h6"
+                </Typography>
+              </Grid>
+              <Grid className={classes.donate}>
+                <Typography
+                  variant="h6"
 
-            component="h6"
-          >Donations</Typography>
-          <Slider
-            valueLabelDisplay={'auto'}
-            min={0}
-            max={desc.money}
-            value={donatedTotal}
-          />
-          <Grid>
-            <Typography
-              variant="h7"
-              component="h7"
-              style={{
-                fontWeight: 'bold',
+                  component="h6"
+                >Donations</Typography>
+                <Slider
+                  valueLabelDisplay={'auto'}
+                  min={0}
+                  max={desc.money}
+                  value={donatedTotal}
+                />
+                <Grid>
+                  <Typography
+                    variant="h7"
+                    component="h7"
+                    style={{
+                      fontWeight: 'bold',
 
-              }}
-            >{donatedTotal+'€ raised of '}</Typography>
-            <Typography
-              variant="h7"
+                    }}
+                  >{donatedTotal+'€ raised of '}</Typography>
+                  <Typography
+                    variant="h7"
 
-              component="h7"
-            > {desc.money+'€'}</Typography>
-          </Grid>
-
-        </Grid>
-        <Grid
-          container
-          direction={'column'}
-          alignItems={'center'}
-        >
-          {donationDone &&
+                    component="h7"
+                  > {desc.money+'€'}</Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              direction={'column'}
+              alignItems={'center'}
+            >
+              {donationDone &&
           <Grid
             item
             direction={'row'}
@@ -238,25 +251,29 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
             >This donation is done</Button>
 
           </Grid>
-          }
-          <Grid item >
-            <Button
-              aria-label={`info about ${file.title}`}
-              component={RouterLink}
-              to={{
-                pathname: '/fundingssingle',
-                state: file,
-              }}
-              className={classes.icon}
-              color="secondary"
-            >
+              }
+              <Grid item
+                style={{marginBottom: '1em'}}
+              >
+                <Button
+                  aria-label={`info about ${file.title}`}
+                  component={RouterLink}
+                  to={{
+                    pathname: '/fundingssingle',
+                    state: file,
+                  }}
+                  className={classes.icon}
+                  color="secondary"
+                >
               Read more
-            </Button>
-          </Grid>
+                </Button>
+              </Grid>
 
+            </Grid>
+
+          </Card>
         </Grid>
-
-      </Card>
+      </Grid>
     </>
   );
 };
