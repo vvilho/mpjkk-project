@@ -103,7 +103,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         result2.forEach((element) => {
           if (user) {
             if (element.user_id === user.user_id) {
-              setFav(!fav);
+              setFav(true);
             }
           }
           setLikes(result2.length);
@@ -120,7 +120,8 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         console.log(e.message);
       }
     })();
-  }, []);
+  }, [user]);
+
 
   const likingsAmount = async () => {
     try {
@@ -141,8 +142,6 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
           await postFavorite(localStorage.getItem('token'), file.file_id);
           likingsAmount();
         } else {
-          // or delete it from firestore
-          // console.log('delete fav');
           await deleteFavorite(localStorage.getItem('token'), file.file_id);
           likingsAmount();
         }

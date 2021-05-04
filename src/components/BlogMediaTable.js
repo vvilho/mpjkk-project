@@ -52,6 +52,7 @@ const BlogMediaTable = ({ownFiles, history}) => {
   const {picArray, loading, deleteMedia, setPicArray, getMedia} =
     useMedia(true, ownFiles, hashtagCategory);
 
+
   useEffect(() => {
     try {
       (async () => {
