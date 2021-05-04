@@ -189,16 +189,20 @@ const Profile = () => {
         </Card>
       }
       {toggleForm &&
-            <Modal open={toggleForm} onClose={() => {
-              setToggleForm(!toggleForm);
-            }}>
+            <Modal
+              open={toggleForm}
+              onClose={() => {
+                setToggleForm(!toggleForm);
+              }}>
               <Grid
                 container
                 justify={'center'}
                 alignItems={'center'}
+                alignContent={'center'}
               >
                 <Grid
-                  xs={4}
+                  md={4}
+                  sm={12}
                 >
 
                   <Paper

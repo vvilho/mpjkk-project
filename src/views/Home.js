@@ -18,9 +18,7 @@ const Home = () => {
           </Typography>
         </Grid>
         <Grid item
-          style={{
-            marginTop: '2em',
-          }}>
+        >
           <Typography
             component="h1"
             variant="h2"
@@ -30,6 +28,7 @@ const Home = () => {
       </Grid>
       <BlogMediaTable ownFiles={false}/>
     </>
+
   );
 };
 

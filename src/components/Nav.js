@@ -211,18 +211,25 @@ const Nav = ({history}) => {
 
                     <Grid
                       item
+                      style={green === '1' ? {
+                        backgroundColor: '#47D37859',
+                      } :
+                        {
+                          backgroundColor: '',
+                        }
+                      }
+
                     >
                       <Button
                         component={RouterLink}
                         to={'/'}
-
+                        color={green === '1' ? 'secondary' : 'black'}
                         classes={{
                           root: classes.siteButtonMobile,
                           label: classes.buttonLabel}}
 
                       >
                         <EmojiNature
-                          color={green === '1' ? 'primary' : 'black'}
 
                         />Blog
                       </Button>
@@ -230,17 +237,26 @@ const Nav = ({history}) => {
 
                     <Grid
                       item
+                      style={green === '2' ? {
+                        backgroundColor: '#47D37859',
+                      } :
+                        {
+                          backgroundColor: '',
+                        }
+                      }
                     >
                       <Button
                         classes={{
                           root: classes.siteButtonMobile,
                           label: classes.buttonLabel}}
+                        color={green === '2' ? 'secondary' : 'black'}
+
                         component={RouterLink}
                         to={'/meetings'}
 
+
                       >
                         <EmojiPeople
-                          color={green === '2' ? 'primary' : 'black'}
                           style={{
                             marginRight: '0.5vw',
                           }}
@@ -250,17 +266,25 @@ const Nav = ({history}) => {
 
                     <Grid
                       item
+                      style={green === '3' ? {
+                        backgroundColor: '#47D37859',
+                      } :
+                        {
+                          backgroundColor: '',
+                        }
+                      }
                     >
                       <Button
                         classes={{
                           root: classes.siteButtonMobile,
                           label: classes.buttonLabel}}
+                        color={green === '3' ? 'secondary' : 'black'}
                         component={RouterLink}
                         to={'/fundings'}
 
+
                       >
                         <Euro
-                          color={green === '3' ? 'primary' : 'black'}
                           style={{
                             marginRight: '0.5vw',
                           }}
@@ -320,17 +344,24 @@ const Nav = ({history}) => {
                 sm={3}
                 direction={'row'}
                 justify={'center'}
+                style={green === '1' ? {
+                  backgroundColor: '#47D37859',
+                } :
+                  {
+                    backgroundColor: '',
+                  }
+                }
 
               >
                 <Button
                   className={classes.siteButton}
                   component={RouterLink}
                   to={'/'}
+                  color={green === '1' ? 'secondary' : 'black'}
 
 
                 >
                   <EmojiNature
-                    color={green === '1' ? 'primary' : 'black'}
                     style={{
                       marginRight: '0.5vw',
                     }}
@@ -344,15 +375,23 @@ const Nav = ({history}) => {
                 sm={3}
                 direction={'row'}
                 justify={'center'}
+                style={green === '2' ? {
+                  backgroundColor: '#47D37859',
+                } :
+                  {
+                    backgroundColor: '',
+                  }
+                }
               >
                 <Button
                   className={classes.siteButton}
                   component={RouterLink}
                   to={'/meetings'}
+                  color={green === '2' ? 'secondary' : 'black'}
+
 
                 >
                   <EmojiPeople
-                    color={green === '2' ? 'primary' : 'black'}
                     style={{
                       marginRight: '0.5vw',
                     }}
@@ -365,15 +404,23 @@ const Nav = ({history}) => {
                 sm={3}
                 direction={'row'}
                 justify={'center'}
+                style={green === '3' ? {
+                  backgroundColor: '#47D37859',
+                } :
+                  {
+                    backgroundColor: '',
+                  }
+                }
+
               >
                 <Button
                   className={classes.siteButton}
                   component={RouterLink}
                   to={'/fundings'}
+                  color={green === '3' ? 'secondary' : 'black'}
 
                 >
                   <Euro
-                    color={green === '3' ? 'primary' : 'black'}
                     style={{
                       marginRight: '0.5vw',
                     }}
