@@ -150,6 +150,15 @@ const BlogSingle = ({location, ownFiles, history}) => {
     };
   };
 
+  const delPost = async () => {
+    try {
+      await deleteMedia(file.file_id, localStorage.getItem('token'));
+      history.push('/');
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
   if (file.media_type === 'image') file.media_type = 'img';
 
   if (user) {
@@ -185,8 +194,7 @@ const BlogSingle = ({location, ownFiles, history}) => {
               try {
                 const conf = confirm('Do you really want to delete?');
                 if (conf) {
-                  deleteMedia(file.file_id, localStorage.getItem('token'));
-                  history.push('/');
+                  delPost();
                 }
               } catch (e) {
                 console.log(e.message);
