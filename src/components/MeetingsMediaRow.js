@@ -19,6 +19,7 @@ import {Link as RouterLink, withRouter} from 'react-router-dom';
 import RoomIcon from '@material-ui/icons/Room';
 import dateFormat from 'dateformat';
 import DeleteIcon from '@material-ui/icons/Delete';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -86,6 +87,18 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
     })();
   }, []);
 
+
+  const meetingHappened = () => {
+    if (desc.time_end < (moment().format()).slice(0, -9)) {
+      return 'Happened';
+    } else if (desc.time_start < (moment().format()).slice(0, -9) && desc.time_end > (moment().format()).slice(0, -9)) {
+      return 'Happening right now';
+    } else {
+      return <>
+        <Typography>Happening in</Typography>
+        <Moment fromNow ago>{desc.time_start}</Moment></>;
+    }
+  };
 
   let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
   try {
@@ -164,19 +177,22 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
           elevation={5}
         >
           <Moment
-            format={'MM/DD/YY'}
+            format={'DD/MM/YY'}
             date={desc.time_start}
           />
           <Typography
             variant="h6"
 
           >{dateFormat(desc.time_start, 'HH:MM')}</Typography>
+          <Typography>{meetingHappened()}</Typography>
+
+
           <Grid
             container
             direction={'column'}
             alignItems={'center'}
             style={{
-              height: '70%',
+              height: '60%',
             }}
           >
             <Grid
@@ -229,6 +245,7 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               to={{
                 pathname: '/meetingssingle',
                 state: file,
+
               }}
               className={classes.icon}
               color="secondary"

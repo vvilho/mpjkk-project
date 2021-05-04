@@ -148,6 +148,8 @@ const Nav = ({history}) => {
       setGreen('3');
     } else if (window.location.pathname === '/fundingsupload') {
       setGreen('3');
+    } else {
+      setGreen('');
     }
   }, [window.location.pathname]);
 
@@ -179,6 +181,7 @@ const Nav = ({history}) => {
                 </Grid>
                 <Grid
                   item
+                  alignContent={'flex-end'}
                 >
 
                   {user &&

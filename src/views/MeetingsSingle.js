@@ -10,7 +10,7 @@ import {
   Paper,
   Typography,
   Box,
-  IconButton,
+  IconButton, CardMedia,
 } from '@material-ui/core';
 import RoomIcon from '@material-ui/icons/Room';
 import BackButton from '../components/BackButton';
@@ -56,12 +56,10 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
   let desc = {};
   try {
     desc = JSON.parse(file.description);
-    console.log(desc);
   } catch (e) {
     desc = {description: file.description};
   }
-  console.log(file.user_id);
-  console.log('toimiiko');
+
 
   useEffect(() => {
     (async () => {
@@ -100,6 +98,54 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
       alert(e.message);
     }
   };
+
+  const timeFunction = () => {
+    if (dateFormat(desc.time_start, 'dd.mm.yy') ===
+      dateFormat(desc.time_end, 'dd.mm.yy')) {
+      return (
+        <>
+          <Typography
+            variant="h5"
+          >When?</Typography>
+          <Typography>
+            {dateFormat(desc.time_start, 'dddd, dS') +
+            ' of ' +
+            dateFormat(desc.time_start, 'mmmm yyyy')
+            }
+          </Typography>
+          <Typography
+            variant={'h5'}
+          >
+            {dateFormat(desc.time_start, 'HH:MM')+
+
+            ' --> '+dateFormat(desc.time_end, 'HH:MM')}
+          </Typography>
+
+        </>);
+    } else {
+      return (
+        <>
+          <Typography
+            variant="h5"
+          >When?</Typography>
+          <Typography>
+            {dateFormat(desc.time_start, 'dddd, dS') +
+            ' of ' +
+            dateFormat(desc.time_start, 'mmmm yyyy HH:MM')}
+          </Typography>
+          <Typography
+            variant="h6"
+          >To</Typography>
+          <Typography>
+            {dateFormat(desc.time_end, 'dddd, dS') +
+            ' of ' +
+            dateFormat(desc.time_end, 'mmmm yyyy HH:MM')}
+          </Typography>
+        </>
+      );
+    }
+  };
+
 
   return (
     <>
@@ -150,22 +196,7 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
               <Grid
                 direction={'column'}
               >
-                <Typography
-                  variant="h5"
-                >When?</Typography>
-                <Typography>
-                  {dateFormat(desc.time_start, 'dddd, dS') +
-                  ' of ' +
-                  dateFormat(desc.time_start, 'mmmm yyyy HH:MM')}
-                </Typography>
-                <Typography
-                  variant="h6"
-                >To</Typography>
-                <Typography>
-                  {dateFormat(desc.time_end, 'dddd, dS') +
-                  ' of ' +
-                  dateFormat(desc.time_end, 'mmmm yyyy HH:MM')}
-                </Typography>
+                {timeFunction()}
 
               </Grid>
 
@@ -204,6 +235,17 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
 
           <CardContent>
             <Typography gutterBottom>{desc.description}</Typography>
+
+            <Grid
+            >
+              <CardMedia
+                component={file.media_type}
+                controls
+                className={classes.media}
+                image={uploadsUrl + file.filename}
+                title={file.title}
+              />
+            </Grid>
           </CardContent>
         </Card>
       </Paper>

@@ -8,7 +8,7 @@ import {
   makeStyles, Modal,
   Paper, Slider,
   Typography,
-  Box,
+  Box, CardMedia,
 } from '@material-ui/core';
 import BackButton from '../components/BackButton';
 import {useComments, useTag} from '../hooks/ApiHooks';
@@ -183,13 +183,12 @@ const FundingsSingle = ({location, ownFiles, history}) => {
             </ListItem>
             <Grid
             >
-              <img
-                style={{
-                  height: '100%',
-                  width: '100%',
-                }}
-                src={uploadsUrl + file.filename}
-                alt={file.title}
+              <CardMedia
+                component={file.media_type}
+                controls
+                className={classes.media}
+                image={uploadsUrl + file.filename}
+                title={file.title}
               />
             </Grid>
             <ListItem>
@@ -279,13 +278,20 @@ const FundingsSingle = ({location, ownFiles, history}) => {
 
           <Grid
             item
-            xs={4}
+            md={4}
+            sm={12}
+            style={{
+              paddingTop: '20%',
+            }}
 
           >
             <Paper
 
             >
-              <Grid>
+              <Grid
+                container
+                justify={'flex-end'}
+              >
                 <IconButton
                   onClick={() => {
                     setDonateModalOpen(false);
