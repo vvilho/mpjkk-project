@@ -69,7 +69,7 @@ const Profile = () => {
   const {getTag} = useTag();
   const {getFavorite} = useFavorite();
   const [myLikes, setMyLikes] = useState(0);
-  const [hashtagCategory] = useState('EnvironmetalIdealist_blog');
+  const [hashtagCategory] = useState('EnvironmetalIdealist_blogproducion');
   const {getMedia} = useMedia(true, hashtagCategory);
   const [myPosts, setMyPosts] = useState(0);
 
@@ -233,7 +233,7 @@ const Profile = () => {
                 alignItems={'center'}
                 alignContent={'center'}
                 style={{
-                  paddingTop: '20vh',
+                  paddingTop: '5vw',
                 }}
               >
                 <Grid
@@ -286,7 +286,7 @@ const Profile = () => {
                 alignItems={'center'}
                 alignContent={'center'}
                 style={{
-                  paddingTop: '20vh',
+                  paddingTop: '5vw',
                 }}
               >
                 <Grid
