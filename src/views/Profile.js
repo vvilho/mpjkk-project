@@ -11,12 +11,14 @@ import {
   Typography,
   Paper,
   Box, IconButton,
+  Link,
 } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import BackButton from '../components/BackButton';
 import {Link as RouterLink} from 'react-router-dom';
 import ProfileForm from '../components/ProfileForm';
+import AvatarForm from '../components/AvatarForm';
 import {useFavorite, useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
 import CreateIcon from '@material-ui/icons/Create';
@@ -61,6 +63,7 @@ const Profile = () => {
 
   const [update, setUpdate] = useState(false);
   const [toggleForm, setToggleForm] = useState(false);
+  const [toggleAvatarForm, setToggleAvatarForm] = useState(false);
   const {getTag} = useTag();
   const {getFavorite} = useFavorite();
   const [myLikes, setMyLikes] = useState(0);
@@ -120,11 +123,6 @@ const Profile = () => {
               <Box>
                 <List>
                   <ListItem className={classes.avatarStyle}>
-                    <ListItemAvatar>
-                      <Avatar variant={'circle'} src={avatar} />
-                    </ListItemAvatar>
-                  </ListItem>
-                  <ListItem className={classes.avatarStyle}>
                     <Typography
                       component="h4"
                       variant="h8"
@@ -135,35 +133,68 @@ const Profile = () => {
                 </List>
               </Box>
               <List>
-                <ListItem>
-                  <Typography>
-                  Blog posts made: {myPosts}
-                  </Typography>
+                <ListItem
+                  button onClick={()=> {
+                    setToggleAvatarForm(!toggleAvatarForm);
+                  }}>
+                  <ListItemAvatar>
+                    <Avatar variant={'circle'} src={avatar} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary=
+                      {'Upload avatar'}
+                  />
                 </ListItem>
                 <ListItem>
-                  <Typography>
-                  Likes given: {myLikes}
-                  </Typography>
-                </ListItem>
-              </List>
-              <List>
-                <ListItem component={RouterLink} to="/MyBlogPosts">
                   <ListItemIcon>
                     <PersonIcon />
                   </ListItemIcon>
-                  <ListItemText primary="My blog posts"/>
+                  <Link
+                    component={RouterLink}
+                    variant="body1"
+                    color="black"
+                    to='/MyBlogPosts'
+                  >
+                My blog posts
+                  </Link>
                 </ListItem>
-                <ListItem component={RouterLink} to="/MyMeetups">
+                <List style={{marginLeft: '4.5em'}}>
+                  <ListItem>
+                    <Typography>
+                    &#8226;&nbsp;Blog posts made: {myPosts}
+                    </Typography>
+                  </ListItem>
+                  <ListItem>
+                    <Typography>
+                    &#8226;&nbsp;Likes given: {myLikes}
+                    </Typography>
+                  </ListItem>
+                </List>
+                <ListItem>
                   <ListItemIcon>
                     <PersonIcon />
                   </ListItemIcon>
-                  <ListItemText primary="My meetup posts"/>
+                  <Link
+                    component={RouterLink}
+                    variant="body1"
+                    color="black"
+                    to='/MyMeetups'
+                  >
+                  My meetup posts
+                  </Link>
                 </ListItem>
-                <ListItem component={RouterLink} to="/MyFundings">
+                <ListItem>
                   <ListItemIcon>
                     <PersonIcon />
                   </ListItemIcon>
-                  <ListItemText primary="My fundings posts"/>
+                  <Link
+                    variant="body1"
+                    color="black"
+                    component={RouterLink}
+                    to='/MyFundings'
+                  >
+                  My fundings posts
+                  </Link>
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
@@ -179,7 +210,7 @@ const Profile = () => {
                   </ListItemIcon>
                   <ListItemText
                     primary=
-                      {'Change userdata' }
+                      {'Change password' }
                   />
                 </ListItem>
               </List>
@@ -228,7 +259,59 @@ const Profile = () => {
                     <ProfileForm
                       user={user}
                       setUser={setUser}
-                      setUpdate={setUpdate}/>
+                      setUpdate={setUpdate}
+                      setToggleForm={setToggleForm}/>
+                  </Paper>
+                </Grid>
+              </Grid>
+
+            </Modal>
+
+
+      }
+
+      {toggleAvatarForm &&
+            <Modal
+              open={toggleAvatarForm}
+              onClose={() => {
+                setToggleAvatarForm(!toggleAvatarForm);
+              }}>
+              <Grid
+                container
+                justify={'center'}
+                alignItems={'center'}
+                alignContent={'center'}
+                style={{
+                  paddingTop: '20vh',
+                }}
+              >
+                <Grid
+                  md={4}
+                  sm={12}
+                >
+
+                  <Paper
+                    style={{
+                      padding: '50px',
+                    }}>
+                    <Grid
+                      container
+                      item
+                      justify={'flex-end'}
+                    >
+                      <IconButton
+                        onClick={() => {
+                          setToggleAvatarForm(false);
+                        }}
+                      >
+                        <CloseIcon/>
+                      </IconButton>
+                    </Grid>
+                    <AvatarForm
+                      user={user}
+                      setUser={setUser}
+                      setUpdate={setUpdate}
+                      setToggleAvatarForm={setToggleAvatarForm}/>
                   </Paper>
                 </Grid>
               </Grid>

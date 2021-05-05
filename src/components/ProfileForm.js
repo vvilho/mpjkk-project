@@ -1,4 +1,4 @@
-import {useMedia, useTag, useUsers} from '../hooks/ApiHooks';
+import {useUsers} from '../hooks/ApiHooks';
 import {Grid, Typography, Button} from '@material-ui/core';
 // import {useState} from 'react';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
@@ -6,10 +6,8 @@ import {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import useForm from '../hooks/FormHooks';
 
-const ProfileForm = ({user, setUpdate}) => {
+const ProfileForm = ({user, setUpdate, setToggleForm}) => {
   const {putUser} = useUsers();
-  const {postMedia} = useMedia();
-  const {postTag} = useTag();
 
   const validators = {
     confirm: ['isPasswordMatch'],
@@ -29,45 +27,15 @@ const ProfileForm = ({user, setUpdate}) => {
   const doRegister = async () => {
     try {
       console.log('user muokkaus lomake lähtee');
-      if (inputs.file) {
-        const fd = new FormData();
-        fd.append('title', inputs.email);
-        fd.append('file', inputs.file);
-        const fileResult = await postMedia(fd, localStorage.getItem('token'));
-        const tagResult = await postTag(
-            localStorage.getItem('token'),
-            fileResult.file_id,
-            'avatar_' + user.user_id,
-        );
-        console.log(fileResult, tagResult);
-        if (fileResult) {
-          alert(tagResult.message);
-          setUpdate(true);
-        }
-      }
-      delete inputs.confirm;
-      delete inputs.file;
-      console.log(inputs);
       const data = {
         password: inputs.password,
       };
       console.log(data, inputs);
       const result = await putUser(data, localStorage.getItem('token'));
-      console.log('doUpload', result);
+      setToggleForm(false);
+      alert('Password changed');
       if (result) {
-        alert(result.message);
-        // const userdata = await getUser(localStorage.getItem('token'));
-        // setUser({
-        //   email: userdata.user.email,
-        //   full_name: userdata.user.full_name,
-        //   first_name: JSON.parse(userdata.user.full_name).first_name,
-        //   last_name: JSON.parse(userdata.user.full_name).last_name,
-        //   user_id: userdata.user.user_id,
-        //   username: userdata.user.username,
-        // });
-        // reset form (password and confirm)
-        setInputs((inputs) => ({
-          ...inputs,
+        setInputs(() => ({
           password: '',
           confirm: '',
         }));
@@ -77,7 +45,7 @@ const ProfileForm = ({user, setUpdate}) => {
     }
   };
 
-  const {inputs, setInputs, handleInputChange, handleSubmit, handleFileChange} =
+  const {inputs, setInputs, handleInputChange, handleSubmit} =
     useForm(doRegister, user);
   console.log(user);
 
@@ -127,26 +95,6 @@ const ProfileForm = ({user, setUpdate}) => {
                 errorMessages={errorMessages.confirm}
               />
             </Grid>
-
-
-            <Grid
-              item
-              xs={12}
-              style={{
-                paddingBottom: '15px',
-              }}
-            >
-              <TextValidator
-                fullWidth
-                label='Select profile picture'
-                InputLabelProps={{shrink: true}}
-                type="file"
-                name="file"
-                accept="image/*"
-                onChange={handleFileChange}
-              />
-            </Grid>
-
             <Grid item xs={12}>
               <Button fullWidth
                 color="primary"
@@ -166,6 +114,7 @@ ProfileForm.propTypes = {
   user: PropTypes.object,
   setUser: PropTypes.func,
   setUpdate: PropTypes.func,
+  setToggleForm: PropTypes.func,
 };
 
 export default ProfileForm;
