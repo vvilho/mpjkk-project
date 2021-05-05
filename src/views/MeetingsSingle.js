@@ -60,12 +60,11 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
     desc = {description: file.description};
   }
 
-
   useEffect(() => {
     (async () => {
       try {
-        const name =
-          await getUserById(localStorage.getItem('token'), file.user_id);
+        // eslint-disable-next-line max-len
+        const name = await getUserById(localStorage.getItem('token'), file.user_id);
         setOwner(JSON.parse(name.full_name));
       } catch (e) {
         console.log(e.message);
@@ -92,6 +91,11 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
   if (file.media_type === 'image') file.media_type = 'img';
 
 
+  /**
+   * Formates the date and time
+   *
+   * @return {Object} formated and styled date and time
+   */
   const timeFunction = () => {
     if (dateFormat(desc.time_start, 'dd.mm.yy') ===
       dateFormat(desc.time_end, 'dd.mm.yy')) {

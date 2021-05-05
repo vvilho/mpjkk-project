@@ -68,10 +68,9 @@ const BlogSingle = ({location, ownFiles, history}) => {
   const {deleteMedia} =
     useMedia(true, true, 'EnvironmetalIdealist_blogproduction');
 
-  let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
+  let desc = {};
   try {
     desc = JSON.parse(file.description);
-    // console.log(desc);
   } catch (e) {
     desc = {description: file.description};
   }
@@ -88,6 +87,13 @@ const BlogSingle = ({location, ownFiles, history}) => {
         console.log(e.message);
       }
 
+      /**
+   * Loads liked posts, gets the length of the likes
+   * ,sets likes amount and changes the color to green
+   * if user has liked the post or gray if hasn't
+   *
+   * @async
+   */
       try {
         const result2 = await getFavoriteById(file.file_id);
         console.log('setFav to', result2);
@@ -103,6 +109,12 @@ const BlogSingle = ({location, ownFiles, history}) => {
         console.log(e.message);
       }
 
+      /**
+   * Loads all comments of a post and gets the amount
+   * of comments of a post
+   *
+   * @async
+   */
       try {
         const result3 = await getCommentById(file.file_id);
         console.log('amount of comments', result3.length);
@@ -113,6 +125,12 @@ const BlogSingle = ({location, ownFiles, history}) => {
     })();
   }, []);
 
+  /**
+   * Loads liked posts, gets the length of the likes
+   * and sets likes amount
+   *
+   * @async
+   */
   const likingsAmount = async () => {
     try {
       const result2 = await getFavoriteById(file.file_id);
@@ -123,6 +141,13 @@ const BlogSingle = ({location, ownFiles, history}) => {
     }
   };
 
+  /**
+   * Add or delete likes functionality, when user is logged in,
+   * and sets likings icon to green or gray. If user is not logged in
+   * user is quided to log in to like a post.
+   *
+   * @async
+   */
   const handleFav = async () => {
     if (user) {
       setFav(!fav);
@@ -154,6 +179,7 @@ const BlogSingle = ({location, ownFiles, history}) => {
       ownFiles = true;
     }
   }
+
   const delPost = async () => {
     try {
       await deleteMedia(file.file_id, localStorage.getItem('token'));
