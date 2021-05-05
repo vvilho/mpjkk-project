@@ -1,7 +1,6 @@
 import useForm from '../hooks/FormHooks';
 import {useUsers} from '../hooks/ApiHooks';
 import {Grid, Typography, Button, FormControl} from '@material-ui/core';
-// import {useState} from 'react';
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import {useEffect} from 'react';
 import PropTypes from 'prop-types';
@@ -29,9 +28,8 @@ const RegisterForm = ({setToggle}) => {
 
   const doRegister = async () => {
     try {
-      console.log('rekisteröinti lomake lähtee');
+      // check if that username is available
       const available = await getUserAvailable(inputs.email);
-      console.log('availabale', available);
       if (available) {
         delete inputs.confirm;
         const data = {

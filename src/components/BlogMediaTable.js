@@ -54,6 +54,8 @@ const BlogMediaTable = ({ownFiles, history}) => {
 
 
   useEffect(() => {
+    // changes hashtagcategory when user changes the
+    // selection of the hastag menu
     try {
       (async () => {
         const media = await getMedia(hashtagCategory);

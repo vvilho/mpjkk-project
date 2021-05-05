@@ -3,6 +3,7 @@ import {useState} from 'react';
 const useForm = (callback, initState) => {
   const [inputs, setInputs] = useState(initState);
 
+  // when form is submitted do this
   const handleSubmit = (event) => {
     if (event) {
       event.preventDefault();
@@ -10,6 +11,8 @@ const useForm = (callback, initState) => {
     callback();
   };
 
+  // when input field value changes
+  // this changes the value in 'inputs-object'
   const handleInputChange = (event) => {
     event.persist();
     setInputs((inputs) => ({

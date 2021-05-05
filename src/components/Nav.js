@@ -108,7 +108,8 @@ const Nav = ({history}) => {
     setOpen(opener);
   };
 
-
+  // check if user is logged in
+  // (token matches the database) and set userdata object with user info
   useEffect(() => {
     const checkUser = async () => {
       try {
@@ -133,6 +134,8 @@ const Nav = ({history}) => {
     checkUser();
   }, []);
 
+
+  // Check in which page user is and show the menu green
   useEffect(()=>{
     console.log(window.location.pathname);
     if (window.location.pathname === process.env.PUBLIC_URL+'/') {

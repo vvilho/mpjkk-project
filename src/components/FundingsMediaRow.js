@@ -75,6 +75,8 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
 
   const {getTag} = useTag();
 
+  // counts together the donated money
+  // Every donation is one comment and they are all summed up
   const updateTotalFundings = async () => {
     const result = await getCommentById(file.file_id);
     let total = 0;
@@ -84,7 +86,8 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
       });
       setDonatedTotal(total);
     }
-
+    // if donation total is greater or equal to
+    // initially set ammount set donation done
     if (total >= parseInt(desc.money, 10)) {
       setDonationDone(true);
       console.log(donationDone);
@@ -108,7 +111,7 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   }, []);
 
 
-  let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
+  let desc = {};
   try {
     desc = JSON.parse(file.description);
   } catch (e) {

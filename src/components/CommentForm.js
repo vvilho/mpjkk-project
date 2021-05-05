@@ -19,6 +19,7 @@ const CommentsForm = ({file, setComments, setShowAllComments, getCommentById, po
   };
 
   const doComments = async () => {
+    // posts a comment
     try {
       console.log('check', inputs.comment);
       console.log('comments lomake lähtee');
@@ -35,6 +36,7 @@ const CommentsForm = ({file, setComments, setShowAllComments, getCommentById, po
     }
   };
 
+  // inits the comment form
   const {inputs, handleInputChange, handleSubmit} =
     useForm(doComments, {
       comment: '',

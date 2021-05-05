@@ -85,7 +85,10 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   const {getCommentById} = useComments();
   const [comments, setComments] = useState(0);
 
+
   useEffect(() => {
+    // download profile images of the user who made the post
+
     (async () => {
       try {
         const result = await getTag('avatar_' + file.user_id);
@@ -96,7 +99,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
       } catch (e) {
         console.log(e.message);
       }
-
+      // if user is logged in check if user likes the post and change color of the like button
       try {
         const result2 = await getFavoriteById(file.file_id);
         // console.log('setFav to', result2);
@@ -112,7 +115,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
         });
       } catch {
       }
-
+      // count how many comments post has
       try {
         const result3 = await getCommentById(file.file_id);
 
@@ -123,7 +126,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
     })();
   }, [user]);
 
-
+  // set how many liking post has
   const likingsAmount = async () => {
     try {
       const result2 = await getFavoriteById(file.file_id);
@@ -133,7 +136,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
       console.log(e.message);
     }
   };
-
+  // if user likes a post then do this
   const handleFav = async () => {
     if (user) {
       setFav(!fav);
@@ -155,7 +158,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
     };
   };
 
-  let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
+  let desc = {};
   try {
     desc = JSON.parse(file.description);
   } catch (e) {

@@ -76,6 +76,7 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
   const {getTag} = useTag();
 
   useEffect(() => {
+    // download profile picture for post makers
     (async () => {
       try {
         const result = await getTag('avatar_' + file.user_id);
@@ -89,7 +90,9 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
     })();
   }, []);
 
-
+  // if meeting has already happened then show infotext.
+  // Also if the meeting happening right now then show infotext.
+  // And also if the meeting is going to happen in the future then show when
   const meetingHappened = () => {
     if (desc.time_end < (moment().format()).slice(0, -9)) {
       return (
@@ -119,7 +122,7 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
     }
   };
 
-  let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
+  let desc = {};
   try {
     desc = JSON.parse(file.description);
   } catch (e) {

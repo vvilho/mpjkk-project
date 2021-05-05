@@ -8,7 +8,6 @@ import {Container} from '@material-ui/core';
 import MyBlogPosts from './views/MyBlogPosts';
 import MyMeetups from './views/MyMeetups';
 import MyFundings from './views/MyFundings';
-import Modify from './views/Modify';
 import BlogSingle from './views/BlogSingle';
 import MeetingsSingle from './views/MeetingsSingle';
 import FundingsSingle from './views/FundingsSingle';
@@ -43,7 +42,6 @@ const App = () => {
               <Route path="/myblogposts" component={MyBlogPosts}/>
               <Route path="/mymeetups" component={MyMeetups}/>
               <Route path="/myfundings" component={MyFundings}/>
-              <Route path="/modify" component={Modify}/>
               <Route path="/aboutus" component={AboutUs}/>
             </Switch>
           </main>

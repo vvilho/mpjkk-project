@@ -60,11 +60,9 @@ const CommentRow = ({file, user, deleteComment, getCommentById, setComments, set
       } catch (e) {
         console.log(e.message);
       }
-
+      // if user is logged in show deletion option for own comments
       if (user) {
         if (user.user_id === file.user_id) {
-          console.log('testing show my comments user');
-          console.log('user id', user.user_id + 'comment id', file.user_id);
           setShowMyComments(true);
         }
       }

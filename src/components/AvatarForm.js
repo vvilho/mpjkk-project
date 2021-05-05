@@ -10,6 +10,11 @@ const AvatarForm = ({user, setUpdate, setToggleAvatarForm}) => {
   const {postMedia} = useMedia();
   const {postTag} = useTag();
 
+
+  /**
+   * Sends avatar image to ApiHooks and eventually updates profile picture
+   * @return {Promise<void>}
+   */
   const doRegister = async () => {
     try {
       console.log('user muokkaus avatar lomake lähtee');
@@ -39,6 +44,10 @@ const AvatarForm = ({user, setUpdate, setToggleAvatarForm}) => {
     useForm(doRegister, user);
   console.log(user);
 
+
+  /**
+   * Custom validation rule: check if users passwords match
+   */
   useEffect(() => {
     ValidatorForm.addValidationRule('isPasswordMatch',
         (value) => (value === inputs.password),

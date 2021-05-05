@@ -24,13 +24,13 @@ const ProfileForm = ({user, setUpdate, setToggleForm}) => {
     last_name: ['vähintään 3 merkkiä'],
   };
 
+
+  // if user changes the password this sends the data
   const doRegister = async () => {
     try {
-      console.log('user muokkaus lomake lähtee');
       const data = {
         password: inputs.password,
       };
-      console.log(data, inputs);
       const result = await putUser(data, localStorage.getItem('token'));
       setToggleForm(false);
       alert('Password changed');
@@ -55,8 +55,6 @@ const ProfileForm = ({user, setUpdate, setToggleForm}) => {
     );
   }, [inputs]);
 
-
-  // console.log('RegisterForm', inputs);
 
   return (
     <Grid container>
