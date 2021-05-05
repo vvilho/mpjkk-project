@@ -246,12 +246,11 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               variant="body2"
               color="textSecondary"
               component="p"
+              style={{wordWrap: 'break-word', fontSize: '1.1em'}}
             >
-              <div style={{fontSize: '1.1em'}}>
-                {ownFiles || desc.description.length > 300 ?
-                desc.description.slice(0, 300) + '...' :
+              {ownFiles || desc.description.length > 200 ?
+                desc.description.slice(0, 200) + '...' :
                 desc.description}
-              </div>
             </Typography>
           </CardContent>
           <CardActions>

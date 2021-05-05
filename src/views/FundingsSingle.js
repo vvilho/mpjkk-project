@@ -21,7 +21,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import dateFormat from 'dateformat';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -299,6 +298,11 @@ const FundingsSingle = ({location, ownFiles, history}) => {
                   </Grid>
                 </Grid>
               </Grid>
+            </ListItem>
+            <ListItem>
+              <Typography variant="h5" style={{fontSize: '1.1em'}}>
+                Organizer: {desc.organizer}
+              </Typography>
             </ListItem>
           </List>
         </Card>

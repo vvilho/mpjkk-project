@@ -209,8 +209,8 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
                   style={{wordWrap: 'break-word', fontSize: '1.1em'}}
                   gutterBottom
                 >
-                  {desc.description.length > 300 ?
-                desc.description.slice(0, 300) + '...' :
+                  {desc.description.length > 200 ?
+                desc.description.slice(0, 200) + '...' :
                 desc.description}
                 </Typography>
               </Grid>
