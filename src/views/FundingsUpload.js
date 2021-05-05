@@ -66,6 +66,11 @@ const FundingsUpload = ({history}) => {
     money: ['vaadittu kenttä', 'vähintään 0 euroa', 'max miljoona euroa'],
   };
 
+  /**
+   * Uploads a new funding post form data to back-end
+   *
+   * @async
+   */
   const doUpload = async () => {
     try {
       const fd = new FormData();

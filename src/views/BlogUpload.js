@@ -9,9 +9,6 @@ import {
   Grid,
   Typography,
   makeStyles, ListSubheader,
-  // Select,
-
-
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {useContext, useEffect, useState} from 'react';
@@ -51,6 +48,7 @@ const BlogUpload = ({history}) => {
   const {user} = useContext(MediaContext);
   const classes = useStyles();
   const [dropdownHashtag, setDropdownHashtag] = useState('Materialreuseproducion');
+
   const validators = {
     title: ['required', 'minStringLength: 3'],
     description: ['minStringLength: 5'],
@@ -63,6 +61,11 @@ const BlogUpload = ({history}) => {
     hashtag: ['vaadittu kenttä'],
   };
 
+  /**
+   * Uploads a new blog post form data to back-end
+   *
+   * @async
+   */
   const doUpload = async () => {
     try {
       const fd = new FormData();
@@ -247,33 +250,6 @@ const BlogUpload = ({history}) => {
               </Grid>
             </Grid>
             }
-
-            {/* <Grid*/}
-            {/*  item*/}
-            {/*  xs={12}*/}
-            {/*  className={classes.dropdown}*/}
-
-            {/* >*/}
-            {/*  <Typography>Select Tag From Dropdown</Typography>*/}
-
-            {/*  <Select*/}
-            {/*    native*/}
-            {/*    required*/}
-            {/*    value={dropdownHashtag}*/}
-            {/*    fullWidth*/}
-            {/*    onChange={(e) => {*/}
-            {/*      setDropdownHashtag(e.target.value);*/}
-            {/*    }}*/}
-            {/*  >*/}
-            {/*    <option value={'Materialreuse'} selected>#Materialreuse</option>*/}
-            {/*    <option value={'Handcrafts'}>#Handcrafts</option>*/}
-            {/*    <option value={'FreeWord'}>#FreeWord</option>*/}
-            {/*    <option value={'Cooking'}>#Cooking</option>*/}
-            {/*    <option value={'Health'}>#Health</option>*/}
-            {/*    <option value={'Energy'}>#Energy</option>*/}
-            {/*  </Select>*/}
-
-            {/* </Grid>*/}
 
             <ListSubheader component="div">Choose hashtag for post</ListSubheader>
             <Grid
