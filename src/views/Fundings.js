@@ -4,7 +4,6 @@ import FundingsMediaTable from '../components/FundingsMediaTable';
 
 const Fundings = () => {
   return (
-
     <>
       <Grid>
         <Grid item
@@ -42,7 +41,6 @@ const Fundings = () => {
       </Grid>
       <FundingsMediaTable/>
     </>
-
   );
 };
 

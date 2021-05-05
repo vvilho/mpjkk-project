@@ -51,6 +51,7 @@ const MeetingsUpload = ({history}) => {
   const {postTag} = useTag();
   const {user} = useContext(MediaContext);
   const classes = useStyles();
+
   const validators = {
     title: ['required', 'minStringLength: 3', 'maxStringLength: 30'],
     description: ['required', 'minStringLength: 5'],
@@ -69,6 +70,11 @@ const MeetingsUpload = ({history}) => {
     time: ['vaadittu kenttä'],
   };
 
+  /**
+   * Uploads a new meetup post form data to back-end
+   *
+   * @async
+   */
   const doUpload = async () => {
     try {
       const fd = new FormData();

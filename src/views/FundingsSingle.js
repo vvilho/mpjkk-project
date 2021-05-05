@@ -67,6 +67,12 @@ const FundingsSingle = ({location, ownFiles, history}) => {
     desc = {description: file.description};
   }
 
+  /**
+   * Gets all donations made for the funding post
+   * and calculates them together
+   *
+   * @async
+   */
   const updateTotalFundings = async () => {
     const result = await getCommentById(file.file_id);
     let total = 0;
@@ -96,6 +102,13 @@ const FundingsSingle = ({location, ownFiles, history}) => {
     }
   }, []);
 
+  /**
+  * Sends donation form data to back-end
+  *
+  * @param {*} ammount takes in selected donation amount
+  * @async
+  *
+  */
   const doDonateComment = async (ammount) => {
     try {
       console.log('donate lähtee');
