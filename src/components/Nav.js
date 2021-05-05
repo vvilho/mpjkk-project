@@ -89,7 +89,6 @@ const useStyles = makeStyles((theme) => ({
 const Nav = ({history}) => {
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:697px)');
-  const wdth1000 = useMediaQuery('(min-width:1000px)');
   const wdth850 = useMediaQuery('(min-width:850px)');
 
   const {
@@ -140,13 +139,19 @@ const Nav = ({history}) => {
       setGreen('1');
     } else if (window.location.pathname === '/blogupload') {
       setGreen('1');
-    } else if (window.location.pathname === '/meetings') {
+    } else if (window.location.pathname === '/blogsingle') {
+      setGreen('1');
+    } else if (window.location.pathname === '/meetups') {
       setGreen('2');
-    } else if (window.location.pathname === '/meetingsupload') {
+    } else if (window.location.pathname === '/meetupssupload') {
+      setGreen('2');
+    } else if (window.location.pathname === '/meetupssingle') {
       setGreen('2');
     } else if (window.location.pathname === '/fundings') {
       setGreen('3');
     } else if (window.location.pathname === '/fundingsupload') {
+      setGreen('3');
+    } else if (window.location.pathname === '/fundingssingle') {
       setGreen('3');
     } else {
       setGreen('');
@@ -186,6 +191,9 @@ const Nav = ({history}) => {
 
                   {user &&
                   <Typography
+                    style={{
+                      marginTop: '2px',
+                    }}
                     component="h4"
                     variant="h8"
                     className={classes.userNameMobile}
@@ -200,106 +208,106 @@ const Nav = ({history}) => {
 
               <Grid
                 container
-                direction={'row'}
-                justify={'space-between'}
 
               >
                 <Grid
-                  item
-                  xs={8}
+                  container
+                  xs={10}
+                  alignItems={'stretch'}
                 >
                   <Grid
-                    container
-                    justify={'space-around'}
+                    item
+                    xs={4}
+                    style={green === '1' ? {
+                      backgroundColor: '#47D37859',
+                    } :
+                        {
+                          backgroundColor: '',
+                        }
+                    }
+
                   >
-
-                    <Grid
-                      item
-                      style={green === '1' ? {
-                        backgroundColor: '#47D37859',
-                      } :
-                        {
-                          backgroundColor: '',
-                        }
-                      }
+                    <Button
+                      component={RouterLink}
+                      to={'/'}
+                      color={green === '1' ? 'secondary' : 'black'}
+                      classes={{
+                        root: classes.siteButtonMobile,
+                        label: classes.buttonLabel}}
 
                     >
-                      <Button
-                        component={RouterLink}
-                        to={'/'}
-                        color={green === '1' ? 'secondary' : 'black'}
-                        classes={{
-                          root: classes.siteButtonMobile,
-                          label: classes.buttonLabel}}
+                      <EmojiNature
 
-                      >
-                        <EmojiNature
-
-                        />Blog
-                      </Button>
-                    </Grid>
-
-                    <Grid
-                      item
-                      style={green === '2' ? {
-                        backgroundColor: '#47D37859',
-                      } :
-                        {
-                          backgroundColor: '',
-                        }
-                      }
-                    >
-                      <Button
-                        classes={{
-                          root: classes.siteButtonMobile,
-                          label: classes.buttonLabel}}
-                        color={green === '2' ? 'secondary' : 'black'}
-
-                        component={RouterLink}
-                        to={'/meetings'}
-
-
-                      >
-                        <EmojiPeople
-                          style={{
-                            marginRight: '0.5vw',
-                          }}
-                        />Meetups
-                      </Button>
-                    </Grid>
-
-                    <Grid
-                      item
-                      style={green === '3' ? {
-                        backgroundColor: '#47D37859',
-                      } :
-                        {
-                          backgroundColor: '',
-                        }
-                      }
-                    >
-                      <Button
-                        classes={{
-                          root: classes.siteButtonMobile,
-                          label: classes.buttonLabel}}
-                        color={green === '3' ? 'secondary' : 'black'}
-                        component={RouterLink}
-                        to={'/fundings'}
-
-
-                      >
-                        <Euro
-                          style={{
-                            marginRight: '0.5vw',
-                          }}
-                        />Fundings
-                      </Button>
-                    </Grid>
+                      />Blog
+                    </Button>
                   </Grid>
+
+                  <Grid
+                    item
+                    xs={4}
+                    style={green === '2' ? {
+                      backgroundColor: '#47D37859',
+                    } :
+                        {
+                          backgroundColor: '',
+                        }
+                    }
+                  >
+                    <Button
+                      classes={{
+                        root: classes.siteButtonMobile,
+                        label: classes.buttonLabel}}
+                      color={green === '2' ? 'secondary' : 'black'}
+
+                      component={RouterLink}
+                      to={'/meetups'}
+
+
+                    >
+                      <EmojiPeople
+                        style={{
+                          marginRight: '0.5vw',
+                        }}
+                      />Meetups
+                    </Button>
+                  </Grid>
+
+                  <Grid
+                    item
+                    xs={4}
+                    style={green === '3' ? {
+                      backgroundColor: '#47D37859',
+                    } :
+                        {
+                          backgroundColor: '',
+                        }
+                    }
+                  >
+                    <Button
+                      classes={{
+                        root: classes.siteButtonMobile,
+                        label: classes.buttonLabel}}
+                      color={green === '3' ? 'secondary' : 'black'}
+                      component={RouterLink}
+                      to={'/fundings'}
+
+
+                    >
+                      <Euro
+                        style={{
+                          marginRight: '0.5vw',
+                        }}
+                      />Fundings
+                    </Button>
+                  </Grid>
+
                 </Grid>
 
                 <Grid
                   item
+                  xs={2}
+                  container
+                  justify={'flex-end'}
                 >
 
                   <IconButton
@@ -339,13 +347,13 @@ const Nav = ({history}) => {
               sm={6}
               container
               direction={'row'}
-              justify={wdth1000 ? 'center' : 'space-between'}
+              alignItems={'stretch'}
             >
 
               <Grid
                 item
                 container
-                sm={3}
+                sm={4}
                 direction={'row'}
                 justify={'center'}
                 style={green === '1' ? {
@@ -376,7 +384,7 @@ const Nav = ({history}) => {
               <Grid
                 item
                 container
-                sm={3}
+                sm={4}
                 direction={'row'}
                 justify={'center'}
                 style={green === '2' ? {
@@ -390,7 +398,7 @@ const Nav = ({history}) => {
                 <Button
                   className={classes.siteButton}
                   component={RouterLink}
-                  to={'/meetings'}
+                  to={'/meetups'}
                   color={green === '2' ? 'secondary' : 'black'}
 
 
@@ -405,7 +413,7 @@ const Nav = ({history}) => {
               <Grid
                 item
                 container
-                sm={3}
+                sm={4}
                 direction={'row'}
                 justify={'center'}
                 style={green === '3' ? {

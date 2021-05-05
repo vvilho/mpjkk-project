@@ -85,7 +85,7 @@ const FundingsUpload = ({history}) => {
       const meetingsTagResult = await postTag(
           localStorage.getItem('token'),
           result.file_id,
-          'EnvironmetalIdealist_fundings',
+          'EnvironmetalIdealist_fundingsproduction',
       );
       const appTagResult = await postTag(
           localStorage.getItem('token'),

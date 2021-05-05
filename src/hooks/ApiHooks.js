@@ -31,6 +31,7 @@ const useMedia = (update = false, ownFiles, tag) => {
       try {
         (async () => {
           const media = await getMedia(tag);
+          console.log('tägi hakiessa', tag);
           setPicArray(media);
         })();
       } catch (e) {
@@ -43,7 +44,11 @@ const useMedia = (update = false, ownFiles, tag) => {
     try {
       setLoading(true);
       const files = await doFetch(baseUrl + 'tags/' + tag);
-      // console.log(files);
+      console.log(files);
+      console.log(tag);
+      console.log(ownFiles);
+
+
       let allFiles = await Promise.all(files.map(async (item) => {
         return await doFetch(baseUrl + 'media/' + item.file_id);
       }));

@@ -65,8 +65,8 @@ const BlogSingle = ({location, ownFiles, history}) => {
   const file = location.state;
   const {showAllComments, setShowAllComments, getCommentById, postComment, loading, deleteComment} = useComments(true, file.file_id);
   const [comments, setComments] = useState(0);
-  const {deleteMedia} = useMedia(true, ownFiles);
-  // const screenMobile = useMediaQuery('(max-width:600px)');
+  const {deleteMedia} =
+    useMedia(true, true, 'EnvironmetalIdealist_blogproduction');
 
   let desc = {}; // jos kuva tallennettu ennen week4C, description ei ole JSONia
   try {
@@ -146,13 +146,6 @@ const BlogSingle = ({location, ownFiles, history}) => {
     };
   };
 
-  const delPost = async () => {
-    try {
-      await deleteMedia(file.file_id, localStorage.getItem('token'));
-    } catch (e) {
-      alert(e.message);
-    }
-  };
 
   if (file.media_type === 'image') file.media_type = 'img';
 
@@ -161,6 +154,13 @@ const BlogSingle = ({location, ownFiles, history}) => {
       ownFiles = true;
     }
   }
+  const delPost = async () => {
+    try {
+      await deleteMedia(file.file_id, localStorage.getItem('token'));
+    } catch (e) {
+      alert(e.message);
+    }
+  };
 
   return (
     <>
@@ -223,7 +223,7 @@ const BlogSingle = ({location, ownFiles, history}) => {
               marginRight: '0.7em',
             }}>
             <Button color="secondary" size="small" disabled>
-          #{desc.hashtag}
+          #{desc.hashtag.slice(0, -9)}
             </Button>
           </Box>
           <CardMedia

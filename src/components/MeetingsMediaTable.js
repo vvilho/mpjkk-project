@@ -48,7 +48,7 @@ const MeetingsMediaTable = ({ownFiles, history}) => {
 
 
   const {picArray, loading, deleteMedia} =
-    useMedia(true, ownFiles, 'EnvironmetalIdealist_meetings');
+    useMedia(true, ownFiles, 'EnvironmetalIdealist_meetingsproduction');
 
 
   return (
@@ -100,7 +100,7 @@ const MeetingsMediaTable = ({ownFiles, history}) => {
         onClick={
           () => {
             if (user) {
-              history.push('/meetingsupload');
+              history.push('/meetupsupload');
             } else {
               setModalOpen(true);
               setModalOpenText('Login or register to create a post');

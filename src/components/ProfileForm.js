@@ -96,7 +96,11 @@ const ProfileForm = ({user, setUpdate, setToggleForm}) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Button fullWidth
+              <Button
+                style={{
+                  marginTop: '15px',
+                }}
+                fullWidth
                 color="primary"
                 type="submit"
                 variant="contained">

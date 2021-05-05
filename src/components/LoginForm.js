@@ -68,6 +68,9 @@ const LoginForm = ({setModalOpen}) => {
 
             <Grid container item>
               <Button
+                style={{
+                  marginTop: '15px',
+                }}
                 fullWidth
                 color="primary"
                 type="submit"

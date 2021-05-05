@@ -186,6 +186,11 @@ const FundingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
                 className={classes.media}
                 image={uploadsUrl + file.filename}
                 alt={file.title}
+                component={RouterLink}
+                to={{
+                  pathname: '/fundingssingle',
+                  state: file,
+                }}
 
               />
             </Grid>

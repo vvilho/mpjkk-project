@@ -47,7 +47,7 @@ const BlogMediaTable = ({ownFiles, history}) => {
   const classes = useStyles();
 
   const [hashtagCategory, setHashtagCategory] =
-    useState('EnvironmetalIdealist_blog');
+    useState('EnvironmetalIdealist_blogproducion');
 
   const {picArray, loading, deleteMedia, setPicArray, getMedia} =
     useMedia(true, ownFiles, hashtagCategory);
@@ -75,12 +75,12 @@ const BlogMediaTable = ({ownFiles, history}) => {
           item>
           <Button
             style={hashtagCategory ===
-            'EnvironmetalIdealist_blog' ?
+            'EnvironmetalIdealist_blogproducion' ?
               {backgroundColor: '#47D37859',
                 color: '#621BEE'} :
               {backgroundColor: '',
                 color: '#621BEE'}}
-            value={'EnvironmetalIdealist_blog'}
+            value={'EnvironmetalIdealist_blogproducion'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
               console.log(e.target);
@@ -93,12 +93,12 @@ const BlogMediaTable = ({ownFiles, history}) => {
           item>
           <Button
             style={hashtagCategory ===
-            'EnvironmetalIdealist_blogMaterialreuse' ?
+            'EnvironmetalIdealist_blogMaterialreuseproducion' ?
               {backgroundColor: '#47D37859',
                 color: '#621BEE'} :
               {backgroundColor: '',
                 color: '#621BEE'}}
-            value={'EnvironmetalIdealist_blogMaterialreuse'}
+            value={'EnvironmetalIdealist_blogMaterialreuseproducion'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
               console.log(e.target);
@@ -111,12 +111,12 @@ const BlogMediaTable = ({ownFiles, history}) => {
           item>
           <Button
             style={hashtagCategory ===
-            'EnvironmetalIdealist_blogHanfcrafts' ?
+            'EnvironmetalIdealist_blogHanfcraftsproducion' ?
               {backgroundColor: '#47D37859',
                 color: '#621BEE'} :
               {backgroundColor: '',
                 color: '#621BEE'}}
-            value={'EnvironmetalIdealist_blogHanfcrafts'}
+            value={'EnvironmetalIdealist_blogHanfcraftsproducion'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
               console.log(e.target);
@@ -129,12 +129,12 @@ const BlogMediaTable = ({ownFiles, history}) => {
           item>
           <Button
             style={hashtagCategory ===
-            'EnvironmetalIdealist_blogFreeWord' ?
+            'EnvironmetalIdealist_blogFreeWordproducion' ?
               {backgroundColor: '#47D37859',
                 color: '#621BEE'} :
               {backgroundColor: '',
                 color: '#621BEE'}}
-            value={'EnvironmetalIdealist_blogFreeWord'}
+            value={'EnvironmetalIdealist_blogFreeWordproducion'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
               console.log(e.target);
@@ -147,12 +147,12 @@ const BlogMediaTable = ({ownFiles, history}) => {
           item>
           <Button
             style={hashtagCategory ===
-            'EnvironmetalIdealist_blogCooking' ?
+            'EnvironmetalIdealist_blogCookingproducion' ?
               {backgroundColor: '#47D37859',
                 color: '#621BEE'} :
               {backgroundColor: '',
                 color: '#621BEE'}}
-            value={'EnvironmetalIdealist_blogCooking'}
+            value={'EnvironmetalIdealist_blogCookingproducion'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
               console.log(e.target);
@@ -165,12 +165,12 @@ const BlogMediaTable = ({ownFiles, history}) => {
           item>
           <Button
             style={hashtagCategory ===
-            'EnvironmetalIdealist_blogHealth' ?
+            'EnvironmetalIdealist_blogHealthproducion' ?
               {backgroundColor: '#47D37859',
                 color: '#621BEE'} :
               {backgroundColor: '',
                 color: '#621BEE'}}
-            value={'EnvironmetalIdealist_blogHealth'}
+            value={'EnvironmetalIdealist_blogHealthproducion'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
               console.log(e.target);
@@ -183,12 +183,12 @@ const BlogMediaTable = ({ownFiles, history}) => {
           item>
           <Button
             style={hashtagCategory ===
-            'EnvironmetalIdealist_blogEnergy' ?
+            'EnvironmetalIdealist_blogEnergyproducion' ?
               {backgroundColor: '#47D37859',
                 color: '#621BEE'} :
               {backgroundColor: '',
                 color: '#621BEE'}}
-            value={'EnvironmetalIdealist_blogEnergy'}
+            value={'EnvironmetalIdealist_blogEnergyproducion'}
             onClick={(e)=>{
               setHashtagCategory(e.currentTarget.value);
               console.log(e.target);
@@ -207,9 +207,10 @@ const BlogMediaTable = ({ownFiles, history}) => {
         <GridListTile key="Subheader" style={{height: 'auto'}}>
           <ListSubheader
             component="div">
-            {hashtagCategory.length === 25 ?
+            {hashtagCategory.length === 34 ?
               'All posts' :
-              '#'+hashtagCategory.slice(25, (hashtagCategory.length))}
+              '#'+(hashtagCategory.slice(25,
+                  (hashtagCategory.length))).slice(0, -9)}
           </ListSubheader>
         </GridListTile>
         {!loading ?

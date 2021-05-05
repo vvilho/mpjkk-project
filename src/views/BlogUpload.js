@@ -50,7 +50,7 @@ const BlogUpload = ({history}) => {
   const {postTag} = useTag();
   const {user} = useContext(MediaContext);
   const classes = useStyles();
-  const [dropdownHashtag, setDropdownHashtag] = useState('Materialreuse');
+  const [dropdownHashtag, setDropdownHashtag] = useState('Materialreuseproducion');
   const validators = {
     title: ['required', 'minStringLength: 3'],
     description: ['minStringLength: 5'],
@@ -84,7 +84,7 @@ const BlogUpload = ({history}) => {
       const blogTagResult = await postTag(
           localStorage.getItem('token'),
           result.file_id,
-          'EnvironmetalIdealist_blog',
+          'EnvironmetalIdealist_blogproducion',
       );
       const appTagResult = await postTag(
           localStorage.getItem('token'),
@@ -283,12 +283,12 @@ const BlogUpload = ({history}) => {
               <Grid
                 item>
                 <Button
-                  style={dropdownHashtag === 'Materialreuse' ?
+                  style={dropdownHashtag === 'Materialreuseproducion' ?
                     {backgroundColor: '#47D37859',
                       color: '#621BEE'} :
                     {backgroundColor: '',
                       color: '#621BEE'}}
-                  value={'Materialreuse'}
+                  value={'Materialreuseproducion'}
                   onClick={(e) => {
                     setDropdownHashtag(e.currentTarget.value);
                   }}
@@ -300,12 +300,12 @@ const BlogUpload = ({history}) => {
               <Grid
                 item>
                 <Button
-                  style={dropdownHashtag === 'Hanfcrafts' ?
+                  style={dropdownHashtag === 'Hanfcraftsproducion' ?
                     {backgroundColor: '#47D37859',
                       color: '#621BEE'} :
                     {backgroundColor: '',
                       color: '#621BEE'}}
-                  value={'Hanfcrafts'}
+                  value={'Hanfcraftsproducion'}
                   onClick={(e) => {
                     setDropdownHashtag(e.currentTarget.value);
                   }}
@@ -316,12 +316,12 @@ const BlogUpload = ({history}) => {
               <Grid
                 item>
                 <Button
-                  style={dropdownHashtag === 'FreeWord' ?
+                  style={dropdownHashtag === 'FreeWordproducion' ?
                     {backgroundColor: '#47D37859',
                       color: '#621BEE'} :
                     {backgroundColor: '',
                       color: '#621BEE'}}
-                  value={'FreeWord'}
+                  value={'FreeWordproducion'}
                   onClick={(e) => {
                     setDropdownHashtag(e.currentTarget.value);
                   }}
@@ -332,12 +332,12 @@ const BlogUpload = ({history}) => {
               <Grid
                 item>
                 <Button
-                  style={dropdownHashtag === 'Cooking' ?
+                  style={dropdownHashtag === 'Cookingproducion' ?
                     {backgroundColor: '#47D37859',
                       color: '#621BEE'} :
                     {backgroundColor: '',
                       color: '#621BEE'}}
-                  value={'Cooking'}
+                  value={'Cookingproducion'}
                   onClick={(e) => {
                     setDropdownHashtag(e.currentTarget.value);
                   }}
@@ -348,12 +348,12 @@ const BlogUpload = ({history}) => {
               <Grid
                 item>
                 <Button
-                  style={dropdownHashtag === 'Health' ?
+                  style={dropdownHashtag === 'Healthproducion' ?
                     {backgroundColor: '#47D37859',
                       color: '#621BEE'} :
                     {backgroundColor: '',
                       color: '#621BEE'}}
-                  value={'Health'}
+                  value={'Healthproducion'}
                   onClick={(e) => {
                     setDropdownHashtag(e.currentTarget.value);
                   }}
@@ -364,8 +364,8 @@ const BlogUpload = ({history}) => {
               <Grid
                 item>
                 <Button
-                  value={'Energy'}
-                  style={dropdownHashtag === 'Energy' ?
+                  value={'Energyproducion'}
+                  style={dropdownHashtag === 'Energyproducion' ?
                     {backgroundColor: '#47D37859',
                       color: '#621BEE'} :
                     {backgroundColor: '',

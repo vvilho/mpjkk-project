@@ -49,7 +49,8 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
   const {getUserById} = useUsers();
   const {getTag} = useTag();
   const {user} = useContext(MediaContext);
-  const {deleteMedia} = useMedia(true, ownFiles);
+  const {deleteMedia} =
+    useMedia(true, true, 'EnvironmetalIdealist_meetingsproduction');
 
   const file = location.state;
   let desc = {};
@@ -90,13 +91,6 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
 
   if (file.media_type === 'image') file.media_type = 'img';
 
-  const delPost = async () => {
-    try {
-      await deleteMedia(file.file_id, localStorage.getItem('token'));
-    } catch (e) {
-      alert(e.message);
-    }
-  };
 
   const timeFunction = () => {
     if (dateFormat(desc.time_start, 'dd.mm.yy') ===
@@ -145,6 +139,14 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
     }
   };
 
+  const delPost = async () => {
+    try {
+      await deleteMedia(file.file_id, localStorage.getItem('token'));
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
 
   return (
     <>
@@ -174,7 +176,7 @@ const MeetingsSingle = ({location, ownFiles, history}) => {
                 const conf = confirm('Do you really want to delete?');
                 if (conf) {
                   delPost();
-                  history.push('/meetings');
+                  history.push('/meetups');
                 }
               } catch (e) {
                 console.log(e.message);

@@ -207,6 +207,11 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
                   className={classes.media}
                   image={uploadsUrl + file.filename}
                   alt={file.title}
+                  component={RouterLink}
+                  to={{
+                    pathname: '/meetupssingle',
+                    state: file,
+                  }}
                 />
               </Grid>
               <Typography
@@ -276,7 +281,7 @@ const MeetingsMediaRow = ({file, ownFiles, history, deleteMedia}) => {
                     aria-label={`info about ${file.title}`}
                     component={RouterLink}
                     to={{
-                      pathname: '/meetingssingle',
+                      pathname: '/meetupssingle',
                       state: file,
 
                     }}

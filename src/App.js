@@ -30,15 +30,15 @@ const App = () => {
           <main style={{marginTop: 120, marginBottom: 40}}>
             <Switch>
               <Route path="/" exact component={Home}/>
-              <Route path="/meetings" exact component={Meetings}/>
+              <Route path="/meetups" exact component={Meetings}/>
               <Route path="/fundings" exact component={Fundings}/>
               <Route path="/profile" component={Profile}/>
               <Route path="/blogsingle" component={BlogSingle}/>
-              <Route path="/meetingssingle" component={MeetingsSingle}/>
+              <Route path="/meetupssingle" component={MeetingsSingle}/>
               <Route path="/fundingssingle" exact component={FundingsSingle}/>
               <Route path="/logout" component={Logout}/>
               <Route path="/blogupload" component={BlogUpload}/>
-              <Route path="/meetingsupload" component={MeetingsUpload}/>
+              <Route path="/meetupsupload" component={MeetingsUpload}/>
               <Route path="/fundingsupload" component={FundingsUpload}/>
               <Route path="/myblogposts" component={MyBlogPosts}/>
               <Route path="/mymeetups" component={MyMeetups}/>

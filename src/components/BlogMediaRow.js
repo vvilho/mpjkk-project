@@ -225,13 +225,18 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
               marginRight: '0.7em',
             }}>
             <Button color="secondary" size="small" disabled>
-          #{desc.hashtag}
+          #{desc.hashtag.slice(0, -9)}
             </Button>
           </Box>
           <CardMedia
             className={classes.media}
             image={uploadsUrl + file.thumbnails?.w320}
             alt={file.title}
+            component={RouterLink}
+            to={{
+              pathname: '/blogsingle',
+              state: file,
+            }}
           />
           <CardContent>
             <Typography
@@ -295,6 +300,7 @@ const BlogMediaRow = ({file, ownFiles, history, deleteMedia}) => {
                   to={{
                     pathname: '/blogsingle',
                     state: file,
+
                   }}
                   className={classes.icon}
                 >

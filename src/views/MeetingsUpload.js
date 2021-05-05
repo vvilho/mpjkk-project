@@ -89,7 +89,7 @@ const MeetingsUpload = ({history}) => {
       const meetingsTagResult = await postTag(
           localStorage.getItem('token'),
           result.file_id,
-          'EnvironmetalIdealist_meetings',
+          'EnvironmetalIdealist_meetingsproduction',
       );
       const appTagResult = await postTag(
           localStorage.getItem('token'),
@@ -97,7 +97,7 @@ const MeetingsUpload = ({history}) => {
           appIdentifier,
       );
       console.log('doUpload', result, meetingsTagResult, appTagResult);
-      history.push('/meetings');
+      history.push('/meetups');
     } catch (e) {
       alert(e.message);
     }
@@ -169,7 +169,7 @@ const MeetingsUpload = ({history}) => {
             align={'center'}
             gutterBottom
           >
-            New Meeting
+            New Meetup
           </Typography>
         </Grid>
 
@@ -396,7 +396,7 @@ const MeetingsUpload = ({history}) => {
                     variant="contained"
 
                   >
-                    Create new meeting
+                    Create new meetup
                   </Button>
                 </Grid>
               </Grid>

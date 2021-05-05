@@ -49,7 +49,7 @@ const MeetingsMediaTable = ({ownFiles, history}) => {
 
 
   const {picArray, loading, deleteMedia} =
-    useMedia(true, ownFiles, 'EnvironmetalIdealist_fundings');
+    useMedia(true, ownFiles, 'EnvironmetalIdealist_fundingsproduction');
 
 
   return (

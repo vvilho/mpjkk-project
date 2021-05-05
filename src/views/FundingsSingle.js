@@ -56,7 +56,8 @@ const FundingsSingle = ({location, ownFiles, history}) => {
   const classes = useStyles();
   const {getTag} = useTag();
   const {postComment, getCommentById} = useComments(true, file.file_id);
-  const {deleteMedia} = useMedia(true, ownFiles);
+  const {deleteMedia} =
+    useMedia(true, true, 'EnvironmetalIdealist_fundingsproduction');
   const screenNarrow = useMediaQuery('(max-width:600px)');
 
   let desc = {};
@@ -127,13 +128,6 @@ const FundingsSingle = ({location, ownFiles, history}) => {
     })();
   }, []);
 
-  const delPost = async () => {
-    try {
-      await deleteMedia(file.file_id, localStorage.getItem('token'));
-    } catch (e) {
-      alert(e.message);
-    }
-  };
 
   if (user) {
     if (file.user_id === user.user_id) {
@@ -142,6 +136,14 @@ const FundingsSingle = ({location, ownFiles, history}) => {
   }
 
   if (file.media_type === 'image') file.media_type = 'img';
+
+  const delPost = async () => {
+    try {
+      await deleteMedia(file.file_id, localStorage.getItem('token'));
+    } catch (e) {
+      alert(e.message);
+    }
+  };
 
   return (
     <>
