@@ -60,6 +60,7 @@ const FundingsSingle = ({location, ownFiles, history}) => {
     useMedia(true, true, 'EnvironmetalIdealist_fundingsproduction');
   const screenNarrow = useMediaQuery('(max-width:600px)');
 
+
   let desc = {};
   try {
     desc = JSON.parse(file.description);
@@ -316,8 +317,10 @@ const FundingsSingle = ({location, ownFiles, history}) => {
 
           <Grid
             item
-            md={4}
-            sm={12}
+            xs={12}
+            sm={8}
+            md={5}
+            lg={4}
             style={{
               paddingTop: '20%',
             }}

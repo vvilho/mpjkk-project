@@ -614,6 +614,9 @@ const Nav = ({history}) => {
         >
           <Grid
             xs={matches ? 4 : 12}
+            sm={7}
+            md={5}
+            lg={4}
           >
             <Paper
               elevation={3}

@@ -57,6 +57,8 @@ const Profile = () => {
   const classes = useStyles();
   const screenNarrow = useMediaQuery('(max-width:550px)');
   const screenMobile = useMediaQuery('(max-width:350px)');
+  const matches = useMediaQuery('(min-width:697px)');
+
 
   const {user, setUser} = useContext(MediaContext);
   const [avatar, setAvatar] = useState('logo512.png');
@@ -235,8 +237,10 @@ const Profile = () => {
                 }}
               >
                 <Grid
-                  md={4}
-                  sm={12}
+                  xs={matches ? 4 : 12}
+                  sm={7}
+                  md={5}
+                  lg={4}
                 >
 
                   <Paper
@@ -286,8 +290,10 @@ const Profile = () => {
                 }}
               >
                 <Grid
-                  md={4}
-                  sm={12}
+                  xs={matches ? 4 : 12}
+                  sm={7}
+                  md={5}
+                  lg={4}
                 >
 
                   <Paper
