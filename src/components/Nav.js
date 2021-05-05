@@ -135,23 +135,31 @@ const Nav = ({history}) => {
 
   useEffect(()=>{
     console.log(window.location.pathname);
-    if (window.location.pathname === '/' ) {
+    if (window.location.pathname === process.env.PUBLIC_URL+'/') {
       setGreen('1');
-    } else if (window.location.pathname === '/blogupload') {
+    } else if (window.location.pathname ===
+      process.env.PUBLIC_URL+'/blogupload') {
       setGreen('1');
-    } else if (window.location.pathname === '/blogsingle') {
+    } else if (window.location.pathname ===
+      process.env.PUBLIC_URL+'/blogsingle') {
       setGreen('1');
-    } else if (window.location.pathname === '/meetups') {
+    } else if (window.location.pathname ===
+      process.env.PUBLIC_URL+'/meetups') {
       setGreen('2');
-    } else if (window.location.pathname === '/meetupssupload') {
+    } else if (window.location.pathname ===
+      process.env.PUBLIC_URL+'/meetupssupload') {
       setGreen('2');
-    } else if (window.location.pathname === '/meetupssingle') {
+    } else if (window.location.pathname ===
+      process.env.PUBLIC_URL+'/meetupssingle') {
       setGreen('2');
-    } else if (window.location.pathname === '/fundings') {
+    } else if (window.location.pathname ===
+      process.env.PUBLIC_URL+'/fundings') {
       setGreen('3');
-    } else if (window.location.pathname === '/fundingsupload') {
+    } else if (window.location.pathname ===
+      process.env.PUBLIC_URL+'/fundingsupload') {
       setGreen('3');
-    } else if (window.location.pathname === '/fundingssingle') {
+    } else if (window.location.pathname ===
+      process.env.PUBLIC_URL+'/fundingssingle') {
       setGreen('3');
     } else {
       setGreen('');
